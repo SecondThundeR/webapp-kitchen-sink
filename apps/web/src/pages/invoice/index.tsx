@@ -1,10 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
-import { useStarsInvoice } from "./hooks";
+import { useInvoice } from "./hooks";
 
 export const InvoicePage = () => {
-  const { handleStarsPayment, isStarsInvoiceCreating } = useStarsInvoice();
+  const {
+    handlePayment: handleStarsPayment,
+    isInvoiceCreating: isStarsInvoiceCreating,
+  } = useInvoice("XTR", 1);
+
+  const {
+    handlePayment: handleUSDPayment,
+    isInvoiceCreating: isUSDInvoiceCreating,
+  } = useInvoice("USD", 100);
 
   useTransparentBodyBackground();
 
@@ -19,6 +27,12 @@ export const InvoicePage = () => {
           {isStarsInvoiceCreating
             ? "Creating invoice..."
             : "Create invoice (Stars)"}
+        </Button>
+        <Button onClick={handleUSDPayment}>
+          {isUSDInvoiceCreating && <Spinner data-icon="inline-start" />}
+          {isUSDInvoiceCreating
+            ? "Creating invoice..."
+            : "Create invoice (USD)"}
         </Button>
       </div>
     </div>

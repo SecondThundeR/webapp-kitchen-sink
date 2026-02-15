@@ -7,20 +7,27 @@ export const useCreateInvoiceLinkMutation = () =>
   useMutation({
     mutationFn: (body: CreateInvoiceLinkData) => createInvoiceLink(body),
     onError: (error) => {
-      toast.error(String(error));
+      if (
+        error &&
+        typeof error === "object" &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        toast.error(String(error.message));
+      }
     },
   });
 
-export const useStarsInvoice = () => {
+export const useInvoice = (currency: string, amount: number) => {
   const { mutateAsync, isPending } = useCreateInvoiceLinkMutation();
 
   const handlePayment = async () => {
     const { url } = await mutateAsync({
       title: "Test invoice",
       description: "Test description",
-      currency: "XTR",
+      currency: currency,
       initData: WebApp.initData,
-      prices: [{ label: "Item", amount: 1 }],
+      prices: [{ label: "Item", amount }],
     });
 
     WebApp.openInvoice(url, (status) => {
@@ -39,7 +46,7 @@ export const useStarsInvoice = () => {
   };
 
   return {
-    handleStarsPayment: handlePayment,
-    isStarsInvoiceCreating: isPending,
+    handlePayment: handlePayment,
+    isInvoiceCreating: isPending,
   };
 };
