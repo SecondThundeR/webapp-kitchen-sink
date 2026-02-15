@@ -1,0 +1,16 @@
+{
+  "name": "@webapp-kitchen-sink/contracts",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "devDependencies": {
+    "@webapp-kitchen-sink/api": "workspace:*"
+  }
+}

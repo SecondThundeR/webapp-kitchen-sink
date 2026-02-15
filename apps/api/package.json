@@ -1,0 +1,26 @@
+{
+  "name": "@webapp-kitchen-sink/api",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "module": "src/index.ts",
+  "types": "src/exports.ts",
+  "exports": {
+    ".": {
+      "types": "./src/exports.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development bun --watch src/index.ts",
+    "build": "NODE_ENV=production bun build --compile --production --target=bun-linux-x64 --outfile dist/server ./src/index.ts",
+    "lint": "biome check"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.4.1",
+    "elysia": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:"
+  }
+}

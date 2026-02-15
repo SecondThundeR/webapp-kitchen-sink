@@ -1,0 +1,21 @@
+{
+  "name": "@webapp-kitchen-sink/bot",
+  "version": "1.0.0",
+  "module": "bot.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "DEBUG=\"grammy*\" NODE_ENV=development bun run --watch bot.ts",
+    "start": "NODE_ENV=production bun run --smol bot.ts",
+    "lint": "biome check"
+  },
+  "dependencies": {
+    "@grammyjs/auto-retry": "^2.0.2",
+    "@grammyjs/hydrate": "^1.6.0",
+    "@grammyjs/runner": "^2.0.3",
+    "grammy": "^1.39.3"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:"
+  }
+}
