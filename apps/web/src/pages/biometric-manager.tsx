@@ -35,7 +35,6 @@ export const BiometricManagerPage = () => {
     authenticate,
     openSettings,
     updateToken,
-    syncState,
   } = useBiometricManager();
 
   const [logs, setLogs] = useState<string[]>([]);
@@ -253,10 +252,14 @@ export const BiometricManagerPage = () => {
           </EmptyHeader>
           <EmptyContent className="flex-row flex-wrap justify-center gap-2">
             <Button onClick={handleOpenSettings}>Open Settings</Button>
-            <Button variant="outline" onClick={syncState}>
-              Sync BiometricManager state
+            <Button variant="outline" onClick={() => window.location.reload()}>
+              Reload page
             </Button>
           </EmptyContent>
+          <p className="text-sm text-muted-foreground">
+            After enabling biometrics via opened settings, refresh this page to
+            re-init BiometricManager
+          </p>
         </Empty>
       )}
 
