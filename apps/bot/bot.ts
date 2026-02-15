@@ -5,7 +5,7 @@ import { Bot } from "grammy";
 
 import { startCommand } from "./src/commands/start";
 import { catchHandler } from "./src/handlers/catch";
-import { starsQueryHandler } from "./src/handlers/stars";
+import { paymentQueryHandler } from "./src/handlers/payment";
 import type { BotContext } from "./src/types/bot";
 
 const BOT_TOKEN = Bun.env.BOT_TOKEN || "";
@@ -19,7 +19,7 @@ if (!BOT_TOKEN) {
 const bot = new Bot<BotContext>(BOT_TOKEN);
 bot.api.config.use(autoRetry());
 
-bot.use(hydrate()).use(startCommand).use(starsQueryHandler);
+bot.use(hydrate()).use(startCommand).use(paymentQueryHandler);
 
 bot.catch(catchHandler);
 
