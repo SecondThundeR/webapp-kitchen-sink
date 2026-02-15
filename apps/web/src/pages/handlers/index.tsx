@@ -1,4 +1,5 @@
 import { ClosingConfirmation } from "./components/closing-confirmation";
+import { Fullscreen } from "./components/fullscreen";
 
 export const HandlersPage = () => {
   return (
@@ -7,6 +8,7 @@ export const HandlersPage = () => {
         Handlers Playground
       </h1>
       <ClosingConfirmation />
+      <Fullscreen />
     </div>
   );
 };
