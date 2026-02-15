@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { RootLayout } from "@/layouts/root";
 import { BiometricManagerPage } from "@/pages/biometric-manager";
+import { HandlersPage } from "@/pages/handlers";
 import { HapticFeedbackPage } from "@/pages/haptic-feedback";
 import { InspectorPage } from "@/pages/inspector";
 import { InvoicePage } from "@/pages/invoice";
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "/invoice",
         Component: InvoicePage,
+      },
+      {
+        path: "/handlers",
+        Component: HandlersPage,
       },
     ],
   },

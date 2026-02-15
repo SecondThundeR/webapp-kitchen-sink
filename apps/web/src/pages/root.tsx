@@ -22,6 +22,10 @@ const ROUTES_MAPPING = [
     link: "/invoice",
     title: "Invoice Playground",
   },
+  {
+    link: "/handlers",
+    title: "Handlers Playground",
+  },
 ];
 
 export const RootPage = () => {
