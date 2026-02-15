@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { withWebAppVersion } from "@/hocs/web-app-version";
 import { WebApp } from "@/lib/web-app";
 import {
   HAPTIC_FEEDBACK_IMPACT_OCCURED_VALUES,
   HAPTIC_FEEDBACK_NOTIFICATION_OCCURED_VALUES,
 } from "./constants";
 
-export const HapticFeedbackPage = () => (
+const HapticFeedbackPageComponent = () => (
   <div className="flex flex-col gap-2">
     <h1 className="text-2xl font-semibold tracking-tight">
       Haptic Feedback Playground
@@ -37,4 +38,9 @@ export const HapticFeedbackPage = () => (
       Test
     </Button>
   </div>
+);
+
+export const HapticFeedbackPage = withWebAppVersion(
+  HapticFeedbackPageComponent,
+  { version: "6.1", enablePlaceholder: true },
 );

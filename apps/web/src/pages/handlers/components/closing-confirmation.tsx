@@ -50,5 +50,5 @@ const ClosingConfirmationComponent = () => {
 
 export const ClosingConfirmation = withWebAppVersion(
   ClosingConfirmationComponent,
-  "6.1",
+  { version: "6.1" },
 );

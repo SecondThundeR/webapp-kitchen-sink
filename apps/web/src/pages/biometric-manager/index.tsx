@@ -19,10 +19,11 @@ import {
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { withWebAppVersion } from "@/hocs/web-app-version";
 import { booleanToYesNoString } from "@/utils/format";
 import { useBiometricManager } from "./hooks";
 
-export const BiometricManagerPage = () => {
+const BiometricManagerPageComponent = () => {
   const {
     isInited,
     isBiometricAvailable,
@@ -293,3 +294,8 @@ export const BiometricManagerPage = () => {
     </div>
   );
 };
+
+export const BiometricManagerPage = withWebAppVersion(
+  BiometricManagerPageComponent,
+  { version: "7.2", enablePlaceholder: true },
+);

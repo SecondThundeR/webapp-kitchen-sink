@@ -1,9 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { withWebAppVersion } from "@/hocs/web-app-version";
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
 import { CurrencyInvoice } from "./components/currency-invoice";
 import { StarsInvoice } from "./components/stars-invoice";
 
-export const InvoicePage = () => {
+const InvoicePageComponent = () => {
   useTransparentBodyBackground();
 
   return (
@@ -28,3 +29,8 @@ export const InvoicePage = () => {
     </div>
   );
 };
+
+export const InvoicePage = withWebAppVersion(InvoicePageComponent, {
+  version: "6.1",
+  enablePlaceholder: true,
+});

@@ -1,16 +1,48 @@
+import { FrownIcon } from "lucide-react";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { WebApp } from "@/lib/web-app";
+
+interface WithAppVersionOptions {
+  version: string;
+  enablePlaceholder?: boolean;
+}
 
 export function withWebAppVersion<P extends {}>(
   WrappedComponent: React.ComponentType<P>,
-  version: string,
+  { version, enablePlaceholder }: WithAppVersionOptions,
 ) {
   return function WithVersionControlWrapper(props: P) {
     const isSupported = WebApp.isVersionAtLeast(version);
 
-    if (!isSupported) {
-      return null;
+    if (isSupported) {
+      return <WrappedComponent {...props} />;
     }
 
-    return <WrappedComponent {...props} />;
+    if (enablePlaceholder) {
+      return (
+        <Empty className="h-full">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <FrownIcon />
+            </EmptyMedia>
+            <EmptyTitle>Not supported</EmptyTitle>
+            <EmptyDescription>
+              It looks like you trying to use something for Bot API v{version}+,
+              but you currently support v{WebApp.version}
+              <br />
+              Try to use other Telegram client that support latest features
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      );
+    }
+
+    return null;
   };
 }
