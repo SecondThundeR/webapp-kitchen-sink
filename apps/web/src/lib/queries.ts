@@ -13,3 +13,17 @@ export async function initSession(body: InitSessionData) {
 
   return data;
 }
+
+export type CreateInvoiceLinkData = NonNullable<
+  Parameters<typeof api.api.invoice.create.post>[0]
+>;
+
+export async function createInvoiceLink(body: CreateInvoiceLinkData) {
+  const { data, error } = await api.api.invoice.create.post(body);
+
+  if (error) {
+    return Promise.reject(error.value);
+  }
+
+  return data;
+}

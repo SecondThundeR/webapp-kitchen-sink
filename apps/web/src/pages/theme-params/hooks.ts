@@ -47,15 +47,3 @@ export const useBottomButtons = () => {
     };
   }, []);
 };
-
-export const useBackgroundClassOnBody = () => {
-  useEffect(() => {
-    document.body.classList.add("bg-transparent");
-
-    return () => {
-      document.body.classList.remove("bg-transparent");
-    };
-  }, []);
-
-  return null;
-};

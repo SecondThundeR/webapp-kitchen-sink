@@ -1,3 +1,4 @@
+import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
 import { DynamicThemeCard } from "./components/dynamic-theme-card";
 import { ThemeCard } from "./components/theme-card";
 import {
@@ -5,17 +6,13 @@ import {
   NON_CUSTOMIZABLE_THEME_FIELDS,
 } from "./constants";
 import { changeColorsTheme, resetColorsTheme } from "./helpers";
-import {
-  useBackgroundClassOnBody,
-  useBottomButtons,
-  useThemeParams,
-} from "./hooks";
+import { useBottomButtons, useThemeParams } from "./hooks";
 
 export const ThemeParamsPage = () => {
   const themeParams = useThemeParams();
 
   useBottomButtons();
-  useBackgroundClassOnBody();
+  useTransparentBodyBackground();
 
   return (
     <div className="flex flex-col gap-2">

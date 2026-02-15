@@ -18,6 +18,10 @@ const ROUTES_MAPPING = [
     link: "/biometric-manager",
     title: "Biometric Manager Playground",
   },
+  {
+    link: "/invoice",
+    title: "Invoice Playground",
+  },
 ];
 
 export const RootPage = () => {

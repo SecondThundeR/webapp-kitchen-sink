@@ -1,4 +1,8 @@
-const REQUIRED_ENV_VARS = ["BOT_TOKEN", "FRONTEND_URL"] as const;
+const REQUIRED_ENV_VARS = [
+  "BOT_TOKEN",
+  "FRONTEND_URL",
+  "PAYMENT_PROVIDER_TOKEN",
+] as const;
 
 function validateEnv() {
   const missingEnvVars = REQUIRED_ENV_VARS.filter((key) => !Bun.env[key]);
