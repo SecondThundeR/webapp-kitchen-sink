@@ -22,10 +22,17 @@ const ROUTES_MAPPING = [
 
 export const RootPage = () => {
   return (
-    <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-semibold tracking-tight pb-2">
-        Telegram Mini Apps Kitchen Sink
-      </h1>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Telegram Mini Apps Kitchen Sink
+        </h1>
+        {import.meta.env.VITE_GIT_SHA && (
+          <p className="text-sm text-muted-foreground">
+            Commit hash: {import.meta.env.VITE_GIT_SHA}
+          </p>
+        )}
+      </div>
       <div className="grid grid-cols-2 gap-2">
         {ROUTES_MAPPING.map(({ link, title }) => (
           <Link key={link} to={link}>
