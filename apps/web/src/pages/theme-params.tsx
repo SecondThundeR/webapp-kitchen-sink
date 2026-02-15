@@ -73,6 +73,14 @@ export const ThemeParamsPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.classList.add("bg-transparent");
+
+    return () => {
+      document.body.classList.remove("bg-transparent");
+    };
+  }, []);
+
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-2xl font-semibold tracking-tight pb-2">
