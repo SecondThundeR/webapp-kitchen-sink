@@ -10,9 +10,15 @@ export const CurrencyInvoice = () => {
   } = useInvoice("USD", 100);
 
   return (
-    <Button onClick={handleUSDPayment} disabled={isUSDInvoicePending}>
-      {isUSDInvoiceCreating && <Spinner data-icon="inline-start" />}
-      {isUSDInvoiceCreating ? "Creating invoice..." : "Create invoice"}
-    </Button>
+    <div className="flex flex-col gap-2">
+      <p>
+        For payment, enter 4242 4242 4242 4242 as card number, any valid date
+        and CVV code
+      </p>
+      <Button onClick={handleUSDPayment} disabled={isUSDInvoicePending}>
+        {isUSDInvoiceCreating && <Spinner data-icon="inline-start" />}
+        {isUSDInvoiceCreating ? "Creating invoice..." : "Create invoice"}
+      </Button>
+    </div>
   );
 };
