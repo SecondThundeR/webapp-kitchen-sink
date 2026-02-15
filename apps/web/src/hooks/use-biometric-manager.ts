@@ -123,6 +123,7 @@ export const useBiometricManager = () => {
     deviceId,
     isBiometricTokenSaved,
     biometricType,
+    syncState,
     requestAccess,
     authenticate,
     openSettings,

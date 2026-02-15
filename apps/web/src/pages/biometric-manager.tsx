@@ -35,6 +35,7 @@ export const BiometricManagerPage = () => {
     authenticate,
     openSettings,
     updateToken,
+    syncState,
   } = useBiometricManager();
 
   const [logs, setLogs] = useState<string[]>([]);
@@ -250,13 +251,10 @@ export const BiometricManagerPage = () => {
               Please open settings to enable biometrics for this bot
             </EmptyDescription>
           </EmptyHeader>
-          <EmptyContent className="flex-row justify-center gap-2">
+          <EmptyContent className="flex-row flex-wrap justify-center gap-2">
             <Button onClick={handleOpenSettings}>Open Settings</Button>
-            <Button variant="outline" onClick={handleRequest}>
-              Re-request access
-            </Button>
-            <Button variant="outline" onClick={() => window.location.reload()}>
-              Refresh this page
+            <Button variant="outline" onClick={syncState}>
+              Sync BiometricManager state
             </Button>
           </EmptyContent>
         </Empty>
