@@ -24,12 +24,22 @@ export const useThemeParams = () => {
   return themeParams;
 };
 
-export const useTestBottomButtons = () => {
+export const useBottomButtons = () => {
   useEffect(() => {
-    WebApp.MainButton.setText("Main button");
-    WebApp.SecondaryButton.setText("Secondary button");
-    WebApp.MainButton.show();
-    WebApp.SecondaryButton.show();
+    WebApp.MainButton.setParams({
+      text: "Main Button",
+      has_shine_effect: true,
+      is_active: true,
+      is_visible: true,
+      position: "top",
+    });
+    WebApp.SecondaryButton.setParams({
+      text: "Secondary Button",
+      has_shine_effect: false,
+      is_active: false,
+      is_visible: true,
+      position: "bottom",
+    });
 
     return () => {
       WebApp.MainButton.hide();

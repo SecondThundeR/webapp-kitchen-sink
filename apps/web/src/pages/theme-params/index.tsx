@@ -7,14 +7,14 @@ import {
 import { changeColorsTheme, resetColorsTheme } from "./helpers";
 import {
   useBackgroundClassOnBody,
-  useTestBottomButtons,
+  useBottomButtons,
   useThemeParams,
 } from "./hooks";
 
 export const ThemeParamsPage = () => {
   const themeParams = useThemeParams();
 
-  useTestBottomButtons();
+  useBottomButtons();
   useBackgroundClassOnBody();
 
   return (
