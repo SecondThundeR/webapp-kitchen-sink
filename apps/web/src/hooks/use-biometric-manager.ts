@@ -30,39 +30,63 @@ export const useBiometricManager = () => {
     setIsBiometricTokenSaved(WebApp.BiometricManager.isBiometricTokenSaved);
   }, []);
 
-  useEffect(() => {
+  const initializeBiometricManager = useCallback(() => {
     if (!WebApp.BiometricManager.isInited) {
       WebApp.BiometricManager.init(() => syncState());
     } else {
       syncState();
     }
-
-    WebApp.onEvent("biometricManagerUpdated", syncState);
-    return () => WebApp.offEvent("biometricManagerUpdated", syncState);
   }, [syncState]);
+
+  useEffect(() => {
+    WebApp.onEvent("activated", initializeBiometricManager);
+    WebApp.onEvent("deactivated", initializeBiometricManager);
+    WebApp.onEvent("biometricManagerUpdated", initializeBiometricManager);
+
+    window.addEventListener("focus", initializeBiometricManager);
+    document.addEventListener("visibilitychange", initializeBiometricManager);
+
+    initializeBiometricManager();
+
+    return () => {
+      WebApp.offEvent("biometricManagerUpdated", initializeBiometricManager);
+      WebApp.offEvent("activated", initializeBiometricManager);
+      WebApp.offEvent("deactivated", initializeBiometricManager);
+      window.removeEventListener("focus", initializeBiometricManager);
+      document.removeEventListener(
+        "visibilitychange",
+        initializeBiometricManager,
+      );
+    };
+  }, [initializeBiometricManager]);
 
   const requestAccess = useCallback(async () => {
     return new Promise<boolean>((resolve) => {
       WebApp.BiometricManager.requestAccess(
         { reason: "Enable secure features" },
         (granted) => {
+          syncState();
           resolve(granted);
         },
       );
     });
-  }, []);
+  }, [syncState]);
 
-  const authenticate = useCallback(async (reason: string) => {
-    return new Promise<string | null>((resolve, reject) => {
-      WebApp.BiometricManager.authenticate({ reason }, (isValid, token) => {
-        if (isValid) {
-          resolve(token || null);
-        } else {
-          reject(new Error("Biometric Auth Failed"));
-        }
+  const authenticate = useCallback(
+    async (reason: string) => {
+      return new Promise<string | null>((resolve, reject) => {
+        WebApp.BiometricManager.authenticate({ reason }, (isValid, token) => {
+          if (isValid) {
+            syncState();
+            resolve(token || null);
+          } else {
+            reject(new Error("Biometric Auth Failed"));
+          }
+        });
       });
-    });
-  }, []);
+    },
+    [syncState],
+  );
 
   const openSettings = useCallback(() => {
     return new Promise<boolean>((resolve, reject) => {
@@ -75,17 +99,21 @@ export const useBiometricManager = () => {
     });
   }, []);
 
-  const updateToken = useCallback((token: string) => {
-    return new Promise<boolean>((resolve, reject) => {
-      WebApp.BiometricManager.updateBiometricToken(token, (success) => {
-        if (success) {
-          resolve(true);
-        } else {
-          reject("Failed to save token");
-        }
+  const updateToken = useCallback(
+    (token: string) => {
+      return new Promise<boolean>((resolve, reject) => {
+        WebApp.BiometricManager.updateBiometricToken(token, (success) => {
+          if (success) {
+            syncState();
+            resolve(true);
+          } else {
+            reject("Failed to save token");
+          }
+        });
       });
-    });
-  }, []);
+    },
+    [syncState],
+  );
 
   return {
     isInited,
