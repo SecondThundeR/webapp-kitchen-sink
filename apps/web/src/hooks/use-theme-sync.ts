@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { DARK_THEME_COLOR, LIGHT_THEME_COLOR } from "@/constants/colors";
 import { WebApp } from "@/lib/web-app";
 
 export function useThemeSync() {
@@ -8,14 +9,14 @@ export function useThemeSync() {
 
       if (isDark) {
         document.documentElement.classList.add("dark");
-        WebApp.setHeaderColor("#0a0a0a");
-        WebApp.setBackgroundColor("#0a0a0a");
-        WebApp.setBottomBarColor("#0a0a0a");
+        WebApp.setHeaderColor(DARK_THEME_COLOR);
+        WebApp.setBackgroundColor(DARK_THEME_COLOR);
+        WebApp.setBottomBarColor(DARK_THEME_COLOR);
       } else {
         document.documentElement.classList.remove("dark");
-        WebApp.setHeaderColor("#ffffff");
-        WebApp.setBackgroundColor("#ffffff");
-        WebApp.setBottomBarColor("#ffffff");
+        WebApp.setHeaderColor(LIGHT_THEME_COLOR);
+        WebApp.setBackgroundColor(LIGHT_THEME_COLOR);
+        WebApp.setBottomBarColor(LIGHT_THEME_COLOR);
       }
     };
 

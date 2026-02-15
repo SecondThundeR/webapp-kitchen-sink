@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import { RootLayout } from "@/components/root-layout";
+import { RootLayout } from "@/layouts/root";
 import { BiometricManagerPage } from "@/pages/biometric-manager";
 import { HapticFeedbackPage } from "@/pages/haptic-feedback";
 import { InspectorPage } from "@/pages/inspector";
