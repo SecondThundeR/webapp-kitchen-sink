@@ -128,7 +128,7 @@ const BiometricManagerPageComponent = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full pb-8">
+    <div className="flex flex-col gap-2">
       <h1 className="text-2xl font-semibold tracking-tight">
         Biometric Manager Playground
       </h1>

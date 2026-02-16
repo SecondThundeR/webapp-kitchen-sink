@@ -7,7 +7,7 @@ export const RootLayout = () => {
   return (
     <>
       <ScrollRestoration />
-      <div className="h-full p-4">
+      <div className="h-full p-4 overflow-auto">
         <Outlet />
       </div>
     </>
