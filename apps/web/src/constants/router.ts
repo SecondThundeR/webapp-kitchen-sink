@@ -6,7 +6,6 @@ import { DeviceOrientation } from "@/pages/device-orientation";
 import { Gyroscope } from "@/pages/gyroscope";
 import { HandlersPage } from "@/pages/handlers";
 import { HapticFeedbackPage } from "@/pages/haptic-feedback";
-import { InspectorPage } from "@/pages/inspector";
 import { InvoicePage } from "@/pages/invoice";
 import { RootPage } from "@/pages/root";
 import { ThemeParamsPage } from "@/pages/theme-params";
@@ -19,10 +18,6 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: RootPage,
-      },
-      {
-        path: "/inspector",
-        Component: InspectorPage,
       },
       {
         path: "/theme-params",
