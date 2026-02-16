@@ -47,7 +47,7 @@ const BiometricManagerPageComponent = () => {
 
   if (!isInited) {
     return (
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center">
         <Spinner className="size-8" />
         <p className="leading-7 mt-3">Initializing BiometricManager...</p>
         <p className="text-sm text-muted-foreground mt-1  text-center">
@@ -60,7 +60,7 @@ const BiometricManagerPageComponent = () => {
 
   if (!isBiometricAvailable) {
     return (
-      <Empty className="h-full">
+      <Empty className="flex-1">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <BanIcon />

@@ -6,10 +6,8 @@ export const RootLayout = () => {
 
   return (
     <>
+      <Outlet />
       <ScrollRestoration />
-      <div className="h-full p-4 overflow-auto">
-        <Outlet />
-      </div>
     </>
   );
 };

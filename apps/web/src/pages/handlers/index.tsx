@@ -66,7 +66,7 @@ export const HandlersPage = () => {
         )}
       </InputGroup>
       {filteredHandlersMapping.length === 0 ? (
-        <Empty className="h-full">
+        <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <FrownIcon />

@@ -20,7 +20,7 @@ function App() {
 
   if (!WebApp.initData) {
     return (
-      <Empty className="h-full">
+      <Empty className="flex-1">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <BanIcon />
@@ -37,7 +37,7 @@ function App() {
 
   if (isPending) {
     return (
-      <div className="h-full flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center">
         <Spinner className="size-8" />
         <p className="leading-7 mt-3">Loading...</p>
       </div>
@@ -46,7 +46,7 @@ function App() {
 
   if (validationError) {
     return (
-      <Empty className="h-full">
+      <Empty className="flex-1">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <BugIcon />

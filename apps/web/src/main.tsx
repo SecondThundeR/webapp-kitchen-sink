@@ -18,7 +18,9 @@ if (["ios", "android"].includes(WebApp.platform)) {
 createRoot(document.getElementById("root") as HTMLDivElement).render(
   <StrictMode>
     <Providers>
-      <App />
+      <div className="flex flex-col flex-1 p-4">
+        <App />
+      </div>
     </Providers>
   </StrictMode>,
 );

@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
 #root {
   padding-top: max(
     0px,
@@ -30,7 +36,9 @@
         var(--tg-safe-area-inset-bottom, 0px)
     )
   );
-  height: var(--viewport-height, 100vh);
+  min-height: var(--viewport-height, 100vh);
+  display: flex;
+  flex-direction: column;
 }
 
 @custom-variant dark (&:is(.dark *));

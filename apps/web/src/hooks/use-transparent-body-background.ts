@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 
-export const useTransparentBodyBackground = () => {
+export const useTransparentBodyBackground = (enabled = true) => {
   useEffect(() => {
+    if (!enabled) return;
+
     document.body.classList.add("bg-transparent");
 
     return () => {

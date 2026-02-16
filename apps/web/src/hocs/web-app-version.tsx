@@ -26,7 +26,7 @@ export function withWebAppVersion<P extends {}>(
 
     if (enablePlaceholder) {
       return (
-        <Empty className="h-full">
+        <Empty className="flex-1">
           <EmptyHeader>
             <EmptyMedia variant="icon">
               <FrownIcon />
