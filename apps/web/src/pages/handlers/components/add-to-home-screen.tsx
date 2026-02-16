@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,19 +16,19 @@ export const AddToHomeScreen = () => {
     Date.now(),
   );
 
-  const syncState = useCallback(() => {
+  const syncState = useEffectEvent(() => {
     WebApp.checkHomeScreenStatus((status) => {
       setHomeScreenStatus(status);
       setLastStatusCheckTimestamp(Date.now());
     });
-  }, []);
+  });
+
+  const homeScreenAddedCallback = useEffectEvent(() => {
+    toast.success("App has been added to homescreen");
+    syncState();
+  });
 
   useEffect(() => {
-    const homeScreenAddedCallback = () => {
-      toast.success("App has been added to homescreen");
-      syncState();
-    };
-
     syncState();
 
     WebApp.onEvent("homeScreenAdded", homeScreenAddedCallback);
@@ -36,7 +36,7 @@ export const AddToHomeScreen = () => {
     return () => {
       WebApp.offEvent("homeScreenAdded", homeScreenAddedCallback);
     };
-  }, [syncState]);
+  }, []);
 
   return (
     <Card>

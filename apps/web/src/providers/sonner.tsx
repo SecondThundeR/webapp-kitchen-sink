@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { Toaster } from "sonner";
 import { WebApp } from "@/lib/web-app";
 
 export const SonnerProvider = () => {
   const [safeAreaTop, setSafeAreaTop] = useState(0);
 
-  useEffect(() => {
-    const onSafeAreaChange = () => {
-      setSafeAreaTop(
-        WebApp.safeAreaInset.top + WebApp.contentSafeAreaInset.top,
-      );
-    };
+  const onSafeAreaChange = useEffectEvent(() => {
+    setSafeAreaTop(WebApp.safeAreaInset.top + WebApp.contentSafeAreaInset.top);
+  });
 
+  useEffect(() => {
     onSafeAreaChange();
 
     WebApp.onEvent("safeAreaChanged", onSafeAreaChange);

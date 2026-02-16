@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/card";
 import { WebApp } from "@/lib/web-app";
 
+const scanQrPopupClosedHandler = () => {
+  toast.info("User closed scan QR popup");
+};
+
 export const QRPopup = () => {
   const [qrData, setQrData] = useState("");
 
   useEffect(() => {
     if (!WebApp.isVersionAtLeast("7.7")) return;
-
-    const scanQrPopupClosedHandler = () => {
-      toast.info("User closed scan QR popup");
-    };
 
     WebApp.onEvent("scanQrPopupClosed", scanQrPopupClosedHandler);
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { WebApp } from "@/lib/web-app";
 import { CUSTOMIZABLE_THEME_FIELDS } from "./constants";
 import { resetColorsTheme } from "./helpers";
@@ -6,11 +6,11 @@ import { resetColorsTheme } from "./helpers";
 export const useThemeParams = () => {
   const [themeParams, setThemeParams] = useState(() => WebApp.themeParams);
 
-  useEffect(() => {
-    const updateThemeParams = () => {
-      setThemeParams(WebApp.themeParams);
-    };
+  const updateThemeParams = useEffectEvent(() => {
+    setThemeParams(WebApp.themeParams);
+  });
 
+  useEffect(() => {
     updateThemeParams();
 
     WebApp.onEvent("themeChanged", updateThemeParams);

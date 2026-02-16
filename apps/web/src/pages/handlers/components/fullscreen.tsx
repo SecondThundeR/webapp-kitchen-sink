@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { toast } from "sonner";
 import type { FullscreenFailedCallback } from "telegram-web-app";
 import { Button } from "@/components/ui/button";
@@ -12,18 +12,18 @@ import {
 import { WebApp } from "@/lib/web-app";
 import { booleanToYesNoString } from "@/utils/format";
 
+const fullscreenFailedToast: FullscreenFailedCallback = ({ error }) => {
+  toast.error(error);
+};
+
 export const Fullscreen = () => {
   const [isFullscreen, setIsFullscreen] = useState(() => WebApp.isFullscreen);
 
+  const syncState = useEffectEvent(() => {
+    setIsFullscreen(WebApp.isFullscreen);
+  });
+
   useEffect(() => {
-    const syncState = () => {
-      setIsFullscreen(WebApp.isFullscreen);
-    };
-
-    const fullscreenFailedToast: FullscreenFailedCallback = ({ error }) => {
-      toast.error(error);
-    };
-
     syncState();
 
     WebApp.onEvent("fullscreenChanged", syncState);

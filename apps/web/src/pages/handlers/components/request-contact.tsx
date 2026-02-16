@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
+import type { ContactRequestedCallback } from "telegram-web-app";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +13,18 @@ import { WebApp } from "@/lib/web-app";
 export const RequestContact = () => {
   const [lastRequestStatus, setLastRequestStatus] = useState("");
 
-  useEffect(() => {
-    WebApp.onEvent("contactRequested", (data) => {
+  const handleContactRequested: ContactRequestedCallback = useEffectEvent(
+    (data) => {
       setLastRequestStatus(data.status);
-    });
+    },
+  );
+
+  useEffect(() => {
+    WebApp.onEvent("contactRequested", handleContactRequested);
+
+    return () => {
+      WebApp.offEvent("contactRequested", handleContactRequested);
+    };
   }, []);
 
   return (
