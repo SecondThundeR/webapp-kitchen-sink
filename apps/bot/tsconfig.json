@@ -4,6 +4,6 @@
     "composite": true,
     "tsBuildInfoFile": ".tsbuildinfo"
   },
-  "include": ["src", "bot.ts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
