@@ -17,7 +17,9 @@ export const useThemeParams = () => {
 
     return () => {
       WebApp.offEvent("themeChanged", updateThemeParams);
-      CUSTOMIZABLE_THEME_FIELDS.forEach(resetColorsTheme);
+      CUSTOMIZABLE_THEME_FIELDS.forEach(({ theme }) => {
+        resetColorsTheme(theme);
+      });
     };
   }, []);
 

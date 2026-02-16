@@ -8,7 +8,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-import { WebApp } from "@/lib/web-app";
+import { isVersionAtLeastFilter } from "@/utils/array";
 import { HANDLERS_MAPPING } from "./constants";
 
 export const HandlersPage = () => {
@@ -17,10 +17,7 @@ export const HandlersPage = () => {
   const searchQueryData = searchParams.get("q");
 
   const filteredHandlersByVersion = useMemo(
-    () =>
-      HANDLERS_MAPPING.filter(({ version }) =>
-        version ? WebApp.isVersionAtLeast(version) : true,
-      ),
+    () => HANDLERS_MAPPING.filter(isVersionAtLeastFilter),
     [],
   );
 
