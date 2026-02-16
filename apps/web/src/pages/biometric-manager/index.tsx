@@ -50,6 +50,10 @@ const BiometricManagerPageComponent = () => {
       <div className="h-full flex flex-col items-center justify-center">
         <Spinner className="size-8" />
         <p className="leading-7 mt-3">Initializing BiometricManager...</p>
+        <p className="text-sm text-muted-foreground mt-1  text-center">
+          If initialization not finishing, it can indicate that your client
+          doesn't answer on init event
+        </p>
       </div>
     );
   }
