@@ -11,6 +11,18 @@ const ROUTES_MAPPING = [
     title: "Theme Params Playground",
   },
   {
+    link: "/gyroscope",
+    title: "Gyroscope Playground",
+  },
+  {
+    link: "/accelerometer",
+    title: "Accelerometer Playground",
+  },
+  {
+    link: "/device-orientation",
+    title: "Device Orientation Playground",
+  },
+  {
     link: "/haptic-feedback",
     title: "Haptic Feedback Playground",
   },

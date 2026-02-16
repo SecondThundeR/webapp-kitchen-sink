@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router";
 import { RootLayout } from "@/layouts/root";
+import { Accelerometer } from "@/pages/accelerometer";
 import { BiometricManagerPage } from "@/pages/biometric-manager";
+import { DeviceOrientation } from "@/pages/device-orientation";
+import { Gyroscope } from "@/pages/gyroscope";
 import { HandlersPage } from "@/pages/handlers";
 import { HapticFeedbackPage } from "@/pages/haptic-feedback";
 import { InspectorPage } from "@/pages/inspector";
@@ -40,6 +43,18 @@ export const router = createBrowserRouter([
       {
         path: "/handlers",
         Component: HandlersPage,
+      },
+      {
+        path: "/gyroscope",
+        Component: Gyroscope,
+      },
+      {
+        path: "/accelerometer",
+        Component: Accelerometer,
+      },
+      {
+        path: "/device-orientation",
+        Component: DeviceOrientation,
       },
     ],
   },
