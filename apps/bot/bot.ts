@@ -5,6 +5,7 @@ import { Bot } from "grammy";
 
 import { startCommand } from "./src/commands/start";
 import { catchHandler } from "./src/handlers/catch";
+import { contactQueryHandler } from "./src/handlers/contact";
 import { paymentQueryHandler } from "./src/handlers/payment";
 import type { BotContext } from "./src/types/bot";
 
@@ -19,7 +20,11 @@ if (!BOT_TOKEN) {
 const bot = new Bot<BotContext>(BOT_TOKEN);
 bot.api.config.use(autoRetry());
 
-bot.use(hydrate()).use(startCommand).use(paymentQueryHandler);
+bot
+  .use(hydrate())
+  .use(startCommand)
+  .use(paymentQueryHandler)
+  .use(contactQueryHandler);
 
 bot.catch(catchHandler);
 

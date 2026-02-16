@@ -9,11 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { withWebAppVersion } from "@/hocs/web-app-version";
 import { WebApp } from "@/lib/web-app";
 import { booleanToYesNoString } from "@/utils/format";
 
-const FullscreenComponent = () => {
+export const Fullscreen = () => {
   const [isFullscreen, setIsFullscreen] = useState(() => WebApp.isFullscreen);
 
   useEffect(() => {
@@ -56,7 +55,3 @@ const FullscreenComponent = () => {
     </Card>
   );
 };
-
-export const Fullscreen = withWebAppVersion(FullscreenComponent, {
-  version: "8.0",
-});
