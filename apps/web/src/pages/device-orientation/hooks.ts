@@ -70,6 +70,14 @@ export const useDeviceOrientation = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (WebApp.DeviceOrientation.isStarted) {
+        WebApp.DeviceOrientation.stop();
+      }
+    };
+  }, []);
+
   return {
     data: {
       isStarted,

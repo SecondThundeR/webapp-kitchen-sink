@@ -60,6 +60,14 @@ export const useGyroscope = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (WebApp.Gyroscope.isStarted) {
+        WebApp.Gyroscope.stop();
+      }
+    };
+  }, []);
+
   return {
     data: {
       isStarted,

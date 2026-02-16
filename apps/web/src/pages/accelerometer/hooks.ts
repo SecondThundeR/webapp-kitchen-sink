@@ -62,6 +62,14 @@ export const useAccelerometer = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (WebApp.Accelerometer.isStarted) {
+        WebApp.Accelerometer.stop();
+      }
+    };
+  }, []);
+
   return {
     data: {
       isStarted,
