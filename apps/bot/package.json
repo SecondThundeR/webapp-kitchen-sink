@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "DEBUG=\"grammy*\" NODE_ENV=development bun run --watch ./src/main.ts",
+    "dev": "NODE_ENV=development bun run --watch ./src/main.ts",
     "start": "NODE_ENV=production bun run ./src/main.ts",
     "lint": "biome check"
   },
