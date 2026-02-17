@@ -33,7 +33,7 @@ export const HandlersPage = () => {
       <h1 className="text-2xl font-semibold tracking-tight">
         Handlers Playground
       </h1>
-      <InputGroup className="sticky top-0 bg-background dark:bg-background z-10 mb-2">
+      <InputGroup className="sticky top-[calc(var(--tg-content-safe-area-inset-top,0px)+var(--tg-safe-area-inset-top,0px))] bg-background dark:bg-background z-10 mb-2">
         <InputGroupInput
           name="searchQuery"
           placeholder="Enter search query"
