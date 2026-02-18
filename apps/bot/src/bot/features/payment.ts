@@ -28,20 +28,11 @@ composer.on(
       // Adding artificial delay, as if bot tries to refund right away, it can fail
       await delay(1000);
 
-      if (payment.is_recurring) {
-        try {
-          await ctx.api.editUserStarSubscription(userId, chargeId, true);
-          await ctx.reply("Subscription was cancelled!");
-        } catch (error) {
-          await ctx.reply(
-            `Failed to cancel subscription. Error: ${String(error)}`,
-          );
-        }
-      }
-
       try {
         await ctx.api.refundStarPayment(userId, chargeId);
-        await ctx.reply(`Stars were successfully refunded!`);
+        await ctx.reply(
+          `Stars were refunded${payment.is_recurring ? " and subscription was cancelled" : ""}!`,
+        );
       } catch (error) {
         await ctx.reply(`Failed to refund stars. Error: ${String(error)}`);
       }
