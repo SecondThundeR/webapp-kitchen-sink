@@ -24,6 +24,10 @@ export const ROUTES_MAPPING = [
     title: "Biometric Manager",
   },
   {
+    link: "/location-manager",
+    title: "Location Manager",
+  },
+  {
     link: "/invoice",
     title: "Invoices",
   },
