@@ -30,7 +30,7 @@ composer.on(
 
       if (payment.is_recurring) {
         try {
-          await ctx.api.editUserStarSubscription(userId, chargeId, false);
+          await ctx.api.editUserStarSubscription(userId, chargeId, true);
           await ctx.reply("Subscription was cancelled!");
         } catch (error) {
           await ctx.reply(
