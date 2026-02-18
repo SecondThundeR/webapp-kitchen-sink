@@ -28,6 +28,18 @@ export const ROUTES_MAPPING = [
     title: "Location Manager",
   },
   {
+    link: "/cloud-storage",
+    title: "Cloud Storage",
+  },
+  {
+    link: "/device-storage",
+    title: "Device Storage",
+  },
+  {
+    link: "/secure-storage",
+    title: "Secure Storage",
+  },
+  {
     link: "/invoice",
     title: "Invoices",
   },
