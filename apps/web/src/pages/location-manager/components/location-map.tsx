@@ -1,3 +1,4 @@
+import L from "leaflet";
 import {
   Circle,
   MapContainer,
@@ -6,8 +7,17 @@ import {
   TileLayer,
   useMap,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css"; // Обязательный импорт стилей Leaflet
+import "leaflet/dist/leaflet.css";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconRetina from "leaflet/dist/images/marker-icon-2x.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import type { LocationData } from "telegram-web-app";
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: iconRetina,
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
 
 const DisableAttribution = () => {
   const map = useMap();
