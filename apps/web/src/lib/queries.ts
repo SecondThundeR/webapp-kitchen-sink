@@ -27,3 +27,17 @@ export async function createInvoiceLink(body: CreateInvoiceLinkData) {
 
   return data;
 }
+
+export type CreateStarsInvoiceLinkData = NonNullable<
+  Parameters<typeof api.api.invoice.createWithStars.post>[0]
+>;
+
+export async function createStarsInvoiceLink(body: CreateStarsInvoiceLinkData) {
+  const { data, error } = await api.api.invoice.createWithStars.post(body);
+
+  if (error) {
+    return Promise.reject(error.value);
+  }
+
+  return data;
+}

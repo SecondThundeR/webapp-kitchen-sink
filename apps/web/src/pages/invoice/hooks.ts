@@ -1,10 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { type CreateInvoiceLinkData, createInvoiceLink } from "@/lib/queries";
+import {
+  type CreateInvoiceLinkData,
+  type CreateStarsInvoiceLinkData,
+  createInvoiceLink,
+  createStarsInvoiceLink,
+} from "@/lib/queries";
 import { WebApp } from "@/lib/web-app";
+import type { InvoiceSchema, StarsInvoiceSchema } from "./schemas";
 
-export const useCreateInvoiceLinkMutation = () =>
+const useCreateInvoiceLinkMutation = () =>
   useMutation({
     mutationFn: (body: CreateInvoiceLinkData) => createInvoiceLink(body),
     onError: (error) => {
@@ -19,18 +25,51 @@ export const useCreateInvoiceLinkMutation = () =>
     },
   });
 
-export const useInvoice = (currency: string, amount: number) => {
-  const [isInvoicePending, setIsInvoicePending] = useState(false);
-  const { mutateAsync, isPending } = useCreateInvoiceLinkMutation();
+const useCreateStarsInvoiceLinkMutation = () =>
+  useMutation({
+    mutationFn: (body: CreateStarsInvoiceLinkData) =>
+      createStarsInvoiceLink(body),
+    onError: (error) => {
+      if (
+        error &&
+        typeof error === "object" &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        toast.error(String(error.message));
+      }
+    },
+  });
 
-  const handlePayment = async () => {
-    const { url } = await mutateAsync({
-      title: "Test invoice",
-      description: "Test description",
-      currency: currency,
-      initData: WebApp.initData,
-      prices: [{ label: "Item", amount }],
-    });
+type HandlePaymentData = InvoiceSchema | StarsInvoiceSchema;
+
+export const useInvoice = () => {
+  const [isInvoicePending, setIsInvoicePending] = useState(false);
+  const { mutateAsync: mutateInvoiceAsync, isPending: isPendingInvoice } =
+    useCreateInvoiceLinkMutation();
+  const {
+    mutateAsync: mutateStarsInvoiceAsync,
+    isPending: isPendingStarsInvoice,
+  } = useCreateStarsInvoiceLinkMutation();
+
+  const handlePayment = async (data: HandlePaymentData) => {
+    let url: string;
+
+    if ("currency" in data) {
+      const result = await mutateInvoiceAsync({
+        ...data,
+        initData: WebApp.initData,
+      });
+      url = result.url;
+    } else {
+      const { is_subscription_enabled, ...invoiceData } = data;
+      const result = await mutateStarsInvoiceAsync({
+        ...invoiceData,
+        subscription_period: is_subscription_enabled ? 2592000 : undefined,
+        initData: WebApp.initData,
+      });
+      url = result.url;
+    }
 
     setIsInvoicePending(true);
 
@@ -58,6 +97,6 @@ export const useInvoice = (currency: string, amount: number) => {
   return {
     handlePayment: handlePayment,
     isInvoicePending,
-    isInvoiceCreating: isPending,
+    isInvoiceCreating: isPendingInvoice || isPendingStarsInvoice,
   };
 };
