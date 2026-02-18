@@ -1,4 +1,5 @@
 import { Composer } from "grammy";
+import { delay } from "../../utils/general";
 import type { Context } from "../context";
 import { logHandle } from "../helpers/logging";
 
@@ -23,20 +24,27 @@ composer.on(
     if (payment.currency === "XTR") {
       const userId = ctx.from.id;
       const chargeId = payment.telegram_payment_charge_id;
-      const isRecurring = payment.is_recurring;
 
-      setTimeout(() => {
-        ctx.api
-          .refundStarPayment(userId, chargeId)
-          .then(() => {
-            ctx.reply(
-              `Stars was successfully refunded${isRecurring && " and subscription was cancelled"}!`,
-            );
-          })
-          .catch((error) => {
-            ctx.reply(`Failed to refund stars. Error: ${String(error)}`);
-          });
-      }, 1000);
+      // Adding artificial delay, as if bot tries to refund right away, it can fail
+      await delay(1000);
+
+      if (payment.is_recurring) {
+        try {
+          await ctx.api.editUserStarSubscription(userId, chargeId, false);
+          await ctx.reply("Subscription was cancelled!");
+        } catch (error) {
+          await ctx.reply(
+            `Failed to cancel subscription. Error: ${String(error)}`,
+          );
+        }
+      }
+
+      try {
+        await ctx.api.refundStarPayment(userId, chargeId);
+        await ctx.reply(`Stars were successfully refunded!`);
+      } catch (error) {
+        await ctx.reply(`Failed to refund stars. Error: ${String(error)}`);
+      }
     }
   },
 );
