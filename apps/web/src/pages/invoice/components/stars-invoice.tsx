@@ -1,9 +1,7 @@
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { useInvoice } from "../hooks";
-import { starsInvoiceSchema, type StarsInvoiceSchema } from "../schemas";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
   FieldDescription,
@@ -21,7 +19,9 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Spinner } from "@/components/ui/spinner";
+import { useInvoice } from "../hooks";
+import { type StarsInvoiceSchema, starsInvoiceSchema } from "../schemas";
 
 export const StarsInvoice = () => {
   const {
@@ -121,13 +121,13 @@ export const StarsInvoice = () => {
             control={form.control}
             render={({ field: { onChange, ...field }, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="title">Amount</FieldLabel>
+                <FieldLabel htmlFor="title">Price</FieldLabel>
                 <Input
                   {...field}
                   id="amount"
                   type="number"
                   aria-invalid={fieldState.invalid}
-                  placeholder="Enter amount"
+                  placeholder="Enter price"
                   autoComplete="off"
                   onChange={(e) => onChange(e.target.valueAsNumber)}
                 />

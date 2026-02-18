@@ -43,6 +43,8 @@ const useCreateStarsInvoiceLinkMutation = () =>
 
 type HandlePaymentData = InvoiceSchema | StarsInvoiceSchema;
 
+const SUBSCRIPTION_30_DAYS_IN_SECONDS = 2592000;
+
 export const useInvoice = () => {
   const [isInvoicePending, setIsInvoicePending] = useState(false);
   const { mutateAsync: mutateInvoiceAsync, isPending: isPendingInvoice } =
@@ -65,7 +67,9 @@ export const useInvoice = () => {
       const { is_subscription_enabled, ...invoiceData } = data;
       const result = await mutateStarsInvoiceAsync({
         ...invoiceData,
-        subscription_period: is_subscription_enabled ? 2592000 : undefined,
+        subscription_period: is_subscription_enabled
+          ? SUBSCRIPTION_30_DAYS_IN_SECONDS
+          : undefined,
         initData: WebApp.initData,
       });
       url = result.url;
