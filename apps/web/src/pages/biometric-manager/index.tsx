@@ -168,7 +168,6 @@ const BiometricManagerPageComponent = () => {
             {booleanToYesNoString(isBiometricTokenSaved)}
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>isAccessGranted</CardTitle>
@@ -217,7 +216,6 @@ const BiometricManagerPageComponent = () => {
               </Button>
             </CardFooter>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle>Verify & Retrieve</CardTitle>
@@ -243,7 +241,6 @@ const BiometricManagerPageComponent = () => {
           </Card>
         </div>
       )}
-
       {!isAccessGranted && isAccessRequested && (
         <Empty>
           <EmptyHeader>
@@ -267,7 +264,6 @@ const BiometricManagerPageComponent = () => {
           </p>
         </Empty>
       )}
-
       {!isAccessRequested && (
         <Empty>
           <EmptyHeader>
@@ -284,7 +280,6 @@ const BiometricManagerPageComponent = () => {
           </EmptyContent>
         </Empty>
       )}
-
       <h2 className="text-xl">Logs</h2>
       <div className="h-32 overflow-y-auto bg-black text-green-400 p-2 text-xs font-mono rounded-md">
         {logs.length === 0 && (

@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { BanIcon, BugIcon } from "lucide-react";
 import { RouterProvider } from "react-router";
 import { WebApp } from "@/lib/web-app";
@@ -10,11 +11,18 @@ import {
 } from "./components/ui/empty";
 import { Spinner } from "./components/ui/spinner";
 import { router } from "./constants/router";
-import { useInitQuery } from "./hooks/use-init-query";
 import { useThemeSync } from "./hooks/use-theme-sync";
+import { initSession } from "./lib/queries";
 
 function App() {
-  const { isPending, error: validationError } = useInitQuery();
+  const { isPending, error: validationError } = useQuery({
+    queryKey: ["init"],
+    queryFn: () => initSession({ initData: WebApp.initData }),
+    staleTime: Infinity,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   useThemeSync();
 
