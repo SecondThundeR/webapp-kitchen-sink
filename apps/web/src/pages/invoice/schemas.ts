@@ -34,9 +34,22 @@ export const invoiceSchema = z.object({
 
 export type InvoiceSchema = z.infer<typeof invoiceSchema>;
 
-export const starsInvoiceSchema = z.object({
-  ...baseInvoiceSchema.shape,
-  is_subscription_enabled: z.boolean().optional(),
-});
+export const starsInvoiceSchema = z
+  .object({
+    ...baseInvoiceSchema.shape,
+    is_subscription_enabled: z.boolean().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.is_subscription_enabled && data.prices.length > 0) {
+        return data.prices[0].amount <= 10000;
+      }
+      return true;
+    },
+    {
+      message: "Subscription price cannot exceed 10000",
+      path: ["prices", 0, "amount"],
+    },
+  );
 
 export type StarsInvoiceSchema = z.infer<typeof starsInvoiceSchema>;
