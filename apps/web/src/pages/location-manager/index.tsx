@@ -145,7 +145,11 @@ const LocationManagerComponent = () => {
             <CardTitle>Location data</CardTitle>
             <CardAction>
               {latestLocationData && (
-                <Button onClick={() => setShowMap((prev) => !prev)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowMap((prev) => !prev)}
+                >
                   Show {showMap ? "raw data" : "map"}
                 </Button>
               )}
