@@ -3,7 +3,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { LocationData } from "telegram-web-app";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Empty,
   EmptyContent,
@@ -15,6 +21,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { withWebAppVersion } from "@/hocs/web-app-version";
 import { booleanToYesNoString } from "@/utils/format";
+import { LocationMap } from "./components/location-map";
 import { useLocation } from "./hooks";
 
 const LocationManagerComponent = () => {
@@ -26,6 +33,8 @@ const LocationManagerComponent = () => {
     getLocation,
     openSettings,
   } = useLocation();
+
+  const [showMap, setShowMap] = useState(false);
 
   const [latestLocationData, setLatestLocationData] =
     useState<LocationData | null>(null);
@@ -73,6 +82,32 @@ const LocationManagerComponent = () => {
     }
   };
 
+  const getLocationDataContent = () => {
+    if (!latestLocationData) {
+      return "—";
+    }
+
+    if (showMap) {
+      return <LocationMap data={latestLocationData} />;
+    }
+
+    return (
+      <>
+        <p>latitude: {String(latestLocationData.latitude)}</p>
+        <p>longitude: {String(latestLocationData.longitude)}</p>
+        <p>altitude: {String(latestLocationData.altitude)}</p>
+        <p>course: {String(latestLocationData.course)}</p>
+        <p>speed: {String(latestLocationData.speed)}</p>
+        <p>
+          horizontal_accuracy: {String(latestLocationData.horizontal_accuracy)}
+        </p>
+        <p>vertical_accuracy: {String(latestLocationData.vertical_accuracy)}</p>
+        <p>course_accuracy: {String(latestLocationData.course_accuracy)}</p>
+        <p>speed_accuracy: {String(latestLocationData.speed_accuracy)}</p>
+      </>
+    );
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-2xl font-semibold tracking-tight">
@@ -107,35 +142,16 @@ const LocationManagerComponent = () => {
         </Card>
         <Card className="col-span-2">
           <CardHeader>
-            <CardTitle>Latest location data</CardTitle>
+            <CardTitle>Location data</CardTitle>
+            <CardAction>
+              {latestLocationData && (
+                <Button onClick={() => setShowMap((prev) => !prev)}>
+                  Show {showMap ? "raw data" : "map"}
+                </Button>
+              )}
+            </CardAction>
           </CardHeader>
-          <CardContent>
-            {latestLocationData ? (
-              <>
-                <p>latitude: {String(latestLocationData.latitude)}</p>
-                <p>longitude: {String(latestLocationData.longitude)}</p>
-                <p>altitude: {String(latestLocationData.altitude)}</p>
-                <p>course: {String(latestLocationData.course)}</p>
-                <p>speed: {String(latestLocationData.speed)}</p>
-                <p>
-                  horizontal_accuracy:{" "}
-                  {String(latestLocationData.horizontal_accuracy)}
-                </p>
-                <p>
-                  vertical_accuracy:{" "}
-                  {String(latestLocationData.vertical_accuracy)}
-                </p>
-                <p>
-                  course_accuracy: {String(latestLocationData.course_accuracy)}
-                </p>
-                <p>
-                  speed_accuracy: {String(latestLocationData.speed_accuracy)}
-                </p>
-              </>
-            ) : (
-              "—"
-            )}
-          </CardContent>
+          <CardContent>{getLocationDataContent()}</CardContent>
         </Card>
       </div>
       {isAccessGranted && (
