@@ -1,4 +1,4 @@
-import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
+import { useTransparentBackground } from "@/hooks/use-transparent-background";
 import { isVersionAtLeastFilter } from "@/utils/array";
 import { DynamicThemeCard } from "../../components/dynamic-theme-card";
 import { ThemeCard } from "../../components/theme-card";
@@ -13,7 +13,7 @@ export const ThemeParamsPage = () => {
   const themeParams = useThemeParams();
 
   useBottomButton();
-  useTransparentBodyBackground();
+  useTransparentBackground();
 
   const filteredCustomizableThemeFields = CUSTOMIZABLE_THEME_FIELDS.filter(
     isVersionAtLeastFilter,

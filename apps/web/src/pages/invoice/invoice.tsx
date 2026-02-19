@@ -1,13 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { withWebAppVersion } from "@/hocs/web-app-version";
-import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
+import { useTransparentBackground } from "@/hooks/use-transparent-background";
 import { WebApp } from "@/lib/web-app";
 // import { CurrencyInvoice } from "./components/currency-invoice";
 import { StarsInvoice } from "./components/stars-invoice";
 
 const InvoicePageComponent = () => {
   // Telegram Desktop adds confetti (bruh), so shadcn's background color interfere with them
-  useTransparentBodyBackground(WebApp.platform === "tdesktop");
+  useTransparentBackground(WebApp.platform === "tdesktop");
 
   return (
     <div className="flex flex-col gap-2">
