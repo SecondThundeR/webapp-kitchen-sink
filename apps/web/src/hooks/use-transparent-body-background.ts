@@ -9,5 +9,5 @@ export const useTransparentBodyBackground = (enabled = true) => {
     return () => {
       document.body.classList.remove("bg-transparent");
     };
-  });
+  }, [enabled]);
 };
