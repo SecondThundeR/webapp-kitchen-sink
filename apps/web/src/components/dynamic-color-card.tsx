@@ -1,20 +1,20 @@
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { WebApp } from "@/lib/web-app";
-import { ThemeCard, type ThemeCardProps } from "./theme-card";
+import { ColorCard, type ColorCardProps } from "./color-card";
 
-interface DynamicThemeCardProps
-  extends Pick<ThemeCardProps, "title" | "color"> {
+interface DynamicColorCardProps
+  extends Pick<ColorCardProps, "title" | "color"> {
   onChange: (color: `#${string}`) => void;
   onReset: () => void;
 }
 
-export const DynamicThemeCard = ({
+export const DynamicColorCard = ({
   title,
   color: itemColor,
   onChange,
   onReset,
-}: DynamicThemeCardProps) => {
+}: DynamicColorCardProps) => {
   const [color, setColor] = useState("");
   const colorInputRef = useRef<HTMLInputElement>(null);
 
@@ -32,7 +32,7 @@ export const DynamicThemeCard = ({
   };
 
   return (
-    <ThemeCard
+    <ColorCard
       title={title}
       color={itemColor}
       footerSlot={

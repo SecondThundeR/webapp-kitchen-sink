@@ -4,7 +4,7 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { WebApp } from "@/lib/web-app";
-import { DynamicThemeCard } from "@/components/dynamic-theme-card";
+import { DynamicColorCard } from "@/components/dynamic-color-card";
 import { useMainButton } from "../hooks";
 
 export const MainButton = () => {
@@ -142,13 +142,13 @@ export const MainButton = () => {
           />
         </CardContent>
       </Card>
-      <DynamicThemeCard
+      <DynamicColorCard
         title="color"
         color={color}
         onChange={(color) => handleSetColor(color)}
         onReset={() => handleSetColor(false)}
       />
-      <DynamicThemeCard
+      <DynamicColorCard
         title="textColor"
         color={textColor}
         onChange={(color) => handleSetTextColor(color)}

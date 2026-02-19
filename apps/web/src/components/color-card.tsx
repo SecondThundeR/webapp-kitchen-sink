@@ -7,19 +7,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export interface ThemeCardProps {
+export interface ColorCardProps {
   title: string;
   color: string | undefined;
   footerSlot?: ReactNode;
   footerSlotClassName?: string;
 }
 
-export const ThemeCard = ({
+export const ColorCard = ({
   title,
   color: backgroundColor,
   footerSlot,
   footerSlotClassName,
-}: ThemeCardProps) => {
+}: ColorCardProps) => {
   return (
     <Card>
       <CardHeader>

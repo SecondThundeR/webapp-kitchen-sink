@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DynamicThemeCard } from "@/components/dynamic-theme-card";
+import { DynamicColorCard } from "@/components/dynamic-color-card";
 import { useSecondaryButton } from "../hooks";
 import { WebAppVersionGuard } from "@/guard/web-app-version";
 
@@ -169,13 +169,13 @@ export const SecondaryButton = () => {
           />
         </CardContent>
       </Card>
-      <DynamicThemeCard
+      <DynamicColorCard
         title="color"
         color={color}
         onChange={(color) => handleSetColor(color)}
         onReset={() => handleSetColor(false)}
       />
-      <DynamicThemeCard
+      <DynamicColorCard
         title="textColor"
         color={textColor}
         onChange={(color) => handleSetTextColor(color)}

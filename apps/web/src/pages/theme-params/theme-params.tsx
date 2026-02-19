@@ -1,7 +1,7 @@
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
 import { isVersionAtLeastFilter } from "@/utils/array";
-import { DynamicThemeCard } from "../../components/dynamic-theme-card";
-import { ThemeCard } from "../../components/theme-card";
+import { DynamicColorCard } from "../../components/dynamic-color-card";
+import { ColorCard } from "../../components/color-card";
 import {
   CUSTOMIZABLE_THEME_FIELDS,
   NON_CUSTOMIZABLE_THEME_FIELDS,
@@ -35,7 +35,7 @@ export const ThemeParamsPage = () => {
       </p>
       <div className="flex flex-col gap-2">
         {filteredCustomizableThemeFields.map(({ theme }) => (
-          <DynamicThemeCard
+          <DynamicColorCard
             key={theme}
             title={theme}
             color={themeParams[theme]}
@@ -47,7 +47,7 @@ export const ThemeParamsPage = () => {
       <h2 className="text-xl">Non customizable colors</h2>
       <div className="flex flex-col gap-2">
         {filteredNonCustomizableThemeFields.map(({ theme }) => (
-          <ThemeCard key={theme} title={theme} color={themeParams[theme]} />
+          <ColorCard key={theme} title={theme} color={themeParams[theme]} />
         ))}
       </div>
     </div>
