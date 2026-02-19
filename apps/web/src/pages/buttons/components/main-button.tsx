@@ -4,7 +4,7 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { WebApp } from "@/lib/web-app";
-import { DynamicThemeCard } from "@/pages/theme-params/components/dynamic-theme-card";
+import { DynamicThemeCard } from "@/components/dynamic-theme-card";
 import { useMainButton } from "../hooks";
 
 export const MainButton = () => {

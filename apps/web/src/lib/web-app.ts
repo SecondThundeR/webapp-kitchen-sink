@@ -10,4 +10,3 @@ if (typeof window !== "object" || window === null) {
   );
 }
 export const WebApp = window.Telegram.WebApp;
-export default window.Telegram;

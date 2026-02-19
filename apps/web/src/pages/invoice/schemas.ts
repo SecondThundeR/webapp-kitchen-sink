@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const baseInvoiceSchema = z.object({
+const baseInvoiceSchema = z.object({
   title: z
     .string()
     .min(1, "Title is required")

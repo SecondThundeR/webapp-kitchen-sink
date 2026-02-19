@@ -14,8 +14,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { useDeviceStorage } from "../hooks";
 
 export const SetItem = () => {
-  const [key, setKey] = useState<string>("");
-  const [value, setValue] = useState<string>("");
+  const [key, setKey] = useState("");
+  const [value, setValue] = useState("");
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleSetItem } = useDeviceStorage();
   const [isPending, setIsPending] = useState(false);
@@ -30,9 +30,9 @@ export const SetItem = () => {
       setValue("");
     } catch (e) {
       toast.error(`[setItem]: ${e}`);
-    } finally {
-      setIsPending(false);
     }
+
+    setIsPending(false);
   };
 
   return (

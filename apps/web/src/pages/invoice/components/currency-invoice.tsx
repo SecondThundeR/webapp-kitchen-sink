@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useInvoice } from "../hooks";
+import { Alert } from "@/components/ui/alert";
 
 const CURRENCIES = [
   "AED",
@@ -108,10 +109,10 @@ export const CurrencyInvoice = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <p>
+      <Alert>
         For payment, enter 4242 4242 4242 4242 as card number, any valid date
         and CVV code
-      </p>
+      </Alert>
       <Button disabled={true || isUSDInvoicePending}>
         {isUSDInvoiceCreating && <Spinner data-icon="inline-start" />}
         {isUSDInvoiceCreating ? "Creating invoice..." : "Create invoice"}

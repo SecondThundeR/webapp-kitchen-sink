@@ -27,9 +27,9 @@ export const GetKeys = () => {
       setKeys(keys);
     } catch (e) {
       toast.error(`[getKeys]: ${e}`);
-    } finally {
-      setIsPending(false);
     }
+
+    setIsPending(false);
   };
 
   return (

@@ -23,9 +23,9 @@ export const Clear = () => {
       setLastInvokeAt(new Date());
     } catch (e) {
       toast.error(`[clear]: ${e}`);
-    } finally {
-      setIsPending(false);
     }
+
+    setIsPending(false);
   };
 
   return (

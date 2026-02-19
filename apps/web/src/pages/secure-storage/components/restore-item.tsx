@@ -14,7 +14,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useSecureStorage } from "../hooks";
 
 export const RestoreItem = () => {
-  const [key, setKey] = useState<string>("");
+  const [key, setKey] = useState("");
   const [value, setValue] = useState<string | null>(null);
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleRestoreItem } = useSecureStorage();
@@ -30,9 +30,9 @@ export const RestoreItem = () => {
       setKey("");
     } catch (e) {
       toast.error(`[restoreItem]: ${e}`);
-    } finally {
-      setIsPending(false);
     }
+
+    setIsPending(false);
   };
 
   return (

@@ -10,9 +10,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { WebApp } from "@/lib/web-app";
-import { DynamicThemeCard } from "@/pages/theme-params/components/dynamic-theme-card";
+import { DynamicThemeCard } from "@/components/dynamic-theme-card";
 import { useSecondaryButton } from "../hooks";
+import { WebAppVersionGuard } from "@/guard/web-app-version";
 
 const POSITIONS = ["top", "right", "bottom", "left"] as const;
 
@@ -96,47 +96,45 @@ export const SecondaryButton = () => {
           </Field>
         </CardContent>
       </Card>
-      {WebApp.isVersionAtLeast("7.10") && (
-        <>
-          <Card>
-            <CardHeader>
-              <CardTitle>hasShineEffect</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Field orientation="horizontal">
-                <Checkbox
-                  id="secondary-has-shine-effect"
-                  name="secondary-has-shine-effect"
-                  checked={hasShineEffect}
-                  onCheckedChange={(checked) => {
-                    if (checked === "indeterminate") return;
-                    handleHasShineEffect(checked);
-                  }}
-                />
-                <Label htmlFor="secondary-has-shine-effect">
-                  {hasShineEffect ? "Disable" : "Enable"}
-                </Label>
-              </Field>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>position</CardTitle>
-            </CardHeader>
-            {position && <CardContent>{position}</CardContent>}
-            <CardFooter className="grid grid-cols-2 gap-2">
-              {POSITIONS.map((position) => (
-                <Button
-                  key={position}
-                  onClick={() => handleSetPosition(position)}
-                >
-                  {position}
-                </Button>
-              ))}
-            </CardFooter>
-          </Card>
-        </>
-      )}
+      <WebAppVersionGuard version="7.10">
+        <Card>
+          <CardHeader>
+            <CardTitle>hasShineEffect</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Field orientation="horizontal">
+              <Checkbox
+                id="secondary-has-shine-effect"
+                name="secondary-has-shine-effect"
+                checked={hasShineEffect}
+                onCheckedChange={(checked) => {
+                  if (checked === "indeterminate") return;
+                  handleHasShineEffect(checked);
+                }}
+              />
+              <Label htmlFor="secondary-has-shine-effect">
+                {hasShineEffect ? "Disable" : "Enable"}
+              </Label>
+            </Field>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>position</CardTitle>
+          </CardHeader>
+          {position && <CardContent>{position}</CardContent>}
+          <CardFooter className="grid grid-cols-2 gap-2">
+            {POSITIONS.map((position) => (
+              <Button
+                key={position}
+                onClick={() => handleSetPosition(position)}
+              >
+                {position}
+              </Button>
+            ))}
+          </CardFooter>
+        </Card>
+      </WebAppVersionGuard>
       <Card>
         <CardHeader>
           <CardTitle>isProgressVisible</CardTitle>

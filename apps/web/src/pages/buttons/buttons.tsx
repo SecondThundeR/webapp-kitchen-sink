@@ -1,7 +1,7 @@
-import { WebApp } from "@/lib/web-app";
 import { MainButton } from "./components/main-button";
 import { SecondaryButton } from "./components/secondary-button";
 import { SettingsButton } from "./components/settings-button";
+import { WebAppVersionGuard } from "@/guard/web-app-version";
 
 export const Buttons = () => {
   return (
@@ -17,12 +17,10 @@ export const Buttons = () => {
       <MainButton />
       <h2 className="text-xl">Secondary Button</h2>
       <SecondaryButton />
-      {WebApp.isVersionAtLeast("7.0") && (
-        <>
-          <h2 className="text-xl">Settings Button</h2>
-          <SettingsButton />
-        </>
-      )}
+      <WebAppVersionGuard version="7.0">
+        <h2 className="text-xl">Settings Button</h2>
+        <SettingsButton />
+      </WebAppVersionGuard>
     </div>
   );
 };

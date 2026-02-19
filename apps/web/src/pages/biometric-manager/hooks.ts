@@ -2,23 +2,27 @@ import { useCallback, useEffect, useState } from "react";
 import { WebApp } from "@/lib/web-app";
 
 export const useBiometricManager = () => {
-  const [isInited, setIsInited] = useState(WebApp.BiometricManager.isInited);
+  const [isInited, setIsInited] = useState(
+    () => WebApp.BiometricManager.isInited,
+  );
   const [isBiometricAvailable, setIsBiometricAvailable] = useState(
-    WebApp.BiometricManager.isBiometricAvailable,
+    () => WebApp.BiometricManager.isBiometricAvailable,
   );
   const [isAccessGranted, setIsAccessGranted] = useState(
-    WebApp.BiometricManager.isAccessGranted,
+    () => WebApp.BiometricManager.isAccessGranted,
   );
   const [isAccessRequested, setIsAccessRequested] = useState(
-    WebApp.BiometricManager.isAccessRequested,
+    () => WebApp.BiometricManager.isAccessRequested,
   );
   const [biometricType, setBiometricType] = useState(
-    WebApp.BiometricManager.biometricType,
+    () => WebApp.BiometricManager.biometricType,
   );
   const [isBiometricTokenSaved, setIsBiometricTokenSaved] = useState(
-    WebApp.BiometricManager.isBiometricTokenSaved,
+    () => WebApp.BiometricManager.isBiometricTokenSaved,
   );
-  const [deviceId, setDeviceId] = useState(WebApp.BiometricManager.deviceId);
+  const [deviceId, setDeviceId] = useState(
+    () => WebApp.BiometricManager.deviceId,
+  );
 
   const syncState = useCallback(() => {
     setIsInited(WebApp.BiometricManager.isInited);

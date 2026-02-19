@@ -6,7 +6,7 @@ import { WebApp } from "@/lib/web-app";
 import "./index.css";
 
 import App from "./App.tsx";
-import { Providers } from "./providers/index.tsx";
+import { Providers } from "./providers/providers.tsx";
 
 WebApp.expand();
 WebApp.ready();

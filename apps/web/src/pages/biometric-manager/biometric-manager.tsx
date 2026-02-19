@@ -38,12 +38,15 @@ const BiometricManagerPageComponent = () => {
     updateToken,
   } = useBiometricManager();
 
-  const [logs, setLogs] = useState<string[]>([]);
+  const [logs, setLogs] = useState<{timestamp: number, message: string }[]>([]);
   const [biometricToken, setBiometricToken] = useState("");
   const [retrievedSecret, setRetrievedSecret] = useState<string | null>(null);
 
   const addLog = (msg: string) =>
-    setLogs((prev) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev]);
+    setLogs((prev) => [{
+      timestamp: Date.now(),
+      message: msg
+    }, ...prev]);
 
   if (!isInited) {
     return (
@@ -285,9 +288,8 @@ const BiometricManagerPageComponent = () => {
         {logs.length === 0 && (
           <span className="opacity-50">{"// Events will appear here..."}</span>
         )}
-        {logs.map((log, i) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: Fine here
-          <div key={i}>{log}</div>
+        {logs.map(({ timestamp, message }) => (
+          <div key={timestamp}>[{new Date().toLocaleTimeString()}] {message}</div>
         ))}
       </div>
     </div>

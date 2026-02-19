@@ -14,7 +14,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useCloudStorage } from "../hooks";
 
 export const GetItems = () => {
-  const [rawKeys, setRawKeys] = useState<string>("");
+  const [rawKeys, setRawKeys] = useState("");
   const [values, setValues] = useState<Record<string, string> | null>(null);
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleGetItems } = useCloudStorage();
@@ -23,19 +23,22 @@ export const GetItems = () => {
   const onGetItems = async () => {
     setIsPending(true);
 
-    try {
-      const keys = rawKeys.split(",");
-      if (keys.length === 0) return;
+    const keys = rawKeys.split(",");
+    if (keys.length === 0) {
+      setIsPending(false);
+      return;
+    }
 
+    try {
       const values = await handleGetItems(keys);
       setValues(values);
       setLastInvokeAt(new Date());
       setRawKeys("");
     } catch (e) {
       toast.error(`[getItems]: ${e}`);
-    } finally {
-      setIsPending(false);
     }
+
+    setIsPending(false);
   };
 
   return (

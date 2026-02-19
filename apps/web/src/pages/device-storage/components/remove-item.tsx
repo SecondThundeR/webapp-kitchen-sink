@@ -14,7 +14,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useDeviceStorage } from "../hooks";
 
 export const RemoveItem = () => {
-  const [key, setKey] = useState<string>("");
+  const [key, setKey] = useState("");
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleRemoveItem } = useDeviceStorage();
   const [isPending, setIsPending] = useState(false);
@@ -28,9 +28,9 @@ export const RemoveItem = () => {
       setKey("");
     } catch (e) {
       toast.error(`[removeItem]: ${e}`);
-    } finally {
-      setIsPending(false);
     }
+
+    setIsPending(false);
   };
 
   return (
