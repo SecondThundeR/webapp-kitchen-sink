@@ -7,7 +7,7 @@ import { StarsInvoice } from "./components/stars-invoice";
 
 const InvoicePageComponent = () => {
   // Telegram Desktop adds confetti (bruh), so shadcn's background color interfere with them
-  useTransparentBodyBackground(WebApp.platform !== "tdesktop");
+  useTransparentBodyBackground(WebApp.platform === "tdesktop");
 
   return (
     <div className="flex flex-col gap-2">
