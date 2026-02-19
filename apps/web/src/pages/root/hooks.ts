@@ -17,7 +17,7 @@ export const useColorScheme = () => {
     return () => {
       WebApp.offEvent("themeChanged", syncColorScheme);
     };
-  });
+  }, []);
 
   return colorScheme;
 };
