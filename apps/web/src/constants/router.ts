@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { RootLayout } from "@/layouts/root";
 import { Accelerometer } from "@/pages/accelerometer";
 import { BiometricManagerPage } from "@/pages/biometric-manager";
+import { Buttons } from "@/pages/buttons";
 import { CloudStorage } from "@/pages/cloud-storage";
 import { DeviceOrientation } from "@/pages/device-orientation";
 import { DeviceStorage } from "@/pages/device-storage";
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
       {
         path: "/secure-storage",
         Component: SecureStorage,
+      },
+      {
+        path: "/buttons",
+        Component: Buttons,
       },
     ],
   },

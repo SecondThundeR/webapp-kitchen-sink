@@ -40,6 +40,10 @@ export const ROUTES_MAPPING = [
     title: "Secure Storage",
   },
   {
+    link: "/buttons",
+    title: "Buttons",
+  },
+  {
     link: "/invoice",
     title: "Invoices",
   },
