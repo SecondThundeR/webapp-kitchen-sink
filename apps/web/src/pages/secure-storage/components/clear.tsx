@@ -8,18 +8,23 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { useSecureStorage } from "../hooks";
 
 export const Clear = () => {
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleClear } = useSecureStorage();
+  const [isPending, setIsPending] = useState(false);
 
   const onClear = async () => {
+    setIsPending(true);
     try {
       await handleClear();
       setLastInvokeAt(new Date());
     } catch (e) {
-      toast.error(`Failed to clear items: ${e}`);
+      toast.error(`[clear]: ${e}`);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -34,8 +39,9 @@ export const Clear = () => {
         )}
       </CardHeader>
       <CardFooter>
-        <Button className="w-full" onClick={onClear}>
-          Execute
+        <Button className="w-full" onClick={onClear} disabled={isPending}>
+          {isPending && <Spinner data-icon="inline-start" />}
+          {isPending ? "Executing" : "Execute"}
         </Button>
       </CardFooter>
     </Card>

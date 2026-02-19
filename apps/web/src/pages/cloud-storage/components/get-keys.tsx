@@ -9,20 +9,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { useCloudStorage } from "../hooks";
 
 export const GetKeys = () => {
   const [keys, setKeys] = useState<string[] | null>(null);
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleGetKeys } = useCloudStorage();
+  const [isPending, setIsPending] = useState(false);
 
   const onGetKeys = async () => {
+    setIsPending(true);
+
     try {
       const keys = await handleGetKeys();
       setLastInvokeAt(new Date());
       setKeys(keys);
     } catch (e) {
-      toast.error(`Failed to get keys: ${e}`);
+      toast.error(`[getKeys]: ${e}`);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -42,8 +48,9 @@ export const GetKeys = () => {
         </CardContent>
       )}
       <CardFooter>
-        <Button className="w-full" onClick={onGetKeys}>
-          Execute
+        <Button className="w-full" onClick={onGetKeys} disabled={isPending}>
+          {isPending && <Spinner data-icon="inline-start" />}
+          {isPending ? "Executing" : "Execute"}
         </Button>
       </CardFooter>
     </Card>

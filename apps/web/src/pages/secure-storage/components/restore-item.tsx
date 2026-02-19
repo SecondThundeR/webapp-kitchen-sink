@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useSecureStorage } from "../hooks";
 
 export const RestoreItem = () => {
@@ -17,9 +18,10 @@ export const RestoreItem = () => {
   const [value, setValue] = useState<string | null>(null);
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleRestoreItem } = useSecureStorage();
+  const [isPending, setIsPending] = useState(false);
 
   const onRestoreItem = async () => {
-    if (!key) return;
+    setIsPending(true);
 
     try {
       const value = await handleRestoreItem(key);
@@ -27,7 +29,9 @@ export const RestoreItem = () => {
       setLastInvokeAt(new Date());
       setKey("");
     } catch (e) {
-      toast.error(`Failed to restore item "${key}": ${e}`);
+      toast.error(`[restoreItem]: ${e}`);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -51,8 +55,13 @@ export const RestoreItem = () => {
         />
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={onRestoreItem} disabled={!key}>
-          Execute
+        <Button
+          className="w-full"
+          onClick={onRestoreItem}
+          disabled={!key || isPending}
+        >
+          {isPending && <Spinner data-icon="inline-start" />}
+          {isPending ? "Executing" : "Execute"}
         </Button>
       </CardFooter>
     </Card>

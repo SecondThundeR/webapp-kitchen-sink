@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useDeviceStorage } from "../hooks";
 
 export const SetItem = () => {
@@ -17,9 +18,10 @@ export const SetItem = () => {
   const [value, setValue] = useState<string>("");
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleSetItem } = useDeviceStorage();
+  const [isPending, setIsPending] = useState(false);
 
   const onSetItem = async () => {
-    if (!key || !value) return;
+    setIsPending(true);
 
     try {
       await handleSetItem(key, value);
@@ -27,7 +29,9 @@ export const SetItem = () => {
       setKey("");
       setValue("");
     } catch (e) {
-      toast.error(`Failed to set "${value}" to "${key}": ${e}`);
+      toast.error(`[setItem]: ${e}`);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -59,9 +63,10 @@ export const SetItem = () => {
         <Button
           className="w-full"
           onClick={onSetItem}
-          disabled={!key || !value}
+          disabled={!key || !value || isPending}
         >
-          Execute
+          {isPending && <Spinner data-icon="inline-start" />}
+          {isPending ? "Executing" : "Execute"}
         </Button>
       </CardFooter>
     </Card>

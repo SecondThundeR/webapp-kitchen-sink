@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useCloudStorage } from "../hooks";
 
 export const GetItems = () => {
@@ -17,20 +18,23 @@ export const GetItems = () => {
   const [values, setValues] = useState<Record<string, string> | null>(null);
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleGetItems } = useCloudStorage();
+  const [isPending, setIsPending] = useState(false);
 
   const onGetItems = async () => {
-    if (!rawKeys) return;
-
-    const keys = rawKeys.split(",");
-    if (keys.length === 0) return;
+    setIsPending(true);
 
     try {
+      const keys = rawKeys.split(",");
+      if (keys.length === 0) return;
+
       const values = await handleGetItems(keys);
       setValues(values);
       setLastInvokeAt(new Date());
       setRawKeys("");
     } catch (e) {
-      toast.error(`Failed to get items "${keys.join('", "')}": ${e}`);
+      toast.error(`[getItems]: ${e}`);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -61,8 +65,13 @@ export const GetItems = () => {
         />
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={onGetItems} disabled={!rawKeys}>
-          Execute
+        <Button
+          className="w-full"
+          onClick={onGetItems}
+          disabled={!rawKeys || isPending}
+        >
+          {isPending && <Spinner data-icon="inline-start" />}
+          {isPending ? "Executing" : "Execute"}
         </Button>
       </CardFooter>
     </Card>

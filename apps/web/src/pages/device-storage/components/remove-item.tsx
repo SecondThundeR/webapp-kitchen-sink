@@ -10,22 +10,26 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { useDeviceStorage } from "../hooks";
 
 export const RemoveItem = () => {
   const [key, setKey] = useState<string>("");
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleRemoveItem } = useDeviceStorage();
+  const [isPending, setIsPending] = useState(false);
 
   const onRemoveItem = async () => {
-    if (!key) return;
+    setIsPending(true);
 
     try {
       await handleRemoveItem(key);
       setLastInvokeAt(new Date());
       setKey("");
     } catch (e) {
-      toast.error(`Failed to remove item "${key}": ${e}`);
+      toast.error(`[removeItem]: ${e}`);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -48,8 +52,13 @@ export const RemoveItem = () => {
         />
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={onRemoveItem} disabled={!key}>
-          Execute
+        <Button
+          className="w-full"
+          onClick={onRemoveItem}
+          disabled={!key || isPending}
+        >
+          {isPending && <Spinner data-icon="inline-start" />}
+          {isPending ? "Executing" : "Execute"}
         </Button>
       </CardFooter>
     </Card>
