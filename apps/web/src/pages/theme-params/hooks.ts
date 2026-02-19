@@ -26,26 +26,16 @@ export const useThemeParams = () => {
   return themeParams;
 };
 
-export const useBottomButtons = () => {
+export const useBottomButton = () => {
   useEffect(() => {
     WebApp.MainButton.setParams({
       text: "Main Button",
-      has_shine_effect: true,
       is_active: true,
       is_visible: true,
-      position: "top",
-    });
-    WebApp.SecondaryButton.setParams({
-      text: "Secondary Button",
-      has_shine_effect: false,
-      is_active: false,
-      is_visible: true,
-      position: "bottom",
     });
 
     return () => {
       WebApp.MainButton.hide();
-      WebApp.SecondaryButton.hide();
     };
   }, []);
 };

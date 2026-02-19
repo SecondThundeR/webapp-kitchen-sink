@@ -7,12 +7,12 @@ import {
   NON_CUSTOMIZABLE_THEME_FIELDS,
 } from "./constants";
 import { changeColorsTheme, resetColorsTheme } from "./helpers";
-import { useBottomButtons, useThemeParams } from "./hooks";
+import { useBottomButton, useThemeParams } from "./hooks";
 
 export const ThemeParamsPage = () => {
   const themeParams = useThemeParams();
 
-  useBottomButtons();
+  useBottomButton();
   useTransparentBodyBackground();
 
   const filteredCustomizableThemeFields = CUSTOMIZABLE_THEME_FIELDS.filter(
