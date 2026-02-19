@@ -20,10 +20,6 @@ export const ThemeCard = ({
   footerSlot,
   footerSlotClassName,
 }: ThemeCardProps) => {
-  if (!backgroundColor) {
-    return null;
-  }
-
   return (
     <Card>
       <CardHeader>
