@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const isDevelopment = env.NODE_ENV === "development";
 
-  let commitHash = "";
+  let commitHash: string;
 
   try {
     if (process.env.RAILWAY_GIT_COMMIT_SHA) {

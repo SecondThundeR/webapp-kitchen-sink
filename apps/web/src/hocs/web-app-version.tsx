@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { FrownIcon } from "lucide-react";
 import {
   Empty,
@@ -14,7 +15,7 @@ interface WithAppVersionOptions {
 }
 
 export function withWebAppVersion<P extends {}>(
-  WrappedComponent: React.ComponentType<P>,
+  WrappedComponent: ComponentType<P>,
   { version, enablePlaceholder }: WithAppVersionOptions,
 ) {
   return function WithVersionControlWrapper(props: P) {
