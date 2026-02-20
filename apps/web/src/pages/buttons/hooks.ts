@@ -80,6 +80,18 @@ export const useMainButton = () => {
   };
 
   useEffect(() => {
+    const onClick = () => {
+      toast.info("Main button was clicked");
+    };
+
+    WebApp.MainButton.onClick(onClick);
+
+    return () => {
+      WebApp.MainButton.offClick(onClick);
+    };
+  }, []);
+
+  useEffect(() => {
     return () => {
       WebApp.MainButton.setParams({
         color: false,
@@ -214,6 +226,18 @@ export const useSecondaryButton = () => {
   };
 
   useEffect(() => {
+    const onClick = () => {
+      toast.info("Secondary button was clicked");
+    };
+
+    WebApp.SecondaryButton.onClick(onClick);
+
+    return () => {
+      WebApp.SecondaryButton.offClick(onClick);
+    };
+  }, []);
+
+  useEffect(() => {
     return () => {
       WebApp.SecondaryButton.setParams({
         color: false,
@@ -269,7 +293,7 @@ export const useSettingsButton = () => {
 
   useEffect(() => {
     const onClick = () => {
-      toast.info("Settings button was click");
+      toast.info("Settings button was clicked");
     };
 
     WebApp.SettingsButton.onClick(onClick);
