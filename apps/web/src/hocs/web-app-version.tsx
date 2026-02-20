@@ -1,5 +1,5 @@
-import type { ComponentType } from "react";
 import { FrownIcon } from "lucide-react";
+import type { ComponentType } from "react";
 import {
   Empty,
   EmptyDescription,

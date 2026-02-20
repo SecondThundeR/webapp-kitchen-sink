@@ -1,7 +1,7 @@
+import { WebAppVersionGuard } from "@/guard/web-app-version";
 import { MainButton } from "./components/main-button";
 import { SecondaryButton } from "./components/secondary-button";
 import { SettingsButton } from "./components/settings-button";
-import { WebAppVersionGuard } from "@/guard/web-app-version";
 
 export const Buttons = () => {
   return (

@@ -1,3 +1,4 @@
+import { DynamicColorCard } from "@/components/dynamic-color-card";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,9 +11,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DynamicColorCard } from "@/components/dynamic-color-card";
-import { useSecondaryButton } from "../hooks";
 import { WebAppVersionGuard } from "@/guard/web-app-version";
+import { useSecondaryButton } from "../hooks";
 
 const POSITIONS = ["top", "right", "bottom", "left"] as const;
 

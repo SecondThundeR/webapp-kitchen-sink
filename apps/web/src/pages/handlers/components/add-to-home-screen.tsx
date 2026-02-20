@@ -12,8 +12,8 @@ import { WebApp } from "@/lib/web-app";
 
 export const AddToHomeScreen = () => {
   const [homeScreenStatus, setHomeScreenStatus] = useState("unknown");
-  const [lastStatusCheckTimestamp, setLastStatusCheckTimestamp] = useState(
-    () => Date.now(),
+  const [lastStatusCheckTimestamp, setLastStatusCheckTimestamp] = useState(() =>
+    Date.now(),
   );
 
   const syncState = useEffectEvent(() => {

@@ -1,7 +1,7 @@
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
 import { isVersionAtLeastFilter } from "@/utils/array";
-import { DynamicColorCard } from "../../components/dynamic-color-card";
 import { ColorCard } from "../../components/color-card";
+import { DynamicColorCard } from "../../components/dynamic-color-card";
 import {
   CUSTOMIZABLE_THEME_FIELDS,
   NON_CUSTOMIZABLE_THEME_FIELDS,

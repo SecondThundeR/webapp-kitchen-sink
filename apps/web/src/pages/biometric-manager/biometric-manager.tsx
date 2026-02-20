@@ -38,15 +38,20 @@ const BiometricManagerPageComponent = () => {
     updateToken,
   } = useBiometricManager();
 
-  const [logs, setLogs] = useState<{timestamp: number, message: string }[]>([]);
+  const [logs, setLogs] = useState<{ timestamp: number; message: string }[]>(
+    [],
+  );
   const [biometricToken, setBiometricToken] = useState("");
   const [retrievedSecret, setRetrievedSecret] = useState<string | null>(null);
 
   const addLog = (msg: string) =>
-    setLogs((prev) => [{
-      timestamp: Date.now(),
-      message: msg
-    }, ...prev]);
+    setLogs((prev) => [
+      {
+        timestamp: Date.now(),
+        message: msg,
+      },
+      ...prev,
+    ]);
 
   if (!isInited) {
     return (
@@ -289,7 +294,9 @@ const BiometricManagerPageComponent = () => {
           <span className="opacity-50">{"// Events will appear here..."}</span>
         )}
         {logs.map(({ timestamp, message }) => (
-          <div key={timestamp}>[{new Date().toLocaleTimeString()}] {message}</div>
+          <div key={timestamp}>
+            [{new Date().toLocaleTimeString()}] {message}
+          </div>
         ))}
       </div>
     </div>

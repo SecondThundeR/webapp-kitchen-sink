@@ -1,10 +1,10 @@
+import { DynamicColorCard } from "@/components/dynamic-color-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { WebApp } from "@/lib/web-app";
-import { DynamicColorCard } from "@/components/dynamic-color-card";
 import { useMainButton } from "../hooks";
 
 export const MainButton = () => {

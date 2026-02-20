@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useState } from "react";
-import { WebApp } from "@/lib/web-app";
 import { Toaster } from "@/components/ui/sonner";
+import { WebApp } from "@/lib/web-app";
 
 const ADDITIONAL_OFFSET = 8;
 
@@ -8,7 +8,11 @@ export const SonnerProvider = () => {
   const [safeAreaTop, setSafeAreaTop] = useState(0);
 
   const onSafeAreaChange = useEffectEvent(() => {
-    setSafeAreaTop(WebApp.safeAreaInset.top + WebApp.contentSafeAreaInset.top + ADDITIONAL_OFFSET);
+    setSafeAreaTop(
+      WebApp.safeAreaInset.top +
+        WebApp.contentSafeAreaInset.top +
+        ADDITIONAL_OFFSET,
+    );
   });
 
   useEffect(() => {
