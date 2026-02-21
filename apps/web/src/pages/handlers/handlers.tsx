@@ -1,4 +1,5 @@
 import { FrownIcon, XIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router";
 import {
   Empty,
@@ -12,11 +13,32 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { WebApp } from "@/lib/web-app";
 import { isVersionAtLeastFilter } from "@/utils/array";
 import { HANDLERS_MAPPING } from "./constants";
 
 export const HandlersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const isStartParamProcessed = useRef(false);
+
+  useEffect(() => {
+    if (isStartParamProcessed.current) return;
+
+    const startParam = WebApp.initDataUnsafe.start_param;
+
+    if (startParam) {
+      const query = startParam.replace(/_/g, " ");
+
+      setSearchParams((prev) => {
+        if (!prev.get("q")) {
+          prev.set("q", query);
+        }
+        return prev;
+      });
+    }
+
+    isStartParamProcessed.current = true;
+  }, [setSearchParams]);
 
   const searchQueryData = searchParams.get("q");
   const filteredHandlersByVersion = HANDLERS_MAPPING.filter(
