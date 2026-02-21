@@ -1,5 +1,6 @@
 import { BanIcon, ScanFaceIcon } from "lucide-react";
 import { useState } from "react";
+import { LogsViewer } from "@/components/logs-viewer";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { withWebAppVersion } from "@/hocs/web-app-version";
+import { useLogs } from "@/hooks/use-logs";
 import { booleanToYesNoString } from "@/utils/format";
 import { useBiometricManager } from "./hooks";
 
@@ -38,20 +40,9 @@ const BiometricManagerPageComponent = () => {
     updateToken,
   } = useBiometricManager();
 
-  const [logs, setLogs] = useState<{ timestamp: number; message: string }[]>(
-    [],
-  );
+  const [logs, addLog] = useLogs();
   const [biometricToken, setBiometricToken] = useState("");
   const [retrievedSecret, setRetrievedSecret] = useState<string | null>(null);
-
-  const addLog = (msg: string) =>
-    setLogs((prev) => [
-      {
-        timestamp: Date.now(),
-        message: msg,
-      },
-      ...prev,
-    ]);
 
   if (!isInited) {
     return (
@@ -289,16 +280,7 @@ const BiometricManagerPageComponent = () => {
         </Empty>
       )}
       <h2 className="text-xl">Logs</h2>
-      <div className="h-32 overflow-y-auto bg-black text-green-400 p-2 text-xs font-mono rounded-md">
-        {logs.length === 0 && (
-          <span className="opacity-50">{"// Events will appear here..."}</span>
-        )}
-        {logs.map(({ timestamp, message }) => (
-          <div key={timestamp}>
-            [{new Date().toLocaleTimeString()}] {message}
-          </div>
-        ))}
-      </div>
+      <LogsViewer logs={logs} />
     </div>
   );
 };

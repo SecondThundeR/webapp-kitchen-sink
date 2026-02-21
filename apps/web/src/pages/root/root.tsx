@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { WebApp } from "@/lib/web-app";
 import { booleanToYesNoString } from "@/utils/format";
 import { InitDataViewer } from "./components/init-data-viewer";
+import { IsActiveViewer } from "./components/is-active-viewer";
 import { SafeAreaViewer } from "./components/safe-area-viewer";
 import { ROUTES_MAPPING } from "./constants";
 import { useColorScheme, useViewportHeight } from "./hooks";
@@ -37,6 +38,7 @@ export const RootPage = () => {
         </CardContent>
       </Card>
       <SafeAreaViewer />
+      <IsActiveViewer />
       <h2 className="text-xl">Playgrounds</h2>
       <div className="grid grid-cols-2 gap-2">
         {ROUTES_MAPPING.map(({ link, title, span }) => (
@@ -47,7 +49,7 @@ export const RootPage = () => {
               [`col-span-${span}`]: Boolean(span),
             })}
           >
-            <Card className={"h-full"}>
+            <Card className="h-full">
               <CardHeader>
                 <CardTitle>{title}</CardTitle>
               </CardHeader>

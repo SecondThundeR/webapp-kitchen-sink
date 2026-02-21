@@ -8,7 +8,7 @@ export const Close = () => {
       <CardHeader>
         <CardTitle>close</CardTitle>
       </CardHeader>
-      <CardFooter className="flex flex-wrap gap-2">
+      <CardFooter>
         <Button
           className="w-full"
           onClick={() => {
