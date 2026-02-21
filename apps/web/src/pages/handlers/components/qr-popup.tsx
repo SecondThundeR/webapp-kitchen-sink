@@ -30,7 +30,7 @@ export const QRPopup = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>QR Popup</CardTitle>
+        <CardTitle>showScanQrPopup</CardTitle>
         {qrData && (
           <CardDescription>Latest scanned QR data: {qrData}</CardDescription>
         )}

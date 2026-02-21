@@ -5,6 +5,11 @@ import { Fullscreen } from "./components/fullscreen";
 import { OrientationLocked } from "./components/orientation-locked";
 import { QRPopup } from "./components/qr-popup";
 import { RequestContact } from "./components/request-contact";
+import { ShareToStory } from "./components/share-to-story";
+import { ShowAlert } from "./components/show-alert";
+import { ShowConfirm } from "./components/show-confirm";
+import { ShowPopup } from "./components/show-popup";
+import { SwitchInlineQuery } from "./components/switch-inline-query";
 import { VerticalSwipes } from "./components/vertical-swipes";
 
 export const HANDLERS_MAPPING = [
@@ -24,7 +29,7 @@ export const HANDLERS_MAPPING = [
     Component: AddToHomeScreen,
   },
   {
-    name: "QR Popup",
+    name: "showScanQrPopup",
     version: "6.4",
     Component: QRPopup,
   },
@@ -43,8 +48,33 @@ export const HANDLERS_MAPPING = [
     Component: OrientationLocked,
   },
   {
-    name: "Request Contact",
+    name: "requestContact",
     version: "6.9",
     Component: RequestContact,
+  },
+  {
+    name: "switchInlineQuery",
+    version: "6.7",
+    Component: SwitchInlineQuery,
+  },
+  {
+    name: "showPopup",
+    version: "6.2",
+    Component: ShowPopup,
+  },
+  {
+    name: "showConfirm",
+    version: "6.2",
+    Component: ShowConfirm,
+  },
+  {
+    name: "showAlert",
+    version: "6.2",
+    Component: ShowAlert,
+  },
+  {
+    name: "shareToStory",
+    version: "7.8",
+    Component: ShareToStory,
   },
 ];

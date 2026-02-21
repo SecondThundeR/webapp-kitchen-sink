@@ -15,7 +15,7 @@ export const Close = () => {
             WebApp.close();
           }}
         >
-          Close mini app
+          Execute
         </Button>
       </CardFooter>
     </Card>

@@ -30,7 +30,7 @@ export const RequestContact = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Request Contact</CardTitle>
+        <CardTitle>requestContact</CardTitle>
         {lastRequestStatus && (
           <CardDescription>
             Last request status: {lastRequestStatus}
@@ -39,7 +39,7 @@ export const RequestContact = () => {
       </CardHeader>
       <CardFooter className="flex flex-wrap gap-2">
         <Button className="w-full" onClick={() => WebApp.requestContact()}>
-          Request contact
+          Execute
         </Button>
       </CardFooter>
     </Card>
