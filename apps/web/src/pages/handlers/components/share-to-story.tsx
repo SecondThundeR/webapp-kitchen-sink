@@ -63,8 +63,8 @@ export const ShareToStory = () => {
               id="text"
               value={storyText}
               onChange={(e) => setStoryText(e.currentTarget.value)}
-              maxLength={200}
               placeholder="Enter story text"
+              maxLength={200}
             />
           )}
         </Field>
@@ -76,6 +76,7 @@ export const ShareToStory = () => {
                 value={widgetName}
                 onChange={(e) => setWidgetName(e.currentTarget.value)}
                 placeholder="Enter widget name"
+                maxLength={48}
               />
             </Field>
             <Field>
@@ -94,13 +95,14 @@ export const ShareToStory = () => {
           className="w-full"
           onClick={() =>
             WebApp.shareToStory(mediaUrl, {
-              text: storyText,
-              widget_link: isUserPremium
-                ? {
-                    name: widgetName,
-                    url: widgetUrl,
-                  }
-                : undefined,
+              text: storyText || undefined,
+              widget_link:
+                isUserPremium && widgetUrl
+                  ? {
+                      name: widgetName,
+                      url: widgetUrl,
+                    }
+                  : undefined,
             })
           }
           disabled={!mediaUrl}
