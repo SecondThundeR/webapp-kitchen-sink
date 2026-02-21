@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { WebApp } from "@/lib/web-app";
 import { booleanToYesNoString } from "@/utils/format";
 import { InitDataViewer } from "./components/init-data-viewer";
@@ -38,9 +39,15 @@ export const RootPage = () => {
       <SafeAreaViewer />
       <h2 className="text-xl">Playgrounds</h2>
       <div className="grid grid-cols-2 gap-2">
-        {ROUTES_MAPPING.map(({ link, title }) => (
-          <Link key={link} to={link}>
-            <Card className="h-full">
+        {ROUTES_MAPPING.map(({ link, title, span }) => (
+          <Link
+            key={link}
+            to={link}
+            className={cn({
+              [`col-span-${span}`]: Boolean(span),
+            })}
+          >
+            <Card className={"h-full"}>
               <CardHeader>
                 <CardTitle>{title}</CardTitle>
               </CardHeader>
