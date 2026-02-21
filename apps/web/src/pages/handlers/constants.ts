@@ -5,6 +5,8 @@ import { Fullscreen } from "./components/fullscreen";
 import { OrientationLocked } from "./components/orientation-locked";
 import { QRPopup } from "./components/qr-popup";
 import { RequestContact } from "./components/request-contact";
+import { SetEmojiStatus } from "./components/set-emoji-status";
+import { ShareMessage } from "./components/share-message";
 import { ShareToStory } from "./components/share-to-story";
 import { ShowAlert } from "./components/show-alert";
 import { ShowConfirm } from "./components/show-confirm";
@@ -76,5 +78,15 @@ export const HANDLERS_MAPPING = [
     name: "shareToStory",
     version: "7.8",
     Component: ShareToStory,
+  },
+  {
+    name: "shareMessage",
+    version: "8.0",
+    Component: ShareMessage,
+  },
+  {
+    name: "shareMessage",
+    version: "8.0",
+    Component: SetEmojiStatus,
   },
 ];

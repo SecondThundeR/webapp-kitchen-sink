@@ -6,6 +6,12 @@ const composer = new Composer<Context>();
 
 const feature = composer.chatType("private");
 
+feature.on("message", logHandle("unhandled-message"), (ctx) => {
+  return ctx.reply(`\`\`\`\n${JSON.stringify(ctx.message, null, 2)}\`\`\`\n`, {
+    parse_mode: "MarkdownV2",
+  });
+});
+
 feature.on("callback_query", logHandle("unhandled-callback-query"), (ctx) => {
   return ctx.answerCallbackQuery();
 });

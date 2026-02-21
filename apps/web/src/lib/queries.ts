@@ -41,3 +41,20 @@ export async function createStarsInvoiceLink(body: CreateStarsInvoiceLinkData) {
 
   return data;
 }
+
+type SavePreparedInlineMessageData = NonNullable<
+  Parameters<typeof api.api.message.savePreparedInlineMessage.post>[0]
+>;
+
+export async function savePreparedInlineMessage(
+  body: SavePreparedInlineMessageData,
+) {
+  const { data, error } =
+    await api.api.message.savePreparedInlineMessage.post(body);
+
+  if (error) {
+    return Promise.reject(error.value);
+  }
+
+  return data;
+}
