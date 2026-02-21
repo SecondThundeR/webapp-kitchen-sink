@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { withWebAppVersion } from "@/hocs/web-app-version";
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
 import { WebApp } from "@/lib/web-app";
-// import { CurrencyInvoice } from "./components/currency-invoice";
+import { CurrencyInvoice } from "./components/currency-invoice";
 import { StarsInvoice } from "./components/stars-invoice";
 
 const InvoicePageComponent = () => {
@@ -18,14 +18,14 @@ const InvoicePageComponent = () => {
         <Tabs defaultValue="stars">
           <TabsList variant="line">
             <TabsTrigger value="stars">Stars</TabsTrigger>
-            {/* <TabsTrigger value="currency">Currency</TabsTrigger> */}
+            <TabsTrigger value="currency">Currency</TabsTrigger>
           </TabsList>
           <TabsContent value="stars">
             <StarsInvoice />
           </TabsContent>
-          {/* <TabsContent value="currency">
+          <TabsContent value="currency">
             <CurrencyInvoice />
-          </TabsContent> */}
+          </TabsContent>
         </Tabs>
       </div>
     </div>

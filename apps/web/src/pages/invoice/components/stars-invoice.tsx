@@ -1,5 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { InfoIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -22,6 +24,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { useInvoice } from "../hooks";
 import { type StarsInvoiceSchema, starsInvoiceSchema } from "../schemas";
+import { PricesInputs } from "./prices-inputs";
 
 export const StarsInvoice = () => {
   const {
@@ -46,10 +49,11 @@ export const StarsInvoice = () => {
 
   return (
     <form
-      id="invoice-form"
+      id="stars-invoice-form"
       onSubmit={form.handleSubmit(handleStarsPayment, console.error)}
     >
       <div className="p-1 flex flex-col gap-4">
+        <h2 className="text-xl">Required parameters</h2>
         <FieldGroup className="gap-3">
           <Controller
             name="title"
@@ -97,47 +101,9 @@ export const StarsInvoice = () => {
               </Field>
             )}
           />
-          <Controller
-            name="prices.0.label"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="title">Label</FieldLabel>
-                <Input
-                  {...field}
-                  id="label"
-                  aria-invalid={fieldState.invalid}
-                  placeholder="Enter label"
-                  autoComplete="off"
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
-          <Controller
-            name="prices.0.amount"
-            control={form.control}
-            render={({ field: { onChange, ...field }, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="title">Price</FieldLabel>
-                <Input
-                  {...field}
-                  id="amount"
-                  type="number"
-                  aria-invalid={fieldState.invalid}
-                  placeholder="Enter price"
-                  autoComplete="off"
-                  onChange={(e) => onChange(e.target.valueAsNumber)}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
+          <PricesInputs control={form.control} singleItem />
           <FieldSeparator />
+          <h2 className="text-xl">Optional parameters</h2>
           <Controller
             name="is_subscription_enabled"
             control={form.control}
@@ -209,7 +175,13 @@ export const StarsInvoice = () => {
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter photo size in bytes"
                   autoComplete="off"
-                  onChange={(e) => onChange(e.target.valueAsNumber)}
+                  onChange={(e) =>
+                    onChange(
+                      Number.isNaN(e.target.valueAsNumber)
+                        ? undefined
+                        : e.target.valueAsNumber,
+                    )
+                  }
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -230,7 +202,13 @@ export const StarsInvoice = () => {
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter photo width"
                   autoComplete="off"
-                  onChange={(e) => onChange(e.target.valueAsNumber)}
+                  onChange={(e) =>
+                    onChange(
+                      Number.isNaN(e.target.valueAsNumber)
+                        ? undefined
+                        : e.target.valueAsNumber,
+                    )
+                  }
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -251,7 +229,13 @@ export const StarsInvoice = () => {
                   aria-invalid={fieldState.invalid}
                   placeholder="Enter photo height"
                   autoComplete="off"
-                  onChange={(e) => onChange(e.target.valueAsNumber)}
+                  onChange={(e) =>
+                    onChange(
+                      Number.isNaN(e.target.valueAsNumber)
+                        ? undefined
+                        : e.target.valueAsNumber,
+                    )
+                  }
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />
@@ -260,11 +244,18 @@ export const StarsInvoice = () => {
             )}
           />
         </FieldGroup>
-        <Button
-          form="invoice-form"
-          type="submit"
-          disabled={isStarsInvoicePending}
-        >
+        <Alert>
+          <InfoIcon />
+          <AlertTitle>Heads up!</AlertTitle>
+          <AlertDescription>
+            There is no test payment provider like for regular currency
+            invoices, so you will spend your own stars
+            <br />
+            However, right after a successful payment, the bot will instantly
+            refund your payment (even if it is a subscription)
+          </AlertDescription>
+        </Alert>
+        <Button type="submit" disabled={isStarsInvoicePending}>
           {isStarsInvoiceCreating && <Spinner data-icon="inline-start" />}
           {isStarsInvoiceCreating ? "Creating invoice..." : "Create invoice"}
         </Button>

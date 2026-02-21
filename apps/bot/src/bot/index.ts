@@ -9,6 +9,7 @@ import type { Logger } from "../logger";
 import type { Context } from "./context";
 import { contactFeature } from "./features/contact";
 import { paymentFeature } from "./features/payment";
+import { shippingFeature } from "./features/shipping";
 import { startFeature } from "./features/start";
 import { unhandledFeature } from "./features/unhandled";
 import { errorHandler } from "./handlers/error";
@@ -63,6 +64,7 @@ export function createBot(
   protectedBot.use(startFeature);
   protectedBot.use(paymentFeature);
   protectedBot.use(contactFeature);
+  protectedBot.use(shippingFeature);
 
   // must be the last handler
   protectedBot.use(unhandledFeature);

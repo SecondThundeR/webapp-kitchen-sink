@@ -45,7 +45,7 @@ export const ROUTES_MAPPING = [
   },
   {
     link: "/invoice",
-    title: "Invoices",
+    title: "Invoice",
   },
   {
     link: "/handlers",

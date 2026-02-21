@@ -60,6 +60,20 @@ export const useInvoice = () => {
     if ("currency" in data) {
       const result = await mutateInvoiceAsync({
         ...data,
+        suggested_tip_amounts: data.suggested_tip_amounts
+          ? [
+              ...data.suggested_tip_amounts
+                .map(({ tip }) => tip * 100)
+                .sort((a, b) => a - b),
+            ]
+          : undefined,
+        max_tip_amount: data.max_tip_amount
+          ? data.max_tip_amount * 100
+          : undefined,
+        prices: data.prices.map((price) => ({
+          ...price,
+          amount: price.amount * 100,
+        })),
         initData: WebApp.initData,
       });
       url = result.url;
