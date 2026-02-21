@@ -7,7 +7,11 @@ export function useTelegramBackButton() {
   const navigate = useNavigate();
 
   const handleBackButton = useEffectEvent(() => {
-    navigate(-1);
+    if (window.history.state?.idx === 0) {
+      navigate("/", { replace: true });
+    } else {
+      navigate(-1);
+    }
   });
 
   useEffect(() => {
