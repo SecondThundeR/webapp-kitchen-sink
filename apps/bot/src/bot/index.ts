@@ -8,6 +8,7 @@ import type { Config } from "../config";
 import type { Logger } from "../logger";
 import type { Context } from "./context";
 import { contactFeature } from "./features/contact";
+import { minimizedFeature } from "./features/minimized";
 import { paymentFeature } from "./features/payment";
 import { shippingFeature } from "./features/shipping";
 import { startFeature } from "./features/start";
@@ -62,6 +63,7 @@ export function createBot(
 
   // Handlers
   protectedBot.use(startFeature);
+  protectedBot.use(minimizedFeature);
   protectedBot.use(paymentFeature);
   protectedBot.use(contactFeature);
   protectedBot.use(shippingFeature);

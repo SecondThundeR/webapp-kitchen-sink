@@ -1,18 +1,16 @@
 import { Link } from "react-router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { WebApp } from "@/lib/web-app";
-import { booleanToYesNoString } from "@/utils/format";
 import { InitDataViewer } from "./components/init-data-viewer";
 import { IsActiveViewer } from "./components/is-active-viewer";
 import { SafeAreaViewer } from "./components/safe-area-viewer";
+import { ViewportViewer } from "./components/viewport-viewer";
 import { ROUTES_MAPPING } from "./constants";
-import { useColorScheme, useViewportHeight } from "./hooks";
+import { useColorScheme } from "./hooks";
 
 export const RootPage = () => {
   const colorScheme = useColorScheme();
-  const { isStateStable, viewportHeight, viewportStableHeight } =
-    useViewportHeight();
 
   return (
     <div className="flex flex-col gap-2">
@@ -27,26 +25,20 @@ export const RootPage = () => {
       </div>
       <h2 className="text-xl">Quick Info</h2>
       <InitDataViewer />
-      <Card>
-        <CardHeader>
-          <CardTitle className="wrap-anywhere">Viewport</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>isStateStable: {booleanToYesNoString(isStateStable)}</p>
-          <p>height: {viewportHeight}</p>
-          <p>stableHeight: {viewportStableHeight}</p>
-        </CardContent>
-      </Card>
+      <ViewportViewer />
       <SafeAreaViewer />
       <IsActiveViewer />
       <h2 className="text-xl">Playgrounds</h2>
       <div className="grid grid-cols-2 gap-2">
-        {ROUTES_MAPPING.map(({ link, title, span }) => (
+        {ROUTES_MAPPING.map(({ link, title }, index) => (
           <Link
             key={link}
             to={link}
             className={cn({
-              [`col-span-${span}`]: Boolean(span),
+              "col-span-2":
+                // Is last element and amount of elements is not even
+                index === ROUTES_MAPPING.length - 1 &&
+                ROUTES_MAPPING.length % 2 !== 0,
             })}
           >
             <Card className="h-full">

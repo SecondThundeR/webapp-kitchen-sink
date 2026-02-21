@@ -22,7 +22,7 @@ export const useColorScheme = () => {
   return colorScheme;
 };
 
-export const useViewportHeight = () => {
+export const useViewport = () => {
   const [isStateStable, setIsStateStable] = useState(true);
   const [viewportHeight, setViewportHeight] = useState(
     () => WebApp.viewportHeight,
@@ -30,6 +30,7 @@ export const useViewportHeight = () => {
   const [viewportStableHeight, setViewportStableHeight] = useState(
     () => WebApp.viewportStableHeight,
   );
+  const [isExpanded, setIsExpanded] = useState(() => WebApp.isExpanded);
 
   const handleViewportChanged: ViewportChangedCallback = useEffectEvent(
     ({ isStateStable }) => {
@@ -38,6 +39,9 @@ export const useViewportHeight = () => {
         setViewportStableHeight(WebApp.viewportHeight);
       }
       setIsStateStable(isStateStable);
+      if (isExpanded !== WebApp.isExpanded) {
+        setIsExpanded(WebApp.isExpanded);
+      }
     },
   );
 
@@ -50,6 +54,7 @@ export const useViewportHeight = () => {
   }, []);
 
   return {
+    isExpanded,
     isStateStable,
     viewportHeight,
     viewportStableHeight,

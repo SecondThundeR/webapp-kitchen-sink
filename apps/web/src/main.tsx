@@ -8,11 +8,17 @@ import "./index.css";
 import App from "./App.tsx";
 import { Providers } from "./providers/providers.tsx";
 
-WebApp.expand();
 WebApp.ready();
+
+const urlParams = new URLSearchParams(window.location.search);
+const mode = urlParams.get("mode");
 
 if (["ios", "android"].includes(WebApp.platform)) {
   eruda.init();
+}
+
+if (mode !== "minimized") {
+  WebApp.expand();
 }
 
 createRoot(document.getElementById("root") as HTMLDivElement).render(

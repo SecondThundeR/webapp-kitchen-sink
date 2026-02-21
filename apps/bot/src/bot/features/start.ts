@@ -12,7 +12,7 @@ const composer = new Composer<Context>();
 const feature = composer.chatType("private");
 
 feature.command("start", logHandle("command-start"), (ctx) => {
-  return ctx.reply("Hello!", {
+  return ctx.reply("Open mini-app with WebApp.expand() call on launch", {
     reply_markup: webAppKeyboard,
   });
 });

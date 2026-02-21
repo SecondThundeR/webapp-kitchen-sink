@@ -50,6 +50,5 @@ export const ROUTES_MAPPING = [
   {
     link: "/handlers",
     title: "Handlers",
-    span: 2,
   },
 ];
