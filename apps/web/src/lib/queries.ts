@@ -58,3 +58,13 @@ export async function savePreparedInlineMessage(
 
   return data;
 }
+
+export async function getTestEmojiSet() {
+  const { data, error } = await api.api.emojis.getTestEmojiSet.get();
+
+  if (error) {
+    return Promise.reject(error.value);
+  }
+
+  return data;
+}

@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
+import { EmojiGrid } from "@/components/custom-emoji-grid";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,63 +19,81 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { getTestEmojiSet } from "@/lib/queries";
 import { WebApp } from "@/lib/web-app";
 
-const COPILOT_EMOJI_ID = "5372937764411031477";
 const isUserPremium = WebApp.initDataUnsafe.user?.is_premium ?? false;
 
 export const SetEmojiStatus = () => {
   const [isTemp, setIsTemp] = useState(false);
   const [duration, setDuration] = useState(0);
+  const [selectedEmojiId, setSelectedEmojiId] = useState("");
+
+  const { data } = useQuery({
+    queryKey: ["getTestEmojiSet"],
+    queryFn: () => getTestEmojiSet(),
+    staleTime: 1000 * 60 * 60 * 24,
+    enabled: isUserPremium,
+  });
+  const emojis = data?.emojis ?? [];
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>setEmojiStatus</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-6">
         {isUserPremium ? (
-          <FieldGroup>
-            <Field orientation="horizontal">
-              <Checkbox
-                id="is-temporary-status"
-                name="is-temporary-status"
-                checked={isTemp}
-                onCheckedChange={(checked) => {
-                  if (checked === "indeterminate") return;
-                  setIsTemp(checked);
-                }}
-              />
-              <FieldContent>
-                <FieldLabel htmlFor="is-temporary-status">
-                  Set temporary emoji status
+          <>
+            <EmojiGrid
+              emojis={emojis}
+              currentEmojiId={selectedEmojiId}
+              onClick={(id) => setSelectedEmojiId(id)}
+            />
+            <FieldGroup className="gap-6">
+              <Field orientation="horizontal">
+                <Checkbox
+                  id="is-temporary-status"
+                  name="is-temporary-status"
+                  checked={isTemp}
+                  onCheckedChange={(checked) => {
+                    if (checked === "indeterminate") return;
+                    setIsTemp(checked);
+                  }}
+                />
+                <FieldContent>
+                  <FieldLabel htmlFor="is-temporary-status">
+                    Set temporary emoji status
+                  </FieldLabel>
+                  <FieldDescription>
+                    By clicking this checkbox, emoji status will expire after
+                    specified amount of seconds
+                  </FieldDescription>
+                </FieldContent>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="duration">
+                  Emoji status duration
                 </FieldLabel>
                 <FieldDescription>
-                  By clicking this checkbox, emoji status will expire after
-                  specified amount of seconds
+                  Provide number of seconds after which new emoji status will
+                  expire
                 </FieldDescription>
-              </FieldContent>
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="duration">Emoji status duration</FieldLabel>
-              <FieldDescription>
-                Provide number of seconds after which new emoji status will
-                expire
-              </FieldDescription>
-              <Input
-                id="duration"
-                placeholder="Enter duration"
-                type="number"
-                value={duration}
-                onChange={(e) => {
-                  Number.isNaN(e.currentTarget.valueAsNumber)
-                    ? setDuration(0)
-                    : setDuration(e.currentTarget.valueAsNumber);
-                }}
-                disabled={!isTemp}
-              />
-            </Field>
-          </FieldGroup>
+                <Input
+                  id="duration"
+                  placeholder="Enter duration"
+                  type="number"
+                  value={duration}
+                  onChange={(e) => {
+                    Number.isNaN(e.currentTarget.valueAsNumber)
+                      ? setDuration(0)
+                      : setDuration(e.currentTarget.valueAsNumber);
+                  }}
+                  disabled={!isTemp}
+                />
+              </Field>
+            </FieldGroup>
+          </>
         ) : (
           <p>Telegram Premium required to use this method</p>
         )}
@@ -84,7 +104,7 @@ export const SetEmojiStatus = () => {
             className="w-full"
             onClick={() =>
               WebApp.setEmojiStatus(
-                COPILOT_EMOJI_ID,
+                selectedEmojiId,
                 isTemp
                   ? {
                       duration,
@@ -99,8 +119,9 @@ export const SetEmojiStatus = () => {
                 },
               )
             }
+            disabled={!selectedEmojiId}
           >
-            Set Emoji Status
+            {selectedEmojiId ? "Set Emoji Status" : "Select custom emoji"}
           </Button>
           <Button
             className="w-full"

@@ -85,7 +85,7 @@ export const HANDLERS_MAPPING = [
     Component: ShareMessage,
   },
   {
-    name: "shareMessage",
+    name: "setEmojiStatus",
     version: "8.0",
     Component: SetEmojiStatus,
   },
