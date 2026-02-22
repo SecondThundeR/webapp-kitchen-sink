@@ -2,6 +2,8 @@ import { AddToHomeScreen } from "./components/add-to-home-screen";
 import { Close } from "./components/close";
 import { ClosingConfirmation } from "./components/closing-confirmation";
 import { Fullscreen } from "./components/fullscreen";
+import { OpenLink } from "./components/open-link";
+import { OpenTelegramLink } from "./components/open-telegram-link";
 import { OrientationLocked } from "./components/orientation-locked";
 import { QRPopup } from "./components/qr-popup";
 import { RequestContact } from "./components/request-contact";
@@ -18,6 +20,14 @@ export const HANDLERS_MAPPING = [
   {
     name: "close",
     Component: Close,
+  },
+  {
+    name: "openTelegramLink",
+    Component: OpenTelegramLink,
+  },
+  {
+    name: "openLink",
+    Component: OpenLink,
   },
   {
     name: "isClosingConfirmationEnabled",

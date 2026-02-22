@@ -11,21 +11,21 @@ import { useState } from "react";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-export const SendData = () => {
-  const [data, setData] = useState("");
+export const OpenTelegramLink = () => {
+  const [link, setLink] = useState("");
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>sendData</CardTitle>
+        <CardTitle>openTelegramLink</CardTitle>
       </CardHeader>
       <CardContent>
         <Field>
           <Input
-            id="data"
-            value={data}
-            onChange={(e) => setData(e.currentTarget.value)}
-            placeholder="Enter data"
+            id="link"
+            value={link}
+            onChange={(e) => setLink(e.currentTarget.value)}
+            placeholder="Enter link"
             maxLength={4096}
           />
         </Field>
@@ -34,9 +34,9 @@ export const SendData = () => {
         <Button
           className="w-full"
           onClick={() => {
-            WebApp.sendData(data);
+            WebApp.openTelegramLink(link);
           }}
-          disabled={!data}
+          disabled={!link}
         >
           Execute
         </Button>
