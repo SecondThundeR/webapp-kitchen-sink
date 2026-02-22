@@ -161,21 +161,6 @@ export const SetEmojiStatus = () => {
           </Button>
           <Button
             className="w-full"
-            onClick={() =>
-              WebApp.setEmojiStatus("", undefined, (success) => {
-                if (success) {
-                  toast.success("Emoji status was successfully reset");
-                } else {
-                  toast.error("Failed to reset emoji status");
-                }
-              })
-            }
-            disabled={!selectedEmojiId}
-          >
-            Reset emoji status
-          </Button>
-          <Button
-            className="w-full"
             onClick={() => {
               WebApp.requestEmojiStatusAccess((success) => {
                 if (success) {
