@@ -21,4 +21,5 @@ export const env = {
   BOT_TOKEN: Bun.env.BOT_TOKEN,
   PORT: Number(Bun.env.PORT ?? 3000),
   FRONTEND_URL: Bun.env.FRONTEND_URL,
+  PAYMENT_PROVIDER_TOKEN: Bun.env.PAYMENT_PROVIDER_TOKEN,
 } as const;

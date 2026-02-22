@@ -32,6 +32,7 @@ const baseConfigSchema = v.object({
     ),
     "info",
   ),
+  webAppUrl: v.pipe(v.string(), v.url("Web App URL is incorrect")),
   botToken: v.pipe(v.string(), v.regex(/^\d+:[\w-]+$/, "Invalid token")),
   botAllowedUpdates: v.optional(
     v.pipe(

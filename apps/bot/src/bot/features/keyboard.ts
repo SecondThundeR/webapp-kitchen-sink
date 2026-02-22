@@ -1,8 +1,9 @@
 import { Composer, Keyboard } from "grammy";
+import { config } from "../../config";
 import type { Context } from "../context";
 import { logHandle } from "../helpers/logging";
 
-const url = new URL(Bun.env.WEB_APP_URL || "");
+const url = new URL(config.webAppUrl);
 
 url.searchParams.set("mode", "keyboard");
 

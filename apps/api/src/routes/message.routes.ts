@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import { env } from "../config/env";
 import { AppError } from "../errors/app-error";
 import { ErrorCode } from "../errors/error-code";
 import { telegramAuth } from "../middleware/telegram-auth";
@@ -14,7 +15,7 @@ export const messageRoutes = new Elysia({ prefix: "/message" })
       }
 
       const savePreparedInlineMessageResponse = await fetch(
-        `https://api.telegram.org/bot${Bun.env.BOT_TOKEN}/savePreparedInlineMessage`,
+        `https://api.telegram.org/bot${env.BOT_TOKEN}/savePreparedInlineMessage`,
         {
           method: "POST",
           headers: {

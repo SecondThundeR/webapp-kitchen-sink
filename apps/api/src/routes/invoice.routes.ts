@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+import { env } from "../config/env";
 import { AppError } from "../errors/app-error";
 import { ErrorCode } from "../errors/error-code";
 import { telegramAuth } from "../middleware/telegram-auth";
@@ -19,7 +20,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
       }
 
       const createInvoiceLinkResponse = await fetch(
-        `https://api.telegram.org/bot${Bun.env.BOT_TOKEN}/createInvoiceLink`,
+        `https://api.telegram.org/bot${env.BOT_TOKEN}/createInvoiceLink`,
         {
           method: "POST",
           headers: {
@@ -28,7 +29,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
           body: JSON.stringify({
             ...requestBody,
             payload: `regular-order-${Date.now()}`,
-            provider_token: Bun.env.PAYMENT_PROVIDER_TOKEN,
+            provider_token: env.PAYMENT_PROVIDER_TOKEN,
           }),
         },
       );
@@ -66,7 +67,7 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
       }
 
       const createInvoiceLinkResponse = await fetch(
-        `https://api.telegram.org/bot${Bun.env.BOT_TOKEN}/createInvoiceLink`,
+        `https://api.telegram.org/bot${env.BOT_TOKEN}/createInvoiceLink`,
         {
           method: "POST",
           headers: {

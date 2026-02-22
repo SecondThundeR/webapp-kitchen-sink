@@ -1,10 +1,11 @@
 import { Composer, InlineKeyboard } from "grammy";
+import { config } from "../../config";
 import type { Context } from "../context";
 import { logHandle } from "../helpers/logging";
 
 const webAppKeyboard = new InlineKeyboard().webApp(
   "Open web app",
-  Bun.env.WEB_APP_URL || "",
+  config.webAppUrl,
 );
 
 const composer = new Composer<Context>();

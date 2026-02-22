@@ -1,5 +1,6 @@
 import { gunzipSync } from "node:zlib";
 import { Elysia } from "elysia";
+import { env } from "../config/env";
 import { AppError } from "../errors/app-error";
 import { ErrorCode } from "../errors/error-code";
 import { telegramAuth } from "../middleware/telegram-auth";
@@ -29,7 +30,7 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
     }
 
     const getStickerSetResponse = await fetch(
-      `https://api.telegram.org/bot${Bun.env.BOT_TOKEN}/getStickerSet`,
+      `https://api.telegram.org/bot${env.BOT_TOKEN}/getStickerSet`,
       {
         method: "POST",
         headers: {
@@ -68,7 +69,7 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
       await Promise.all(
         data.result.stickers.map(async (sticker) => {
           const getFileResponse = await fetch(
-            `https://api.telegram.org/bot${Bun.env.BOT_TOKEN}/getFile?file_id=${sticker.file_id}`,
+            `https://api.telegram.org/bot${env.BOT_TOKEN}/getFile?file_id=${sticker.file_id}`,
           );
 
           if (!getStickerSetResponse.ok) {
@@ -117,7 +118,7 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
     }
 
     try {
-      const tgUrl = `https://api.telegram.org/file/bot${Bun.env.BOT_TOKEN}/${path}`;
+      const tgUrl = `https://api.telegram.org/file/bot${env.BOT_TOKEN}/${path}`;
       const response = await fetch(tgUrl);
 
       if (!response.ok) {
