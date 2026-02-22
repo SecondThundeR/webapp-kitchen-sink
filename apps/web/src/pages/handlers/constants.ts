@@ -1,12 +1,16 @@
 import { AddToHomeScreen } from "./components/add-to-home-screen";
 import { Close } from "./components/close";
 import { ClosingConfirmation } from "./components/closing-confirmation";
+import { DownloadFile } from "./components/download-file";
 import { Fullscreen } from "./components/fullscreen";
+import { HideKeyboard } from "./components/hide-keyboard";
 import { OpenLink } from "./components/open-link";
 import { OpenTelegramLink } from "./components/open-telegram-link";
 import { OrientationLocked } from "./components/orientation-locked";
 import { QRPopup } from "./components/qr-popup";
+import { ReadTextFromClipboard } from "./components/read-text-from-clipboard";
 import { RequestContact } from "./components/request-contact";
+import { RequestWriteAccess } from "./components/request-write-access";
 import { SetEmojiStatus } from "./components/set-emoji-status";
 import { ShareMessage } from "./components/share-message";
 import { ShareToStory } from "./components/share-to-story";
@@ -56,6 +60,11 @@ export const HANDLERS_MAPPING = [
     Component: QRPopup,
   },
   {
+    name: "readTextFromClipboard",
+    version: "6.4",
+    Component: ReadTextFromClipboard,
+  },
+  {
     name: "switchInlineQuery",
     version: "6.7",
     Component: SwitchInlineQuery,
@@ -64,6 +73,11 @@ export const HANDLERS_MAPPING = [
     name: "requestContact",
     version: "6.9",
     Component: RequestContact,
+  },
+  {
+    name: "requestWriteAccess",
+    version: "6.9",
+    Component: RequestWriteAccess,
   },
   {
     name: "isVerticalSwipesEnabled",
@@ -99,5 +113,15 @@ export const HANDLERS_MAPPING = [
     name: "setEmojiStatus",
     version: "8.0",
     Component: SetEmojiStatus,
+  },
+  {
+    name: "downloadFile",
+    version: "8.0",
+    Component: DownloadFile,
+  },
+  {
+    name: "hideKeyboard",
+    version: "9.1",
+    Component: HideKeyboard,
   },
 ];
