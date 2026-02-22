@@ -48,14 +48,12 @@ export const PricesInputs = <T extends FieldValues & BaseInvoiceSchema>({
                 fieldType="input"
                 name={`prices.${index}.label` as FieldPath<T>}
                 control={control}
-                label="Label"
                 placeholder="Enter label"
               />
               <HookFormField
                 fieldType="number"
                 name={`prices.${index}.amount` as FieldPath<T>}
                 control={control}
-                label="Price Amount"
                 placeholder="Enter price"
               />
             </FieldGroup>
