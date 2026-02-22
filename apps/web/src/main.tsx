@@ -1,4 +1,3 @@
-import eruda from "eruda";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { WebApp } from "@/lib/web-app";
@@ -14,7 +13,9 @@ const urlParams = new URLSearchParams(window.location.search);
 const mode = urlParams.get("mode");
 
 if (["ios", "android"].includes(WebApp.platform)) {
-  eruda.init();
+  import("eruda").then(({ default: eruda }) => {
+    eruda.init();
+  });
 }
 
 if (mode !== "minimized") {

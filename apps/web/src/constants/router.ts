@@ -1,19 +1,5 @@
 import { createBrowserRouter } from "react-router";
 import { RootLayout } from "@/layouts/root";
-import { Accelerometer } from "@/pages/accelerometer/accelerometer";
-import { BiometricManagerPage } from "@/pages/biometric-manager/biometric-manager";
-import { Buttons } from "@/pages/buttons/buttons";
-import { CloudStorage } from "@/pages/cloud-storage/cloud-storage";
-import { DeviceOrientation } from "@/pages/device-orientation/device-orientation";
-import { DeviceStorage } from "@/pages/device-storage/device-storage";
-import { Gyroscope } from "@/pages/gyroscope/gyroscope";
-import { HandlersPage } from "@/pages/handlers/handlers";
-import { HapticFeedbackPage } from "@/pages/haptic-feedback/haptic-feedback";
-import { InvoicePage } from "@/pages/invoice/invoice";
-import { LocationManager } from "@/pages/location-manager/location-manager";
-import { RootPage } from "@/pages/root/root";
-import { SecureStorage } from "@/pages/secure-storage/secure-storage";
-import { ThemeParamsPage } from "@/pages/theme-params/theme-params";
 
 export const router = createBrowserRouter([
   {
@@ -22,59 +8,119 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: RootPage,
+        async lazy() {
+          const { RootPage } = await import("@/pages/root/root");
+          return { Component: RootPage };
+        },
       },
       {
         path: "/theme-params",
-        Component: ThemeParamsPage,
+        async lazy() {
+          const { ThemeParamsPage } = await import(
+            "@/pages/theme-params/theme-params"
+          );
+          return { Component: ThemeParamsPage };
+        },
       },
       {
         path: "/haptic-feedback",
-        Component: HapticFeedbackPage,
+        async lazy() {
+          const { HapticFeedbackPage } = await import(
+            "@/pages/haptic-feedback/haptic-feedback"
+          );
+          return { Component: HapticFeedbackPage };
+        },
       },
       {
         path: "/biometric-manager",
-        Component: BiometricManagerPage,
+        async lazy() {
+          const { BiometricManagerPage } = await import(
+            "@/pages/biometric-manager/biometric-manager"
+          );
+          return { Component: BiometricManagerPage };
+        },
       },
       {
         path: "/invoice",
-        Component: InvoicePage,
+        async lazy() {
+          const { InvoicePage } = await import("@/pages/invoice/invoice");
+          return { Component: InvoicePage };
+        },
       },
       {
         path: "/handlers",
-        Component: HandlersPage,
+        async lazy() {
+          const { HandlersPage } = await import("@/pages/handlers/handlers");
+          return { Component: HandlersPage };
+        },
       },
       {
         path: "/gyroscope",
-        Component: Gyroscope,
+        async lazy() {
+          const { Gyroscope } = await import("@/pages/gyroscope/gyroscope");
+          return { Component: Gyroscope };
+        },
       },
       {
         path: "/accelerometer",
-        Component: Accelerometer,
+        async lazy() {
+          const { Accelerometer } = await import(
+            "@/pages/accelerometer/accelerometer"
+          );
+          return { Component: Accelerometer };
+        },
       },
       {
         path: "/device-orientation",
-        Component: DeviceOrientation,
+        async lazy() {
+          const { DeviceOrientation } = await import(
+            "@/pages/device-orientation/device-orientation"
+          );
+          return { Component: DeviceOrientation };
+        },
       },
       {
         path: "/location-manager",
-        Component: LocationManager,
+        async lazy() {
+          const { LocationManager } = await import(
+            "@/pages/location-manager/location-manager"
+          );
+          return { Component: LocationManager };
+        },
       },
       {
         path: "/cloud-storage",
-        Component: CloudStorage,
+        async lazy() {
+          const { CloudStorage } = await import(
+            "@/pages/cloud-storage/cloud-storage"
+          );
+          return { Component: CloudStorage };
+        },
       },
       {
         path: "/device-storage",
-        Component: DeviceStorage,
+        async lazy() {
+          const { DeviceStorage } = await import(
+            "@/pages/device-storage/device-storage"
+          );
+          return { Component: DeviceStorage };
+        },
       },
       {
         path: "/secure-storage",
-        Component: SecureStorage,
+        async lazy() {
+          const { SecureStorage } = await import(
+            "@/pages/secure-storage/secure-storage"
+          );
+          return { Component: SecureStorage };
+        },
       },
       {
         path: "/buttons",
-        Component: Buttons,
+        async lazy() {
+          const { Buttons } = await import("@/pages/buttons/buttons");
+          return { Component: Buttons };
+        },
       },
     ],
   },

@@ -1,5 +1,5 @@
 import { BanIcon, LocateOffIcon } from "lucide-react";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { toast } from "sonner";
 import type { LocationData } from "telegram-web-app";
 import { Button } from "@/components/ui/button";
@@ -21,8 +21,13 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { withWebAppVersion } from "@/hocs/web-app-version";
 import { booleanToYesNoString } from "@/utils/format";
-import { LocationMap } from "./components/location-map";
 import { useLocation } from "./hooks";
+
+const LocationMap = lazy(() =>
+  import("./components/location-map").then(({ LocationMap }) => ({
+    default: LocationMap,
+  })),
+);
 
 const LocationManagerComponent = () => {
   const {
@@ -88,7 +93,11 @@ const LocationManagerComponent = () => {
     }
 
     if (showMap) {
-      return <LocationMap data={latestLocationData} />;
+      return (
+        <Suspense fallback="Loading map...">
+          <LocationMap data={latestLocationData} />
+        </Suspense>
+      );
     }
 
     return (

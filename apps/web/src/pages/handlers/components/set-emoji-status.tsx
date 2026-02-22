@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BugIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { EmojiGrid } from "@/components/custom-emoji-grid";
+import { CustomEmojiGrid } from "@/components/custom-emoji-grid";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -69,7 +69,7 @@ export const SetEmojiStatus = () => {
     }
 
     return (
-      <EmojiGrid
+      <CustomEmojiGrid
         emojis={data.emojis}
         currentEmojiId={selectedEmojiId}
         onClick={(id) => setSelectedEmojiId(id)}

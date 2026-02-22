@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -30,6 +31,7 @@ export default defineConfig(({ mode }) => {
       }),
       tailwindcss(),
       svgr(),
+      visualizer({ open: process.env.ANALYZE === "true" }),
     ],
     resolve: {
       alias: {

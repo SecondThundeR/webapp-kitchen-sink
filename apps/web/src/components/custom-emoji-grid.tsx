@@ -1,7 +1,7 @@
-import { Player } from "@lottiefiles/react-lottie-player";
+import { lazy, Suspense } from "react";
 import { Button } from "./ui/button";
 
-interface EmojiGridProps {
+interface CustomEmojiGridProps {
   emojis: {
     id: string;
     is_video: boolean;
@@ -12,11 +12,17 @@ interface EmojiGridProps {
   onClick: (id: string) => void;
 }
 
-export const EmojiGrid = ({
+const Player = lazy(() =>
+  import("@lottiefiles/react-lottie-player").then(({ Player }) => ({
+    default: Player,
+  })),
+);
+
+export const CustomEmojiGrid = ({
   emojis,
   currentEmojiId,
   onClick,
-}: EmojiGridProps) => {
+}: CustomEmojiGridProps) => {
   return (
     <div className="grid grid-cols-7 gap-4">
       {emojis.map((emoji) => {
@@ -37,12 +43,14 @@ export const EmojiGrid = ({
                 style={{ width: 40, height: 40 }}
               />
             ) : emoji.is_animated ? (
-              <Player
-                src={emojiUrl}
-                autoplay
-                loop
-                style={{ height: 24, width: 24 }}
-              />
+              <Suspense fallback="⌛">
+                <Player
+                  src={emojiUrl}
+                  autoplay
+                  loop
+                  style={{ height: 24, width: 24 }}
+                />
+              </Suspense>
             ) : (
               <img
                 src={emojiUrl}
