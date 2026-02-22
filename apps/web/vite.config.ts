@@ -22,17 +22,22 @@ export default defineConfig(({ mode }) => {
     commitHash = "unknown";
   }
 
+  const plugins = [
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler"]],
+      },
+    }),
+    tailwindcss(),
+    svgr(),
+  ];
+
+  if (process.env.ANALYZE === "true") {
+    plugins.push(visualizer({ open: true }));
+  }
+
   return {
-    plugins: [
-      react({
-        babel: {
-          plugins: [["babel-plugin-react-compiler"]],
-        },
-      }),
-      tailwindcss(),
-      svgr(),
-      visualizer({ open: process.env.ANALYZE === "true" }),
-    ],
+    plugins,
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
