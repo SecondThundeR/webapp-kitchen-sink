@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BanIcon, BugIcon } from "lucide-react";
+import { BanIcon, BugIcon, CircleAlertIcon } from "lucide-react";
 import { RouterProvider } from "react-router";
 import { WebApp } from "@/lib/web-app";
 import {
@@ -13,11 +13,16 @@ import { Spinner } from "./components/ui/spinner";
 import { router } from "./constants/router";
 import { useThemeSync } from "./hooks/use-theme-sync";
 import { initSession } from "./lib/queries";
+import { SendData } from "./components/send-data";
+
+const urlParams = new URLSearchParams(window.location.search);
+const mode = urlParams.get("mode");
 
 function App() {
   const { isPending, error: validationError } = useQuery({
     queryKey: ["init"],
     queryFn: () => initSession({ initData: WebApp.initData }),
+    enabled: !WebApp.initData,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -27,6 +32,34 @@ function App() {
   useThemeSync();
 
   if (!WebApp.initData) {
+    if (mode === "keyboard") {
+      return (
+        <div className="flex flex-col gap-2">
+          <Empty className="flex-1">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <CircleAlertIcon />
+              </EmptyMedia>
+              <EmptyTitle>Limited mode</EmptyTitle>
+              <EmptyDescription>
+                You launched this application via KeyboardButton
+                <br />
+                <br />
+                In this mode, app doesn't recieve initData and backend can't
+                validate who accessed this app
+                <br />
+                <br />
+                However, in this mode you can use sendData API to communicate
+                with the bot. Be aware that after you execute sendData,
+                application will close
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+          <SendData />
+        </div>
+      );
+    }
+
     return (
       <Empty className="flex-1">
         <EmptyHeader>

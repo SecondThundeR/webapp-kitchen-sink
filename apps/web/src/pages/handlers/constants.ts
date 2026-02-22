@@ -16,49 +16,15 @@ import { VerticalSwipes } from "./components/vertical-swipes";
 
 export const HANDLERS_MAPPING = [
   {
-    name: "isClosingConfirmationEnabled",
-    version: "6.1",
-    Component: ClosingConfirmation,
-  },
-  {
-    name: "isFullscreen",
-    version: "8.0",
-    Component: Fullscreen,
-  },
-  {
-    name: "addToHomeScreen",
-    version: "8.0",
-    Component: AddToHomeScreen,
-  },
-  {
-    name: "showScanQrPopup",
-    version: "6.4",
-    Component: QRPopup,
-  },
-  {
     name: "close",
     Component: Close,
   },
   {
-    name: "isVerticalSwipesEnabled",
-    version: "7.1",
-    Component: VerticalSwipes,
+    name: "isClosingConfirmationEnabled",
+    version: "6.1",
+    Component: ClosingConfirmation,
   },
-  {
-    name: "isOrientationLocked",
-    version: "8.0",
-    Component: OrientationLocked,
-  },
-  {
-    name: "requestContact",
-    version: "6.9",
-    Component: RequestContact,
-  },
-  {
-    name: "switchInlineQuery",
-    version: "6.7",
-    Component: SwitchInlineQuery,
-  },
+
   {
     name: "showPopup",
     version: "6.2",
@@ -75,9 +41,44 @@ export const HANDLERS_MAPPING = [
     Component: ShowAlert,
   },
   {
+    name: "showScanQrPopup",
+    version: "6.4",
+    Component: QRPopup,
+  },
+  {
+    name: "switchInlineQuery",
+    version: "6.7",
+    Component: SwitchInlineQuery,
+  },
+  {
+    name: "requestContact",
+    version: "6.9",
+    Component: RequestContact,
+  },
+  {
+    name: "isVerticalSwipesEnabled",
+    version: "7.1",
+    Component: VerticalSwipes,
+  },
+  {
     name: "shareToStory",
     version: "7.8",
     Component: ShareToStory,
+  },
+  {
+    name: "isFullscreen",
+    version: "8.0",
+    Component: Fullscreen,
+  },
+  {
+    name: "addToHomeScreen",
+    version: "8.0",
+    Component: AddToHomeScreen,
+  },
+  {
+    name: "isOrientationLocked",
+    version: "8.0",
+    Component: OrientationLocked,
   },
   {
     name: "shareMessage",

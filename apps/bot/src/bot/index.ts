@@ -13,6 +13,7 @@ import { paymentFeature } from "./features/payment";
 import { shippingFeature } from "./features/shipping";
 import { startFeature } from "./features/start";
 import { unhandledFeature } from "./features/unhandled";
+import { keyboardFeature } from "./features/keyboard";
 import { errorHandler } from "./handlers/error";
 import { session } from "./middlewares/session";
 import { updateLogger } from "./middlewares/update-logger";
@@ -64,6 +65,7 @@ export function createBot(
   // Handlers
   protectedBot.use(startFeature);
   protectedBot.use(minimizedFeature);
+  protectedBot.use(keyboardFeature);
   protectedBot.use(paymentFeature);
   protectedBot.use(contactFeature);
   protectedBot.use(shippingFeature);
