@@ -6,6 +6,7 @@ import {
   type FieldValues,
   useFieldArray,
 } from "react-hook-form";
+import { HookFormField } from "@/components/hook-form-field";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import type { BaseInvoiceSchema } from "../schemas";
-import { HookFormField } from "@/components/hook-form-field";
 
 interface PricesInputsProps<T extends FieldValues & BaseInvoiceSchema> {
   control: Control<T>;

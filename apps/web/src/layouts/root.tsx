@@ -1,6 +1,6 @@
 import { Outlet, ScrollRestoration, useNavigation } from "react-router";
-import { useTelegramBackButton } from "@/hooks/use-telegram-back-button";
 import { Spinner } from "@/components/ui/spinner";
+import { useTelegramBackButton } from "@/hooks/use-telegram-back-button";
 
 export const RootLayout = () => {
   useTelegramBackButton();

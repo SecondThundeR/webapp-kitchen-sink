@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -6,10 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { WebApp } from "@/lib/web-app";
-import { useState } from "react";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { WebApp } from "@/lib/web-app";
 
 export const OpenTelegramLink = () => {
   const [link, setLink] = useState("");

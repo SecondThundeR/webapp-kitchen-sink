@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { HookFormField } from "@/components/hook-form-field";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { FieldGroup, FieldSeparator } from "@/components/ui/field";
@@ -10,7 +11,6 @@ import { useInvoice } from "../hooks";
 import { type InvoiceSchema, invoiceSchema } from "../schemas";
 import { PricesInputs } from "./prices-inputs";
 import { TipsInputs } from "./tips-inputs";
-import { HookFormField } from "@/components/hook-form-field";
 
 export const CurrencyInvoice = () => {
   const {

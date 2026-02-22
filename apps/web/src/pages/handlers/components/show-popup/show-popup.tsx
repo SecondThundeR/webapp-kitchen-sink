@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { HookFormField } from "@/components/hook-form-field";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,9 +12,8 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { WebApp } from "@/lib/web-app";
-import { showPopupSchema, type ShowPopupSchema } from "./schema";
 import { ButtonItem } from "./components/button-item";
-import { HookFormField } from "@/components/hook-form-field";
+import { type ShowPopupSchema, showPopupSchema } from "./schema";
 
 export const ShowPopup = () => {
   const form = useForm<ShowPopupSchema>({

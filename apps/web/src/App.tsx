@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BanIcon, BugIcon, CircleAlertIcon } from "lucide-react";
 import { RouterProvider } from "react-router";
 import { WebApp } from "@/lib/web-app";
+import { SendData } from "./components/send-data";
 import {
   Empty,
   EmptyDescription,
@@ -13,7 +14,6 @@ import { Spinner } from "./components/ui/spinner";
 import { router } from "./constants/router";
 import { useThemeSync } from "./hooks/use-theme-sync";
 import { initSession } from "./lib/queries";
-import { SendData } from "./components/send-data";
 
 const urlParams = new URLSearchParams(window.location.search);
 const mode = urlParams.get("mode");

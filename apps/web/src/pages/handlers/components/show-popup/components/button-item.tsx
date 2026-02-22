@@ -1,16 +1,16 @@
-import { useWatch, type Control } from "react-hook-form";
-import type { ShowPopupSchema } from "../schema";
-import { BUTTON_TYPES, TEXT_REQUIRED_TYPES } from "../constants";
+import { type Control, useWatch } from "react-hook-form";
+import { HookFormField } from "@/components/hook-form-field";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { HookFormField } from "@/components/hook-form-field";
+import { BUTTON_TYPES, TEXT_REQUIRED_TYPES } from "../constants";
+import type { ShowPopupSchema } from "../schema";
 
 interface ButtonItemProps {
   index: number;

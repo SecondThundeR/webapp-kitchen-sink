@@ -1,10 +1,10 @@
+import type { ComponentProps, ReactNode } from "react";
 import {
   type Control,
   Controller,
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
-import type { ComponentProps, ReactNode } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
@@ -158,9 +158,7 @@ export const HookFormField = <T extends FieldValues>(
                 value={field.value}
                 onValueChange={(val) => {
                   field.onChange(val);
-                  if ((rest as SelectProps).onValueChange) {
-                    (rest as SelectProps).onValueChange!(val);
-                  }
+                  (rest as SelectProps).onValueChange?.(val);
                 }}
               >
                 <SelectTrigger
