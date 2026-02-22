@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import {
   type ArrayPath,
   type Control,
-  Controller,
   type FieldArray,
   type FieldPath,
   type FieldValues,
@@ -17,16 +16,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldContent,
-  FieldError,
-  FieldGroup,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
+import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import type { InvoiceSchema } from "../schemas";
+import { HookFormField } from "@/components/hook-form-field";
 
 interface TipsInputsProps<T extends FieldValues & InvoiceSchema> {
   control: Control<T>;
@@ -47,8 +39,7 @@ export const TipsInputs = <T extends FieldValues & InvoiceSchema>({
 
   useEffect(() => {
     if (!maxTipAmount && fields.length > 0) {
-      const indexes = new Array(fields.length).map((_, index) => index);
-      remove(indexes);
+      remove();
     }
   }, [maxTipAmount, fields.length, remove]);
 
@@ -62,40 +53,13 @@ export const TipsInputs = <T extends FieldValues & InvoiceSchema>({
           </CardHeader>
           <CardContent>
             <FieldGroup className="gap-4">
-              <Controller
-                key={field.id}
+              <HookFormField
+                fieldType="number"
+                orientation="horizontal"
                 name={`suggested_tip_amounts.${index}.tip` as FieldPath<T>}
                 control={control}
-                render={({ field: { onChange, ...field }, fieldState }) => (
-                  <Field
-                    orientation="horizontal"
-                    data-invalid={fieldState.invalid}
-                  >
-                    <FieldContent>
-                      <InputGroup>
-                        <InputGroupInput
-                          {...field}
-                          id={`suggested-tip-${index}`}
-                          aria-invalid={fieldState.invalid}
-                          placeholder="Enter tip"
-                          type="number"
-                          autoComplete="off"
-                          max={maxTipAmount}
-                          onChange={(e) =>
-                            onChange(
-                              Number.isNaN(e.target.valueAsNumber)
-                                ? undefined
-                                : e.target.valueAsNumber,
-                            )
-                          }
-                        />
-                      </InputGroup>
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </FieldContent>
-                  </Field>
-                )}
+                placeholder="Enter tip"
+                max={maxTipAmount}
               />
             </FieldGroup>
           </CardContent>

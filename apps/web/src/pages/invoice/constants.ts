@@ -98,5 +98,3 @@ export const CURRENCIES = [
 ] as const;
 
 export const CURRENCY_CODES = CURRENCIES.map((c) => c.code);
-
-export type CurrencyCode = (typeof CURRENCIES)[number]["code"];

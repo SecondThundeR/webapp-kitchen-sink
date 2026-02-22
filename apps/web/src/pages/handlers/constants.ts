@@ -10,7 +10,7 @@ import { ShareMessage } from "./components/share-message";
 import { ShareToStory } from "./components/share-to-story";
 import { ShowAlert } from "./components/show-alert";
 import { ShowConfirm } from "./components/show-confirm";
-import { ShowPopup } from "./components/show-popup";
+import { ShowPopup } from "./components/show-popup/show-popup";
 import { SwitchInlineQuery } from "./components/switch-inline-query";
 import { VerticalSwipes } from "./components/vertical-swipes";
 
