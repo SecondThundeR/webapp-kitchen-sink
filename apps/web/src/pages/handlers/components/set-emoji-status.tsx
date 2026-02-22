@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { BugIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { EmojiGrid } from "@/components/custom-emoji-grid";
@@ -12,6 +13,13 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import {
   Field,
   FieldContent,
   FieldDescription,
@@ -19,6 +27,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import { getTestEmojiSet } from "@/lib/queries";
 import { WebApp } from "@/lib/web-app";
 
@@ -29,13 +38,44 @@ export const SetEmojiStatus = () => {
   const [duration, setDuration] = useState(0);
   const [selectedEmojiId, setSelectedEmojiId] = useState("");
 
-  const { data } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["getTestEmojiSet"],
     queryFn: () => getTestEmojiSet(),
     staleTime: 1000 * 60 * 60 * 24,
     enabled: isUserPremium,
   });
-  const emojis = data?.emojis ?? [];
+
+  const getEmojiContent = () => {
+    if (isPending)
+      return (
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <Spinner className="size-8" />
+          <p className="leading-7 mt-3">Loading custom emojis</p>
+        </div>
+      );
+
+    if (error) {
+      return (
+        <Empty className="flex-1">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <BugIcon />
+            </EmptyMedia>
+            <EmptyTitle>Failed to load custom emojis</EmptyTitle>
+            <EmptyDescription>{error.message}</EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      );
+    }
+
+    return (
+      <EmojiGrid
+        emojis={data.emojis}
+        currentEmojiId={selectedEmojiId}
+        onClick={(id) => setSelectedEmojiId(id)}
+      />
+    );
+  };
 
   return (
     <Card>
@@ -45,11 +85,7 @@ export const SetEmojiStatus = () => {
       <CardContent className="flex flex-col gap-6">
         {isUserPremium ? (
           <>
-            <EmojiGrid
-              emojis={emojis}
-              currentEmojiId={selectedEmojiId}
-              onClick={(id) => setSelectedEmojiId(id)}
-            />
+            {getEmojiContent()}
             <FieldGroup className="gap-6">
               <Field orientation="horizontal">
                 <Checkbox
