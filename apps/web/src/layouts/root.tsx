@@ -18,7 +18,6 @@ export const RootLayout = () => {
       ) : (
         <Outlet />
       )}
-      <Outlet />
       <ScrollRestoration />
     </>
   );
