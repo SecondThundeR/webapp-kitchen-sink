@@ -22,7 +22,7 @@ function App() {
   const { isPending, error: validationError } = useQuery({
     queryKey: ["init"],
     queryFn: () => initSession({ initData: WebApp.initData }),
-    enabled: !WebApp.initData,
+    enabled: !!WebApp.initData,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnReconnect: false,
