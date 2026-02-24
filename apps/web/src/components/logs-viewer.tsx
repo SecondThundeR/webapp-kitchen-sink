@@ -17,7 +17,9 @@ export const LogsViewer = ({ logs, compact = false }: LogsViewerProps) => {
       )}
     >
       {logs.length === 0 && (
-        <span className="opacity-60 dark:opacity-50">{"// Logs will appear here..."}</span>
+        <span className="opacity-60 dark:opacity-50">
+          {"// Logs will appear here..."}
+        </span>
       )}
       {logs.map(({ timestamp, message }) => (
         <div key={timestamp}>

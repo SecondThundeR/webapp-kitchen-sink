@@ -24,7 +24,7 @@ export const CustomEmojiGrid = ({
   onClick,
 }: CustomEmojiGridProps) => {
   return (
-    <div className="grid grid-cols-7 gap-4">
+    <div className="grid grid-cols-5 gap-4">
       {emojis.map((emoji) => {
         const emojiUrl = `${import.meta.env.VITE_API_URL}/api/emojis/file?path=${emoji.file_path}`;
         return (
@@ -40,7 +40,7 @@ export const CustomEmojiGrid = ({
                 loop
                 muted
                 playsInline
-                style={{ width: 40, height: 40 }}
+                style={{ width: 24, height: 24 }}
               />
             ) : emoji.is_animated ? (
               <Suspense fallback="⌛">
@@ -55,7 +55,7 @@ export const CustomEmojiGrid = ({
               <img
                 src={emojiUrl}
                 alt="emoji"
-                style={{ width: 40, height: 40 }}
+                style={{ width: 24, height: 24 }}
               />
             )}
           </Button>

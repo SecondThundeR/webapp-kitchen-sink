@@ -3,6 +3,7 @@ import { Elysia } from "elysia";
 import { env } from "../config/env";
 import { AppError } from "../errors/app-error";
 import { ErrorCode } from "../errors/error-code";
+import { telegramAndroidDevice } from "../middleware/telegram-android-device";
 import { telegramAuth } from "../middleware/telegram-auth";
 
 type FormattedSticker = {
@@ -12,7 +13,8 @@ type FormattedSticker = {
   is_video: boolean;
 };
 
-const TEST_EMOJI_PACK = "ApplicationEmoji";
+const LOTTIE_EMOJI_PACK = "ApplicationEmoji";
+const NON_LOTTIE_EMOJI_PACK = "NecoMoji";
 
 const emojiCache = new Map<
   string,
@@ -23,8 +25,15 @@ const CACHE_TTL_MS = 1000 * 60 * 60 * 24;
 
 export const emojisRoutes = new Elysia({ prefix: "/emojis" })
   .use(telegramAuth)
-  .get("/getTestEmojiSet", async () => {
-    const cached = emojiCache.get(TEST_EMOJI_PACK);
+  .use(telegramAndroidDevice)
+  .get("/getTestEmojiSet", async ({ telegramAndroidDevice }) => {
+    const emojiPack = ["LOW", "AVERAGE"].includes(
+      telegramAndroidDevice.performanceClass ?? "",
+    )
+      ? NON_LOTTIE_EMOJI_PACK
+      : LOTTIE_EMOJI_PACK;
+
+    const cached = emojiCache.get(emojiPack);
     if (cached && cached.expiresAt > Date.now()) {
       return { emojis: cached.data };
     }
@@ -37,7 +46,7 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: TEST_EMOJI_PACK,
+          name: emojiPack,
         }),
       },
     );
@@ -103,7 +112,7 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
       )
     ).filter((item): item is NonNullable<typeof item> => item !== null);
 
-    emojiCache.set(TEST_EMOJI_PACK, {
+    emojiCache.set(emojiPack, {
       data: formattedEmojis,
       expiresAt: Date.now() + CACHE_TTL_MS,
     });

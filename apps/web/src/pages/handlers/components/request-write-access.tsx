@@ -1,7 +1,7 @@
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { WebApp } from "@/lib/web-app";
-import { toast } from "sonner";
 
 export const RequestWriteAccess = () => {
   return (
