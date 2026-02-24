@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { WebApp } from "@/lib/web-app";
-import { useState } from "react";
 
 export const ReadTextFromClipboard = () => {
   const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
@@ -24,9 +24,11 @@ export const ReadTextFromClipboard = () => {
             Mini App interface (e.g. a click inside the Mini App or on the main
             button)
           </p>
-          <br />
           {lastInvokeAt && (
-            <p>Last invoked at: {lastInvokeAt.toLocaleString()}</p>
+            <>
+              <br />
+              <p>Last invoked at: {lastInvokeAt.toLocaleString()}</p>
+            </>
           )}
         </CardDescription>
       </CardHeader>
