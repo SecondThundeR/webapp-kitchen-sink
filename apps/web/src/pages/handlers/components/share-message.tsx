@@ -33,8 +33,6 @@ export const ShareMessage = () => {
     }
 
     if (!messageId) return;
-    // TODO: Remove after updating types for telegram-web-app
-    // @ts-expect-error Will be fixed after correction PR merge
     WebApp.shareMessage(messageId, (success) => {
       if (success) {
         toast.success("Message was successfully shared");
