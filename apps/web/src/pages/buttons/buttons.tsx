@@ -19,14 +19,14 @@ export const Buttons = () => {
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </WebAppVersionGuard>
           </TabsList>
-          <TabsContent value="main">
+          <TabsContent value="main" forceMount>
             <MainButton />
           </TabsContent>
-          <TabsContent value="secondary">
+          <TabsContent value="secondary" forceMount>
             <SecondaryButton />
           </TabsContent>
           <WebAppVersionGuard version="7.0">
-            <TabsContent value="settings">
+            <TabsContent value="settings" forceMount>
               <SettingsButton />
             </TabsContent>
           </WebAppVersionGuard>
