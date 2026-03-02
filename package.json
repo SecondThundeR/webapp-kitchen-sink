@@ -10,8 +10,8 @@
     "clean:modules": "bash -lc 'find . -type d -name node_modules -prune -print -exec rm -rf {} \\; && rm -f bun.lock'"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.4",
-    "turbo": "^2.8.11",
+    "@biomejs/biome": "2.4.5",
+    "turbo": "^2.8.12",
     "typescript": "^5.9.3"
   },
   "engines": {
