@@ -1,11 +1,27 @@
+import { lazy } from "react";
 import { DynamicColorCard } from "@/components/dynamic-color-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { WebApp } from "@/lib/web-app";
 import { useMainButton } from "../hooks";
+
+const LazyCustomEmojiPicker = lazy(() =>
+  import("@/components/custom-emoji-picker/custom-emoji-picker").then(
+    ({ CustomEmojiPicker }) => ({
+      default: CustomEmojiPicker,
+    }),
+  ),
+);
 
 export const MainButton = () => {
   const {
@@ -17,6 +33,7 @@ export const MainButton = () => {
       isProgressVisible,
       color,
       textColor,
+      iconCustomEmojiId,
     },
     handlers: {
       handleSetText,
@@ -28,6 +45,7 @@ export const MainButton = () => {
       handleIsProgressVisible,
       handleSetColor,
       handleSetTextColor,
+      handleIconCustomEmojiId,
     },
   } = useMainButton();
 
@@ -142,6 +160,31 @@ export const MainButton = () => {
           />
         </CardContent>
       </Card>
+      {WebApp.isVersionAtLeast("9.5") && (
+        <Card>
+          <CardHeader>
+            <CardTitle>iconCustomEmojiId</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LazyCustomEmojiPicker
+              value={iconCustomEmojiId}
+              onChange={handleIconCustomEmojiId}
+              paginationConfig={{ itemsPerPage: 20 }}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              disabled={!iconCustomEmojiId}
+              onClick={() => {
+                handleIconCustomEmojiId("");
+              }}
+            >
+              Reset icon
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
       <DynamicColorCard
         title="color"
         color={color}

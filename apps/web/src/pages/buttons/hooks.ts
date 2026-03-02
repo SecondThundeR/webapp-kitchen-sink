@@ -16,6 +16,12 @@ export const useMainButton = () => {
   const [isVisible, setIsVisible] = useState(() => WebApp.MainButton.isVisible);
   const [text, setText] = useState(() => WebApp.MainButton.text);
   const [textColor, setTextColor] = useState(() => WebApp.MainButton.textColor);
+  const [iconCustomEmojiId, setIconCustomEmojiId] = useState(() =>
+    WebApp.isVersionAtLeast("9.5")
+      ? // @ts-expect-error Update types later on
+        (WebApp.MainButton.iconCustomEmojiId as string)
+      : undefined,
+  );
 
   const handleSetColor = (color: string | false) => {
     WebApp.MainButton.setParams({
@@ -79,6 +85,17 @@ export const useMainButton = () => {
     setIsActive(true);
   };
 
+  const handleIconCustomEmojiId = (iconCustomEmojiId: string) => {
+    if (!WebApp.isVersionAtLeast("9.5")) return;
+
+    WebApp.MainButton.setParams({
+      // @ts-expect-error Update types later on
+      icon_custom_emoji_id: iconCustomEmojiId,
+    });
+    // @ts-expect-error Update types later on
+    setIconCustomEmojiId(WebApp.MainButton.iconCustomEmojiId);
+  };
+
   useEffect(() => {
     const onClick = () => {
       toast.info("Main button was clicked");
@@ -113,6 +130,7 @@ export const useMainButton = () => {
       isVisible,
       text,
       textColor,
+      iconCustomEmojiId,
     },
     handlers: {
       handleSetColor,
@@ -124,6 +142,7 @@ export const useMainButton = () => {
       handleEnable,
       handleSetTextColor,
       handleSetText,
+      handleIconCustomEmojiId,
     },
   };
 };
@@ -151,6 +170,12 @@ export const useSecondaryButton = () => {
   const [position, setPosition] = useState(() =>
     WebApp.isVersionAtLeast("7.10")
       ? WebApp.SecondaryButton.position
+      : undefined,
+  );
+  const [iconCustomEmojiId, setIconCustomEmojiId] = useState(() =>
+    WebApp.isVersionAtLeast("9.5")
+      ? // @ts-expect-error Update types later on
+        (WebApp.SecondaryButton.iconCustomEmojiId as string)
       : undefined,
   );
 
@@ -225,6 +250,17 @@ export const useSecondaryButton = () => {
     setIsActive(true);
   };
 
+  const handleIconCustomEmojiId = (iconCustomEmojiId: string) => {
+    if (!WebApp.isVersionAtLeast("9.5")) return;
+
+    WebApp.SecondaryButton.setParams({
+      // @ts-expect-error Update types later on
+      icon_custom_emoji_id: iconCustomEmojiId,
+    });
+    // @ts-expect-error Update types later on
+    setIconCustomEmojiId(WebApp.SecondaryButton.iconCustomEmojiId);
+  };
+
   useEffect(() => {
     const onClick = () => {
       toast.info("Secondary button was clicked");
@@ -261,6 +297,7 @@ export const useSecondaryButton = () => {
       text,
       textColor,
       position,
+      iconCustomEmojiId,
     },
     handlers: {
       handleSetColor,
@@ -273,6 +310,7 @@ export const useSecondaryButton = () => {
       handleSetTextColor,
       handleSetText,
       handleSetPosition,
+      handleIconCustomEmojiId,
     },
   };
 };

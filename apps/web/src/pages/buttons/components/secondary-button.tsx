@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { DynamicColorCard } from "@/components/dynamic-color-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +13,18 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { WebAppVersionGuard } from "@/guard/web-app-version";
+import { WebApp } from "@/lib/web-app";
 import { useSecondaryButton } from "../hooks";
 
 const POSITIONS = ["top", "right", "bottom", "left"] as const;
+
+const LazyCustomEmojiPicker = lazy(() =>
+  import("@/components/custom-emoji-picker/custom-emoji-picker").then(
+    ({ CustomEmojiPicker }) => ({
+      default: CustomEmojiPicker,
+    }),
+  ),
+);
 
 export const SecondaryButton = () => {
   const {
@@ -27,6 +37,7 @@ export const SecondaryButton = () => {
       color,
       textColor,
       position,
+      iconCustomEmojiId,
     },
     handlers: {
       handleSetText,
@@ -39,6 +50,7 @@ export const SecondaryButton = () => {
       handleSetColor,
       handleSetTextColor,
       handleSetPosition,
+      handleIconCustomEmojiId,
     },
   } = useSecondaryButton();
 
@@ -169,6 +181,31 @@ export const SecondaryButton = () => {
           />
         </CardContent>
       </Card>
+      {WebApp.isVersionAtLeast("9.5") && (
+        <Card>
+          <CardHeader>
+            <CardTitle>iconCustomEmojiId</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <LazyCustomEmojiPicker
+              value={iconCustomEmojiId}
+              onChange={handleIconCustomEmojiId}
+              paginationConfig={{ itemsPerPage: 20 }}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button
+              className="w-full"
+              disabled={!iconCustomEmojiId}
+              onClick={() => {
+                handleIconCustomEmojiId("");
+              }}
+            >
+              Reset icon
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
       <DynamicColorCard
         title="color"
         color={color}

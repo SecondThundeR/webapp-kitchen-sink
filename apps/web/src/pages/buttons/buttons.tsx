@@ -1,3 +1,4 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WebAppVersionGuard } from "@/guard/web-app-version";
 import { MainButton } from "./components/main-button";
 import { SecondaryButton } from "./components/secondary-button";
@@ -9,18 +10,28 @@ export const Buttons = () => {
       <h1 className="text-2xl font-semibold tracking-tight">
         Buttons Playground
       </h1>
-      <h2 className="text-xl">Back Button</h2>
-      <p>
-        Back Button was implemented in this application, so there no demo for it
-      </p>
-      <h2 className="text-xl">Main Button</h2>
-      <MainButton />
-      <h2 className="text-xl">Secondary Button</h2>
-      <SecondaryButton />
-      <WebAppVersionGuard version="7.0">
-        <h2 className="text-xl">Settings Button</h2>
-        <SettingsButton />
-      </WebAppVersionGuard>
+      <div className="flex flex-col gap-2">
+        <Tabs defaultValue="main">
+          <TabsList variant="line">
+            <TabsTrigger value="main">Main</TabsTrigger>
+            <TabsTrigger value="secondary">Secondary</TabsTrigger>
+            <WebAppVersionGuard version="7.0">
+              <TabsTrigger value="settings">Settings</TabsTrigger>
+            </WebAppVersionGuard>
+          </TabsList>
+          <TabsContent value="main">
+            <MainButton />
+          </TabsContent>
+          <TabsContent value="secondary">
+            <SecondaryButton />
+          </TabsContent>
+          <WebAppVersionGuard version="7.0">
+            <TabsContent value="settings">
+              <SettingsButton />
+            </TabsContent>
+          </WebAppVersionGuard>
+        </Tabs>
+      </div>
     </div>
   );
 };
