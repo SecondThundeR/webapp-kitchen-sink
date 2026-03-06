@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/bun": "catalog:",
     "@types/leaflet": "^1.9.21",
-    "@types/node": "^25.3.3",
+    "@types/node": "^25.3.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/telegram-web-app": "^9.1.3",
