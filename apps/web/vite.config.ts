@@ -1,8 +1,7 @@
-import { execSync } from "node:child_process";
 import path from "node:path";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
-import babel from "@rolldown/plugin-babel";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig, loadEnv } from "vite";
 import svgr from "vite-plugin-svgr";
@@ -10,18 +9,6 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const isDevelopment = env.NODE_ENV === "development";
-
-  let commitHash: string;
-
-  try {
-    if (process.env.RAILWAY_GIT_COMMIT_SHA) {
-      commitHash = process.env.RAILWAY_GIT_COMMIT_SHA.substring(0, 7);
-    } else {
-      commitHash = execSync("git rev-parse --short HEAD").toString().trim();
-    }
-  } catch {
-    commitHash = "unknown";
-  }
 
   const plugins = [
     react(),
@@ -40,9 +27,6 @@ export default defineConfig(({ mode }) => {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
-    },
-    define: {
-      "import.meta.env.VITE_GIT_SHA": JSON.stringify(commitHash),
     },
     server: {
       allowedHosts: isDevelopment ? true : undefined,
