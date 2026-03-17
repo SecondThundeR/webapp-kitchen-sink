@@ -18,8 +18,7 @@ export const useMainButton = () => {
   const [textColor, setTextColor] = useState(() => WebApp.MainButton.textColor);
   const [iconCustomEmojiId, setIconCustomEmojiId] = useState(() =>
     WebApp.isVersionAtLeast("9.5")
-      ? // @ts-expect-error Update types later on
-        (WebApp.MainButton.iconCustomEmojiId as string)
+      ? WebApp.MainButton.iconCustomEmojiId
       : undefined,
   );
 
@@ -89,10 +88,8 @@ export const useMainButton = () => {
     if (!WebApp.isVersionAtLeast("9.5")) return;
 
     WebApp.MainButton.setParams({
-      // @ts-expect-error Update types later on
       icon_custom_emoji_id: iconCustomEmojiId,
     });
-    // @ts-expect-error Update types later on
     setIconCustomEmojiId(WebApp.MainButton.iconCustomEmojiId);
   };
 
@@ -174,8 +171,7 @@ export const useSecondaryButton = () => {
   );
   const [iconCustomEmojiId, setIconCustomEmojiId] = useState(() =>
     WebApp.isVersionAtLeast("9.5")
-      ? // @ts-expect-error Update types later on
-        (WebApp.SecondaryButton.iconCustomEmojiId as string)
+      ? WebApp.SecondaryButton.iconCustomEmojiId
       : undefined,
   );
 
@@ -254,10 +250,8 @@ export const useSecondaryButton = () => {
     if (!WebApp.isVersionAtLeast("9.5")) return;
 
     WebApp.SecondaryButton.setParams({
-      // @ts-expect-error Update types later on
       icon_custom_emoji_id: iconCustomEmojiId,
     });
-    // @ts-expect-error Update types later on
     setIconCustomEmojiId(WebApp.SecondaryButton.iconCustomEmojiId);
   };
 
