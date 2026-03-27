@@ -34,13 +34,15 @@ composer.on(
         let replyText = "Stars were refunded";
 
         if (payment.is_recurring || payment.subscription_expiration_date) {
-            await ctx.api.editUserStarSubscription(userId, chargeId, true);
-            replyText += " and subscription was explicitly cancelled";
+          await ctx.api.editUserStarSubscription(userId, chargeId, true);
+          replyText += " and subscription was explicitly cancelled";
         }
 
         await ctx.reply(`${replyText}!`);
       } catch (error) {
-        await ctx.reply(`Failed to refund stars/cancellation. Error: ${String(error)}`);
+        await ctx.reply(
+          `Failed to refund stars/cancellation. Error: ${String(error)}`,
+        );
       }
     }
   },
