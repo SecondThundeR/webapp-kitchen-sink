@@ -190,6 +190,7 @@ export const SecondaryButton = () => {
             <LazyCustomEmojiPicker
               value={iconCustomEmojiId}
               onChange={handleIconCustomEmojiId}
+              bypassPremiumCheck
               paginationConfig={{ itemsPerPage: 20 }}
             />
           </CardContent>

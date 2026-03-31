@@ -25,6 +25,7 @@ const isUserPremium = WebApp.initDataUnsafe.user?.is_premium ?? false;
 interface CustomEmojiPickerProps {
   value: string | undefined;
   onChange: (value: string) => void;
+  bypassPremiumCheck?: boolean;
   paginationConfig?: {
     itemsPerPage: number;
   };
@@ -33,6 +34,7 @@ interface CustomEmojiPickerProps {
 export const CustomEmojiPicker = ({
   value,
   onChange,
+  bypassPremiumCheck = false,
   paginationConfig,
 }: CustomEmojiPickerProps) => {
   const { itemsPerPage } = paginationConfig ?? {};
@@ -42,7 +44,7 @@ export const CustomEmojiPicker = ({
     queryKey: ["getTestEmojiSet"],
     queryFn: () => getTestEmojiSet(),
     staleTime: 1000 * 60 * 60 * 24,
-    enabled: isUserPremium,
+    enabled: bypassPremiumCheck || isUserPremium,
   });
 
   if (isPending)
