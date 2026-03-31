@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -33,9 +34,7 @@ export const ReadTextFromClipboard = () => {
         </CardDescription>
       </CardHeader>
       {clipboardText && (
-        <CardDescription>
-          Clipboard text: {String(clipboardText)}
-        </CardDescription>
+        <CardContent>Clipboard text: {String(clipboardText)}</CardContent>
       )}
       <CardFooter>
         <Button
