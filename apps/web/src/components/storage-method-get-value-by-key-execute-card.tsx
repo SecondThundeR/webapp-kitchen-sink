@@ -64,7 +64,7 @@ export const StorageMethodGetValueByKeyExecuteCard = ({
         <Button
           className="w-full"
           onClick={onClick}
-          disabled={!key || !value || isPending}
+          disabled={!key || isPending}
         >
           {isPending && <Spinner data-icon="inline-start" />}
           {isPending ? "Executing" : "Execute"}
