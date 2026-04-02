@@ -87,6 +87,14 @@ export const useMainButton = () => {
   const handleIconCustomEmojiId = (iconCustomEmojiId: string) => {
     if (!WebApp.isVersionAtLeast("9.5")) return;
 
+    // Apparently, some clients can't change icon to new if it has one already
+    // Resetting before setting new one
+    if (WebApp.MainButton.iconCustomEmojiId) {
+      WebApp.MainButton.setParams({
+        icon_custom_emoji_id: undefined,
+      });
+    }
+
     WebApp.MainButton.setParams({
       icon_custom_emoji_id: iconCustomEmojiId,
     });
@@ -248,6 +256,14 @@ export const useSecondaryButton = () => {
 
   const handleIconCustomEmojiId = (iconCustomEmojiId: string) => {
     if (!WebApp.isVersionAtLeast("9.5")) return;
+
+    // Apparently, some clients can't change icon to new if it has one already
+    // Resetting before setting new one
+    if (WebApp.SecondaryButton.iconCustomEmojiId) {
+      WebApp.SecondaryButton.setParams({
+        icon_custom_emoji_id: undefined,
+      });
+    }
 
     WebApp.SecondaryButton.setParams({
       icon_custom_emoji_id: iconCustomEmojiId,
