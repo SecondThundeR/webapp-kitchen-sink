@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -185,6 +186,11 @@ export const SecondaryButton = () => {
         <Card>
           <CardHeader>
             <CardTitle>iconCustomEmojiId</CardTitle>
+            <CardDescription>
+              Note: Some clients do not update icon if you already have one
+              (e.g. Telegram iOS). Reset current icon using button below and
+              then set new icon
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <LazyCustomEmojiPicker
