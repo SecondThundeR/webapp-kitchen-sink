@@ -1,10 +1,9 @@
 import { gunzipSync } from "node:zlib";
 import { Elysia } from "elysia";
 import { env } from "../config/env";
-import { AppError } from "../errors/app-error";
-import { ErrorCode } from "../errors/error-code";
 import { telegramAndroidDevice } from "../middleware/telegram-android-device";
 import { telegramAuth } from "../middleware/telegram-auth";
+import { callTelegramMethod, getTelegramFile } from "../utils/telegram-api";
 
 type FormattedSticker = {
   id: string;
@@ -22,6 +21,8 @@ const emojiCache = new Map<
 >();
 
 const CACHE_TTL_MS = 1000 * 60 * 60 * 24;
+const ALLOWED_FILE_EXTENSIONS = [".tgs", ".webp", ".webm"] as const;
+const TELEGRAM_FILE_PATH_PATTERN = /^[A-Za-z0-9_./-]+$/;
 
 export const emojisRoutes = new Elysia({ prefix: "/emojis" })
   .use(telegramAuth)
@@ -38,73 +39,28 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
       return { emojis: cached.data };
     }
 
-    const getStickerSetResponse = await fetch(
-      `https://api.telegram.org/bot${env.BOT_TOKEN}/getStickerSet`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: emojiPack,
-        }),
-      },
-    );
-    if (!getStickerSetResponse.ok) {
-      const data = (await getStickerSetResponse.json()) as {
-        ok: false;
-        error_code: number;
-        description: string;
-      };
-      throw new AppError(
-        ErrorCode.VALIDATION_ERROR,
-        data.description,
-        data.error_code,
-      );
-    }
-    const data = (await getStickerSetResponse.json()) as {
-      ok: true;
-      result: {
-        stickers: {
-          file_id: string;
-          custom_emoji_id: string;
-          is_animated: boolean;
-          is_video: boolean;
-        }[];
-      };
-    };
+    const data = await callTelegramMethod<{
+      stickers: {
+        file_id: string;
+        custom_emoji_id: string;
+        is_animated: boolean;
+        is_video: boolean;
+      }[];
+    }>("getStickerSet", {
+      name: emojiPack,
+    });
 
     const formattedEmojis = (
       await Promise.all(
-        data.result.stickers.map(async (sticker) => {
-          const getFileResponse = await fetch(
-            `https://api.telegram.org/bot${env.BOT_TOKEN}/getFile?file_id=${sticker.file_id}`,
-          );
-
-          if (!getStickerSetResponse.ok) {
-            return null;
-          }
-
-          const file = (await getFileResponse.json()) as
-            | {
-                ok: true;
-                result: {
-                  file_path: string;
-                };
-              }
-            | {
-                ok: false;
-                error_code: number;
-                description: string;
-              };
-
-          if ("ok" in file && !file.ok) {
+        data.stickers.map(async (sticker) => {
+          const file = await getTelegramFile(sticker.file_id);
+          if (!file) {
             return null;
           }
 
           return {
             id: sticker.custom_emoji_id,
-            file_path: file.result.file_path,
+            file_path: file.file_path,
             is_animated: sticker.is_animated,
             is_video: sticker.is_video,
           };
@@ -124,6 +80,14 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
     if (!path) {
       set.status = 400;
       return { error: "Missing file path" };
+    }
+
+    if (
+      !TELEGRAM_FILE_PATH_PATTERN.test(path) ||
+      !ALLOWED_FILE_EXTENSIONS.some((extension) => path.endsWith(extension))
+    ) {
+      set.status = 400;
+      return { error: "Invalid file path" };
     }
 
     try {

@@ -1,8 +1,6 @@
 import { Elysia } from "elysia";
-import { env } from "../config/env";
-import { AppError } from "../errors/app-error";
-import { ErrorCode } from "../errors/error-code";
 import { telegramAuth } from "../middleware/telegram-auth";
+import { callTelegramMethod } from "../utils/telegram-api";
 
 export const messageRoutes = new Elysia({ prefix: "/message" })
   .use(telegramAuth)
@@ -14,54 +12,26 @@ export const messageRoutes = new Elysia({ prefix: "/message" })
         return { id: null };
       }
 
-      const savePreparedInlineMessageResponse = await fetch(
-        `https://api.telegram.org/bot${env.BOT_TOKEN}/savePreparedInlineMessage`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: userId,
-            result: {
-              type: "article",
-              id: "test_123",
-              title: "Check out my Web App!",
-              input_message_content: {
-                message_text: "This is a shared message from my Mini App!",
-              },
-            },
-            allow_user_chats: true,
-            allow_bot_chats: true,
-            allow_group_chats: true,
-            allow_channel_chats: true,
-          }),
-        },
-      );
-
-      if (!savePreparedInlineMessageResponse.ok) {
-        const data = (await savePreparedInlineMessageResponse.json()) as {
-          ok: false;
-          error_code: number;
-          description: string;
-        };
-
-        throw new AppError(
-          ErrorCode.VALIDATION_ERROR,
-          data.description,
-          data.error_code,
-        );
-      }
-
-      const data = (await savePreparedInlineMessageResponse.json()) as {
-        ok: true;
+      const result = await callTelegramMethod<{
+        id: string;
+        expiration_date: number;
+      }>("savePreparedInlineMessage", {
+        user_id: userId,
         result: {
-          id: string;
-          expiration_date: number;
-        };
-      };
+          type: "article",
+          id: "test_123",
+          title: "Check out my Web App!",
+          input_message_content: {
+            message_text: "This is a shared message from my Mini App!",
+          },
+        },
+        allow_user_chats: true,
+        allow_bot_chats: true,
+        allow_group_chats: true,
+        allow_channel_chats: true,
+      });
 
-      return { id: data.result.id };
+      return { id: result.id };
     },
     { telegramAuth: true },
   );
