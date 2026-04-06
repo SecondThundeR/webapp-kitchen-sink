@@ -34,7 +34,7 @@ export const useLocation = () => {
   useEffect(() => {
     WebApp.onEvent("activated", initializeLocationManager);
     WebApp.onEvent("deactivated", initializeLocationManager);
-    WebApp.onEvent("biometricManagerUpdated", initializeLocationManager);
+    WebApp.onEvent("locationManagerUpdated", initializeLocationManager);
 
     window.addEventListener("focus", initializeLocationManager);
     document.addEventListener("visibilitychange", initializeLocationManager);
