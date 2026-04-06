@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BugIcon } from "lucide-react";
+import { BugIcon, CircleAlertIcon } from "lucide-react";
 import { useState } from "react";
 import { getTestEmojiSet } from "@/lib/queries";
 import { WebApp } from "@/lib/web-app";
@@ -42,7 +42,7 @@ export const CustomEmojiPicker = ({
   const [page, setPage] = useState(1);
   const { data, isPending, error } = useQuery({
     queryKey: ["getTestEmojiSet"],
-    queryFn: () => getTestEmojiSet(),
+    queryFn: getTestEmojiSet,
     staleTime: 1000 * 60 * 60 * 24,
     enabled: bypassPremiumCheck || isUserPremium,
   });
@@ -64,6 +64,38 @@ export const CustomEmojiPicker = ({
           </EmptyMedia>
           <EmptyTitle>Failed to load custom emojis</EmptyTitle>
           <EmptyDescription>{error.message}</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
+  }
+
+  if (!bypassPremiumCheck && !isUserPremium) {
+    return (
+      <Empty className="flex-1">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <CircleAlertIcon />
+          </EmptyMedia>
+          <EmptyTitle>Telegram Premium required</EmptyTitle>
+          <EmptyDescription>
+            Custom emoji selection is only available for Telegram Premium users.
+          </EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
+  }
+
+  if (!data || data.emojis.length === 0) {
+    return (
+      <Empty className="flex-1">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <CircleAlertIcon />
+          </EmptyMedia>
+          <EmptyTitle>No custom emojis found</EmptyTitle>
+          <EmptyDescription>
+            The configured emoji set is empty or unavailable right now.
+          </EmptyDescription>
         </EmptyHeader>
       </Empty>
     );

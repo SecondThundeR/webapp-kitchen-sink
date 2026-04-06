@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { launchMode, shouldEnableEruda } from "@/lib/launch-params";
 import { WebApp } from "@/lib/web-app";
 
 import "./index.css";
@@ -9,16 +10,13 @@ import { Providers } from "./providers/providers.tsx";
 
 WebApp.ready();
 
-const urlParams = new URLSearchParams(window.location.search);
-const mode = urlParams.get("mode");
-
-if (["ios", "android"].includes(WebApp.platform)) {
-  import("eruda").then(({ default: eruda }) => {
+if (shouldEnableEruda) {
+  void import("eruda").then(({ default: eruda }) => {
     eruda.init();
   });
 }
 
-if (mode !== "minimized") {
+if (launchMode !== "minimized") {
   WebApp.expand();
 }
 

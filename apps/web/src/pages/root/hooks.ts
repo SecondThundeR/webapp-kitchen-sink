@@ -36,12 +36,10 @@ export const useViewport = () => {
     ({ isStateStable }) => {
       setViewportHeight(WebApp.viewportHeight);
       if (isStateStable) {
-        setViewportStableHeight(WebApp.viewportHeight);
+        setViewportStableHeight(WebApp.viewportStableHeight);
       }
       setIsStateStable(isStateStable);
-      if (isExpanded !== WebApp.isExpanded) {
-        setIsExpanded(WebApp.isExpanded);
-      }
+      setIsExpanded(WebApp.isExpanded);
     },
   );
 

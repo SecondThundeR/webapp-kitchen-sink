@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BanIcon, BugIcon, CircleAlertIcon } from "lucide-react";
 import { RouterProvider } from "react-router";
+import { launchMode } from "@/lib/launch-params";
 import { WebApp } from "@/lib/web-app";
 import { SendData } from "./components/send-data";
 import {
@@ -14,9 +15,6 @@ import { Spinner } from "./components/ui/spinner";
 import { router } from "./constants/router";
 import { useThemeSync } from "./hooks/use-theme-sync";
 import { initSession } from "./lib/queries";
-
-const urlParams = new URLSearchParams(window.location.search);
-const mode = urlParams.get("mode");
 
 function App() {
   const { isPending, error: validationError } = useQuery({
@@ -32,7 +30,7 @@ function App() {
   useThemeSync();
 
   if (!WebApp.initData) {
-    if (mode === "keyboard") {
+    if (launchMode === "keyboard") {
       return (
         <div className="flex flex-col gap-2">
           <Empty className="flex-1">
