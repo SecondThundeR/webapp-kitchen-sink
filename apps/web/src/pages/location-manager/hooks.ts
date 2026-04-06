@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import type { LocationData } from "telegram-web-app";
+import { useTelegramManagerLifecycle } from "@/hooks/use-telegram-manager-lifecycle";
 import { WebApp } from "@/lib/web-app";
 
 export const useLocation = () => {
@@ -31,27 +32,10 @@ export const useLocation = () => {
     }
   }, [syncState]);
 
-  useEffect(() => {
-    WebApp.onEvent("activated", initializeLocationManager);
-    WebApp.onEvent("deactivated", initializeLocationManager);
-    WebApp.onEvent("locationManagerUpdated", initializeLocationManager);
-
-    window.addEventListener("focus", initializeLocationManager);
-    document.addEventListener("visibilitychange", initializeLocationManager);
-
-    initializeLocationManager();
-
-    return () => {
-      WebApp.offEvent("locationManagerUpdated", initializeLocationManager);
-      WebApp.offEvent("activated", initializeLocationManager);
-      WebApp.offEvent("deactivated", initializeLocationManager);
-      window.removeEventListener("focus", initializeLocationManager);
-      document.removeEventListener(
-        "visibilitychange",
-        initializeLocationManager,
-      );
-    };
-  }, [initializeLocationManager]);
+  useTelegramManagerLifecycle({
+    initialize: initializeLocationManager,
+    updateEvent: "locationManagerUpdated",
+  });
 
   const getLocation = useCallback(async () => {
     return new Promise<LocationData | null>((resolve) => {

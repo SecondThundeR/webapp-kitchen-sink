@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useTelegramManagerLifecycle } from "@/hooks/use-telegram-manager-lifecycle";
 import { WebApp } from "@/lib/web-app";
 
 export const useBiometricManager = () => {
@@ -42,27 +43,10 @@ export const useBiometricManager = () => {
     }
   }, [syncState]);
 
-  useEffect(() => {
-    WebApp.onEvent("activated", initializeBiometricManager);
-    WebApp.onEvent("deactivated", initializeBiometricManager);
-    WebApp.onEvent("biometricManagerUpdated", initializeBiometricManager);
-
-    window.addEventListener("focus", initializeBiometricManager);
-    document.addEventListener("visibilitychange", initializeBiometricManager);
-
-    initializeBiometricManager();
-
-    return () => {
-      WebApp.offEvent("biometricManagerUpdated", initializeBiometricManager);
-      WebApp.offEvent("activated", initializeBiometricManager);
-      WebApp.offEvent("deactivated", initializeBiometricManager);
-      window.removeEventListener("focus", initializeBiometricManager);
-      document.removeEventListener(
-        "visibilitychange",
-        initializeBiometricManager,
-      );
-    };
-  }, [initializeBiometricManager]);
+  useTelegramManagerLifecycle({
+    initialize: initializeBiometricManager,
+    updateEvent: "biometricManagerUpdated",
+  });
 
   const requestAccess = useCallback(async () => {
     return new Promise<boolean>((resolve) => {
