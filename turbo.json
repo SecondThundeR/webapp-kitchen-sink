@@ -5,6 +5,21 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ]
+    },
+    "lint:write": {
+      "dependsOn": [
+        "^lint:write"
+      ]
+    },
+    "format": {
+      "dependsOn": [
+        "^format"
+      ]
     }
   }
 }

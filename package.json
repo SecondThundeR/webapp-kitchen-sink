@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "turbo run dev",
-    "lint": "biome check",
-    "lint:write": "biome check --write",
-    "format": "biome format --write .",
+    "lint": "turbo run lint",
+    "lint:write": "turbo run lint:write",
+    "format": " turbo run format",
     "clean:modules": "bash -lc 'find . -type d -name node_modules -prune -print -exec rm -rf {} \\; && rm -f bun.lock'"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.11",
+    "@biomejs/biome": "2.4.12",
     "turbo": "^2.9.6",
     "typescript": "^6.0.2"
   },

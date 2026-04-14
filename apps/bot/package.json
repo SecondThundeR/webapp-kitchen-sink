@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "NODE_ENV=development bun run --watch ./src/main.ts",
     "start": "NODE_ENV=production bun run ./src/main.ts",
-    "lint": "biome check"
+    "lint": "biome check",
+    "lint:write": "biome check --write",
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@grammyjs/auto-chat-action": "^0.1.1",
