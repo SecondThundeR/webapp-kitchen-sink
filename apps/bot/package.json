@@ -1,7 +1,7 @@
 {
   "name": "@webapp-kitchen-sink/bot",
   "version": "1.0.0",
-  "module": "bot.ts",
+  "module": "src/index.ts",
   "type": "module",
   "private": true,
   "scripts": {
