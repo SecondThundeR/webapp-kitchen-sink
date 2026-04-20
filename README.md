@@ -60,7 +60,7 @@ webapp-kitchen-sink/
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) >= 1.3.11
+- [Bun](https://bun.sh) >= 1.3.13
 
 ### Setup
 
