@@ -9,6 +9,7 @@ import { OpenTelegramLink } from "./components/open-telegram-link";
 import { OrientationLocked } from "./components/orientation-locked";
 import { QRPopup } from "./components/qr-popup";
 import { ReadTextFromClipboard } from "./components/read-text-from-clipboard";
+import { RequestChat } from "./components/request-chat";
 import { RequestContact } from "./components/request-contact";
 import { RequestWriteAccess } from "./components/request-write-access";
 import { SetEmojiStatus } from "./components/set-emoji-status";
@@ -123,5 +124,10 @@ export const HANDLERS_MAPPING = [
     name: "hideKeyboard",
     version: "9.1",
     Component: HideKeyboard,
+  },
+  {
+    name: "requestChat",
+    version: "9.6",
+    Component: RequestChat,
   },
 ];

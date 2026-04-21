@@ -68,3 +68,20 @@ export async function getTestEmojiSet() {
 
   return data;
 }
+
+type SavePreparedKeyboardButtonData = NonNullable<
+  Parameters<typeof api.api.button.savePreparedKeyboardButton.post>[0]
+>;
+
+export async function savePreparedKeyboardButton(
+  body: SavePreparedKeyboardButtonData,
+) {
+  const { data, error } =
+    await api.api.button.savePreparedKeyboardButton.post(body);
+
+  if (error) {
+    return Promise.reject(error.value);
+  }
+
+  return data;
+}
