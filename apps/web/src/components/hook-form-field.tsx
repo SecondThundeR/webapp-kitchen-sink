@@ -65,9 +65,7 @@ type HookFormFieldProps<T extends FieldValues> = BaseProps<T> &
 export const HookFormField = <T extends FieldValues>(
   props: HookFormFieldProps<T>,
 ) => {
-  const { name, control, label, id, ...rest } = props;
-  const fieldType =
-    "fieldType" in rest && rest.fieldType ? rest.fieldType : "input";
+  const { name, control, label, id, fieldType = "input", ...rest } = props;
   const fieldId = id || name;
 
   return (

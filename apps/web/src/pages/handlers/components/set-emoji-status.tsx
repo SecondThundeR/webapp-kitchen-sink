@@ -85,7 +85,7 @@ export const SetEmojiStatus = () => {
             </FieldGroup>
           </>
         ) : (
-          <p>Telegram Premium required to use this method</p>
+          <p>Telegram Premium is required for this method</p>
         )}
       </CardContent>
       {isUserPremium ? (

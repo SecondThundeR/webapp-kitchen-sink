@@ -76,7 +76,7 @@ export const CustomEmojiPicker = ({
           <EmptyMedia variant="icon">
             <CircleAlertIcon />
           </EmptyMedia>
-          <EmptyTitle>Telegram Premium required</EmptyTitle>
+          <EmptyTitle>Telegram Premium is required</EmptyTitle>
           <EmptyDescription>
             Custom emoji selection is only available for Telegram Premium users.
           </EmptyDescription>
