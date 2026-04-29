@@ -19,7 +19,7 @@
     "format": "biome format --write ."
   },
   "dependencies": {
-    "@elysiajs/cors": "1.4.1",
+    "@elysiajs/cors": "1.4.2",
     "elysia": "1.4.28"
   },
   "devDependencies": {
