@@ -1,8 +1,6 @@
 {
   "files": [],
   "references": [
-    { "path": "./apps/api" },
-    { "path": "./apps/bot" },
     { "path": "./apps/web" }
   ]
 }

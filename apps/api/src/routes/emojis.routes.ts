@@ -1,9 +1,9 @@
 import { gunzipSync } from "node:zlib";
-import { Elysia } from "elysia";
-import { env } from "../config/env";
-import { telegramAndroidDevice } from "../middleware/telegram-android-device";
-import { telegramAuth } from "../middleware/telegram-auth";
-import { callTelegramMethod, getTelegramFile } from "../utils/telegram-api";
+import { Hono } from "hono";
+import { env } from "#root/config/env.ts";
+import { telegramAndroidDevice } from "#root/middleware/telegram-android-device.ts";
+import type { HonoEnv } from "#root/types.ts";
+import { callTelegramMethod, getTelegramFile } from "#root/utils/telegram-api.ts";
 
 type FormattedSticker = {
   id: string;
@@ -24,19 +24,19 @@ const CACHE_TTL_MS = 1000 * 60 * 60 * 24;
 const ALLOWED_FILE_EXTENSIONS = [".tgs", ".webp", ".webm"] as const;
 const TELEGRAM_FILE_PATH_PATTERN = /^[A-Za-z0-9_./-]+$/;
 
-export const emojisRoutes = new Elysia({ prefix: "/emojis" })
-  .use(telegramAuth)
+export const emojisRoutes = new Hono<HonoEnv>()
   .use(telegramAndroidDevice)
-  .get("/getTestEmojiSet", async ({ telegramAndroidDevice }) => {
+  .get("/getTestEmojiSet", async (c) => {
+    const device = c.get("telegramAndroidDevice");
     const emojiPack = ["LOW", "AVERAGE"].includes(
-      telegramAndroidDevice.performanceClass ?? "",
+      device.performanceClass ?? "",
     )
       ? NON_LOTTIE_EMOJI_PACK
       : LOTTIE_EMOJI_PACK;
 
     const cached = emojiCache.get(emojiPack);
     if (cached && cached.expiresAt > Date.now()) {
-      return { emojis: cached.data };
+      return c.json({ emojis: cached.data });
     }
 
     const data = await callTelegramMethod<{
@@ -46,18 +46,13 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
         is_animated: boolean;
         is_video: boolean;
       }[];
-    }>("getStickerSet", {
-      name: emojiPack,
-    });
+    }>("getStickerSet", { name: emojiPack });
 
     const formattedEmojis = (
       await Promise.all(
         data.stickers.map(async (sticker) => {
           const file = await getTelegramFile(sticker.file_id);
-          if (!file) {
-            return null;
-          }
-
+          if (!file) return null;
           return {
             id: sticker.custom_emoji_id,
             file_path: file.file_path,
@@ -73,21 +68,19 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
       expiresAt: Date.now() + CACHE_TTL_MS,
     });
 
-    return { emojis: formattedEmojis };
+    return c.json({ emojis: formattedEmojis });
   })
-  .get("/file", async ({ query, set }) => {
-    const { path } = query;
+  .get("/file", async (c) => {
+    const path = c.req.query("path");
     if (!path) {
-      set.status = 400;
-      return { error: "Missing file path" };
+      return c.json({ error: "Missing file path" }, 400);
     }
 
     if (
       !TELEGRAM_FILE_PATH_PATTERN.test(path) ||
-      !ALLOWED_FILE_EXTENSIONS.some((extension) => path.endsWith(extension))
+      !ALLOWED_FILE_EXTENSIONS.some((ext) => path.endsWith(ext))
     ) {
-      set.status = 400;
-      return { error: "Invalid file path" };
+      return c.json({ error: "Invalid file path" }, 400);
     }
 
     try {
@@ -95,32 +88,34 @@ export const emojisRoutes = new Elysia({ prefix: "/emojis" })
       const response = await fetch(tgUrl);
 
       if (!response.ok) {
-        set.status = response.status;
-        return { error: "Failed to fetch from Telegram" };
+        return c.json({ error: "Failed to fetch from Telegram" }, response.status as 400);
       }
 
       if (path.endsWith(".tgs")) {
         const arrayBuffer = await response.arrayBuffer();
         const decompressed = gunzipSync(Buffer.from(arrayBuffer));
-
-        set.headers["Content-Type"] = "application/json";
-        return decompressed.toString("utf-8");
+        return new Response(decompressed.toString("utf-8"), {
+          headers: { "Content-Type": "application/json" },
+        });
       }
 
       if (path.endsWith(".webp")) {
-        set.headers["Content-Type"] = "image/webp";
-        return response;
+        return new Response(response.body, {
+          status: response.status,
+          headers: { "Content-Type": "image/webp" },
+        });
       }
 
       if (path.endsWith(".webm")) {
-        set.headers["Content-Type"] = "video/webm";
-        return response;
+        return new Response(response.body, {
+          status: response.status,
+          headers: { "Content-Type": "video/webm" },
+        });
       }
 
       return response;
     } catch (error) {
       console.error("Proxy Error:", error);
-      set.status = 500;
-      return { error: "Failed to process file" };
+      return c.json({ error: "Failed to process file" }, 500);
     }
   });

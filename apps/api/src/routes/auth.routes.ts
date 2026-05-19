@@ -1,18 +1,12 @@
-import { Elysia } from "elysia";
-import { telegramAuth } from "../middleware/telegram-auth";
-import { initDataSchema } from "../schemas/base.schemas";
+import { Hono } from "hono";
+import { telegramAuth } from "#root/middleware/telegram-auth.ts";
+import type { HonoEnv } from "#root/types.ts";
 
-export const authRoutes = new Elysia({ prefix: "/auth" })
-  .use(telegramAuth)
-  .post(
-    "/init",
-    async ({ user }) => {
-      const userId = user?.id;
-      if (!userId) {
-        return { success: false };
-      }
-
-      return { success: true };
-    },
-    { body: initDataSchema, telegramAuth: true },
-  );
+export const authRoutes = new Hono<HonoEnv>().post(
+  "/init",
+  telegramAuth,
+  async (c) => {
+    const user = c.get("user");
+    return c.json({ success: Boolean(user?.id) });
+  },
+);

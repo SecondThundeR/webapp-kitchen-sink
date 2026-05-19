@@ -1,21 +1,21 @@
-import { Elysia } from "elysia";
-import { telegramAuth } from "../middleware/telegram-auth";
-import { callTelegramMethod } from "../utils/telegram-api";
+import { Hono } from "hono";
+import { telegramAuth } from "#root/middleware/telegram-auth.ts";
+import type { HonoEnv } from "#root/types.ts";
+import { callTelegramMethod } from "#root/utils/telegram-api.ts";
 
-export const buttonRoutes = new Elysia({ prefix: "/button" })
-  .use(telegramAuth)
-  .post(
-    "/savePreparedKeyboardButton",
-    async ({ user }) => {
-      const userId = user?.id;
-      if (!userId) {
-        return { id: null };
-      }
+export const buttonRoutes = new Hono<HonoEnv>().post(
+  "/savePreparedKeyboardButton",
+  telegramAuth,
+  async (c) => {
+    const user = c.get("user");
+    if (!user?.id) {
+      return c.json({ id: null });
+    }
 
-      const result = await callTelegramMethod<{
-        id: string;
-      }>("savePreparedKeyboardButton", {
-        user_id: userId,
+    const result = await callTelegramMethod<{ id: string }>(
+      "savePreparedKeyboardButton",
+      {
+        user_id: user.id,
         button: {
           text: "Button",
           request_chat: {
@@ -26,9 +26,9 @@ export const buttonRoutes = new Elysia({ prefix: "/button" })
             request_photo: true,
           },
         },
-      });
+      },
+    );
 
-      return { id: result.id };
-    },
-    { telegramAuth: true },
-  );
+    return c.json({ id: result.id });
+  },
+);

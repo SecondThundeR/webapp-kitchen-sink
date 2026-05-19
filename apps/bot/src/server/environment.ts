@@ -1,4 +1,4 @@
-import type { Logger } from "../logger";
+import type { Logger } from "#root/logger.ts";
 
 export interface Env {
   Variables: {

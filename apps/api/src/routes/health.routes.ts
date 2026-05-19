@@ -1,5 +1,5 @@
-import { Elysia } from "elysia";
+import { Hono } from "hono";
 
-export const healthRoutes = new Elysia({ prefix: "/health" }).get("/", () => ({
-  status: "ok",
-}));
+export const healthRoutes = new Hono().get("/health", (c) =>
+  c.json({ status: "ok" }),
+);

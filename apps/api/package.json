@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "private": true,
-  "module": "src/index.ts",
+  "imports": {
+    "#root/*": "./src/*"
+  },
+  "engines": {
+    "node": ">=26.2.0",
+    "pnpm": ">=11.2.2"
+  },
   "types": "src/exports.ts",
   "exports": {
     ".": {
@@ -12,17 +18,20 @@
     }
   },
   "scripts": {
-    "dev": "NODE_ENV=development bun --watch src/index.ts",
-    "build": "NODE_ENV=production bun build --compile --production --target=bun-linux-x64 --outfile dist/server ./src/index.ts",
+    "dev": "NODE_ENV=development node --env-file=.env --watch src/index.ts",
+    "start": "node src/index.ts",
+    "build": "tsc --noEmit",
     "lint": "biome check",
     "lint:write": "biome check --write",
     "format": "biome format --write ."
   },
   "dependencies": {
-    "@elysiajs/cors": "1.4.2",
-    "elysia": "1.4.28"
+    "@hono/node-server": "2.0.3",
+    "@hono/valibot-validator": "0.6.1",
+    "hono": "4.12.22",
+    "valibot": "1.4.0"
   },
   "devDependencies": {
-    "@types/bun": "catalog:"
+    "@types/node": "25.9.1"
   }
 }

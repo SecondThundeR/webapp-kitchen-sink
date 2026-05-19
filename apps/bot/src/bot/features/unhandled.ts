@@ -1,6 +1,6 @@
 import { Composer } from "grammy";
-import type { Context } from "../context";
-import { logHandle } from "../helpers/logging";
+import type { Context } from "#root/bot/context.ts";
+import { logHandle } from "#root/bot/helpers/logging.ts";
 
 const composer = new Composer<Context>();
 

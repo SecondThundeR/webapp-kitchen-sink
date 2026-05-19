@@ -1,11 +1,11 @@
 import process from "node:process";
 import type { RunnerHandle } from "@grammyjs/runner";
 import { run } from "@grammyjs/runner";
-import { createBot } from "./bot";
-import type { PollingConfig, WebhookConfig } from "./config";
-import { config } from "./config";
-import { logger } from "./logger";
-import { createServer, createServerManager } from "./server";
+import { createBot } from "#root/bot/index.ts";
+import type { PollingConfig, WebhookConfig } from "#root/config.ts";
+import { config } from "#root/config.ts";
+import { logger } from "#root/logger.ts";
+import { createServer, createServerManager } from "#root/server/index.ts";
 
 async function startPolling(config: PollingConfig) {
   const bot = createBot(config.botToken, {
@@ -62,7 +62,7 @@ async function startWebhook(config: WebhookConfig) {
   await bot.init();
 
   // start server
-  const info = serverManager.start();
+  const info = await serverManager.start();
   logger.info({
     msg: "Server started",
     url: info.url,

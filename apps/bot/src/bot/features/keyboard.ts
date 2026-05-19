@@ -1,7 +1,7 @@
 import { Composer, Keyboard } from "grammy";
-import { config } from "../../config";
-import type { Context } from "../context";
-import { logHandle } from "../helpers/logging";
+import type { Context } from "#root/bot/context.ts";
+import { logHandle } from "#root/bot/helpers/logging.ts";
+import { config } from "#root/config.ts";
 
 const url = new URL(config.webAppUrl);
 

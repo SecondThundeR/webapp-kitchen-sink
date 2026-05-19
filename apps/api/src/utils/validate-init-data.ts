@@ -1,3 +1,5 @@
+import { createHmac } from "node:crypto";
+
 export interface User {
   id: number;
   first_name: string;
@@ -26,16 +28,8 @@ export function validateInitData(initData: string, botToken: string) {
     params.sort();
     const dataCheckString = params.join("\n");
 
-    const encoder = new TextEncoder();
-    const keyData = encoder.encode("WebAppData");
-
-    const secretKey = new Bun.CryptoHasher("sha256", keyData)
-      .update(botToken)
-      .digest();
-
-    const calculatedHash = new Bun.CryptoHasher("sha256", secretKey)
-      .update(dataCheckString)
-      .digest("hex");
+    const secretKey = createHmac("sha256", "WebAppData").update(botToken).digest();
+    const calculatedHash = createHmac("sha256", secretKey).update(dataCheckString).digest("hex");
 
     if (calculatedHash !== hash) {
       return { valid: false, error: "Invalid hash" };

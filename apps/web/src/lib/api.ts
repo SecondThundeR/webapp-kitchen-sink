@@ -1,8 +1,8 @@
-import { treaty } from "@elysiajs/eden";
 import type { App } from "@webapp-kitchen-sink/contracts";
+import { hc } from "hono/client";
 
-export const api = treaty<App>(import.meta.env.VITE_API_URL, {
-  fetch: {
+export const api = hc<App>(import.meta.env.VITE_API_URL, {
+  init: {
     credentials: "include",
   },
 });

@@ -5,7 +5,7 @@ const REQUIRED_ENV_VARS = [
 ] as const;
 
 function validateEnv() {
-  const missingEnvVars = REQUIRED_ENV_VARS.filter((key) => !Bun.env[key]);
+  const missingEnvVars = REQUIRED_ENV_VARS.filter((key) => !process.env[key]);
 
   if (missingEnvVars.length > 0) {
     console.error(
@@ -18,8 +18,8 @@ function validateEnv() {
 validateEnv();
 
 export const env = {
-  BOT_TOKEN: Bun.env.BOT_TOKEN,
-  PORT: Number(Bun.env.PORT ?? 3000),
-  FRONTEND_URL: Bun.env.FRONTEND_URL,
-  PAYMENT_PROVIDER_TOKEN: Bun.env.PAYMENT_PROVIDER_TOKEN,
+  BOT_TOKEN: process.env.BOT_TOKEN,
+  PORT: Number(process.env.PORT ?? 3000),
+  FRONTEND_URL: process.env.FRONTEND_URL,
+  PAYMENT_PROVIDER_TOKEN: process.env.PAYMENT_PROVIDER_TOKEN,
 } as const;

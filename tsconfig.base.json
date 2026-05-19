@@ -2,9 +2,10 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ESNext"],
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleDetection": "force",
-    "moduleResolution": "bundler",
+    "moduleResolution": "nodenext",
+    "erasableSyntaxOnly": true,
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -16,6 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "incremental": true
+    "incremental": true,
+    "preserveWatchOutput": true,
+    "verbatimModuleSyntax": true
   }
 }

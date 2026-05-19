@@ -1,6 +1,6 @@
-import { env } from "../config/env";
-import { AppError } from "../errors/app-error";
-import { ErrorCode } from "../errors/error-code";
+import { env } from "#root/config/env.ts";
+import { AppError } from "#root/errors/app-error.ts";
+import { ErrorCode } from "#root/errors/error-code.ts";
 
 type TelegramSuccess<TResult> = {
   ok: true;

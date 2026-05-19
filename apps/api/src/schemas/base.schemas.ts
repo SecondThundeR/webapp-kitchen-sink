@@ -1,5 +1,5 @@
-import { t } from "elysia";
+import * as v from "valibot";
 
-export const initDataSchema = t.Object({
-  initData: t.String(),
+export const initDataSchema = v.object({
+  initData: v.string(),
 });

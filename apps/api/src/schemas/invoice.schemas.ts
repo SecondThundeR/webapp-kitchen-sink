@@ -1,48 +1,37 @@
-import { t } from "elysia";
-import { initDataSchema } from "./base.schemas";
+import * as v from "valibot";
 
-const baseInvoiceSchema = t.Object({
-  title: t.String(),
-  description: t.String(),
-  prices: t.Array(
-    t.Object({
-      label: t.String(),
-      amount: t.Number(),
+const baseInvoiceSchema = v.object({
+  title: v.string(),
+  description: v.string(),
+  prices: v.array(
+    v.object({
+      label: v.string(),
+      amount: v.number(),
     }),
   ),
-  photo_url: t.Optional(t.String()),
-  photo_size: t.Optional(t.Number()),
-  photo_width: t.Optional(t.Number()),
-  photo_height: t.Optional(t.Number()),
+  photo_url: v.optional(v.string()),
+  photo_size: v.optional(v.number()),
+  photo_width: v.optional(v.number()),
+  photo_height: v.optional(v.number()),
 });
 
-const regularInvoiceSchema = t.Intersect([
+export const regularInvoiceSchema = v.intersect([
   baseInvoiceSchema,
-  t.Object({
-    currency: t.String(),
-    max_tip_amount: t.Optional(t.Number()),
-    suggested_tip_amounts: t.Optional(t.Array(t.Number())),
-    need_name: t.Optional(t.Boolean()),
-    need_phone_number: t.Optional(t.Boolean()),
-    need_email: t.Optional(t.Boolean()),
-    need_shipping_address: t.Optional(t.Boolean()),
-    is_flexible: t.Optional(t.Boolean()),
+  v.object({
+    currency: v.string(),
+    max_tip_amount: v.optional(v.number()),
+    suggested_tip_amounts: v.optional(v.array(v.number())),
+    need_name: v.optional(v.boolean()),
+    need_phone_number: v.optional(v.boolean()),
+    need_email: v.optional(v.boolean()),
+    need_shipping_address: v.optional(v.boolean()),
+    is_flexible: v.optional(v.boolean()),
   }),
 ]);
 
-const starsInvoiceSchema = t.Intersect([
+export const starsInvoiceSchema = v.intersect([
   baseInvoiceSchema,
-  t.Object({
-    subscription_period: t.Optional(t.Number()),
+  v.object({
+    subscription_period: v.optional(v.number()),
   }),
-]);
-
-export const invoiceRequestBodySchema = t.Composite([
-  initDataSchema,
-  regularInvoiceSchema,
-]);
-
-export const starsInvoiceRequestBodySchema = t.Composite([
-  initDataSchema,
-  starsInvoiceSchema,
 ]);

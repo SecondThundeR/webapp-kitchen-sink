@@ -1,62 +1,58 @@
-import { cors } from "@elysiajs/cors";
-import { Elysia } from "elysia";
-import { env } from "./config/env";
-import { AppError } from "./errors/app-error";
-import { ErrorCode } from "./errors/error-code";
-import { healthRoutes, routes } from "./routes";
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { env } from "./config/env.ts";
+import { AppError } from "./errors/app-error.ts";
+import { ErrorCode } from "./errors/error-code.ts";
+import { healthRoutes, routes } from "./routes/index.ts";
+import type { HonoEnv } from "./types.ts";
 
-const app = new Elysia()
+const app = new Hono<HonoEnv>()
   .use(
     cors({
       origin: [env.FRONTEND_URL],
-      allowedHeaders: [
+      allowHeaders: [
         "Content-Type",
         "Authorization",
         "Referrer-Policy",
         "user-agent",
       ],
-      methods: ["GET", "POST", "DELETE", "PUT"],
+      allowMethods: ["GET", "POST", "DELETE", "PUT"],
       credentials: true,
     }),
   )
-  .error({
-    AppError,
-  })
-  .onError(async (context) => {
-    const { code, error, set } = context;
-    if (error instanceof AppError) {
-      set.status = error.status;
-      return {
-        success: false,
-        code: error.code,
-        message: error.message,
-        details: error.details,
-      };
-    }
+  .route("/", healthRoutes)
+  .route("/api", routes);
 
-    if (code === "VALIDATION") {
-      set.status = 400;
-      return {
+app.onError((err, c) => {
+  if (err instanceof AppError) {
+    return c.json(
+      {
         success: false,
-        code: ErrorCode.VALIDATION_ERROR,
-        message: "Validation failed",
-        details: error.all,
-      };
-    }
+        code: err.code,
+        message: err.message,
+        details: err.details ?? null,
+      },
+      err.status as 400,
+    );
+  }
 
-    set.status = 500;
-    return {
+  console.error(err);
+  return c.json(
+    {
       success: false,
       code: ErrorCode.UNKNOWN_ERROR,
       message: "Internal Server Error",
-    };
-  })
-  .use(healthRoutes)
-  .use(routes)
-  .listen({ port: env.PORT, hostname: "0.0.0.0" });
+    },
+    500,
+  );
+});
 
-console.log(
-  `🦊 @webapp-kitchen-sink/api is running at ${app.server?.hostname}:${app.server?.port}`,
+serve(
+  { fetch: app.fetch, port: env.PORT, hostname: "0.0.0.0" },
+  ({ address, port }) => {
+    console.log(`@webapp-kitchen-sink/api is running at ${address}:${port}`);
+  },
 );
 
 export type App = typeof app;

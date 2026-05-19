@@ -1,21 +1,25 @@
-import { Elysia } from "elysia";
-import { env } from "../config/env";
-import { telegramAuth } from "../middleware/telegram-auth";
+import { vValidator } from "@hono/valibot-validator";
+import { Hono } from "hono";
+import { env } from "#root/config/env.ts";
+import { telegramAuth } from "#root/middleware/telegram-auth.ts";
 import {
-  invoiceRequestBodySchema,
-  starsInvoiceRequestBodySchema,
-} from "../schemas/invoice.schemas";
-import { callTelegramMethod } from "../utils/telegram-api";
+  regularInvoiceSchema,
+  starsInvoiceSchema,
+} from "#root/schemas/invoice.schemas.ts";
+import type { HonoEnv } from "#root/types.ts";
+import { callTelegramMethod } from "#root/utils/telegram-api.ts";
+import { validationHook } from "#root/utils/validation-hook.ts";
 
-export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
-  .use(telegramAuth)
+export const invoiceRoutes = new Hono<HonoEnv>()
   .post(
     "/create",
-    async ({ user, body }) => {
-      const { initData, ...requestBody } = body;
-      const userId = user?.id;
-      if (!userId) {
-        return { url: "" };
+    telegramAuth,
+    vValidator("json", regularInvoiceSchema, validationHook),
+    async (c) => {
+      const requestBody = c.req.valid("json");
+      const user = c.get("user");
+      if (!user?.id) {
+        return c.json({ url: "" });
       }
 
       const url = await callTelegramMethod<string>("createInvoiceLink", {
@@ -24,17 +28,18 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
         provider_token: env.PAYMENT_PROVIDER_TOKEN,
       });
 
-      return { url };
+      return c.json({ url });
     },
-    { body: invoiceRequestBodySchema, telegramAuth: true },
   )
   .post(
     "/createWithStars",
-    async ({ user, body }) => {
-      const { initData, ...requestBody } = body;
-      const userId = user?.id;
-      if (!userId) {
-        return { url: "" };
+    telegramAuth,
+    vValidator("json", starsInvoiceSchema, validationHook),
+    async (c) => {
+      const requestBody = c.req.valid("json");
+      const user = c.get("user");
+      if (!user?.id) {
+        return c.json({ url: "" });
       }
 
       const url = await callTelegramMethod<string>("createInvoiceLink", {
@@ -43,7 +48,6 @@ export const invoiceRoutes = new Elysia({ prefix: "/invoice" })
         currency: "XTR",
       });
 
-      return { url };
+      return c.json({ url });
     },
-    { body: starsInvoiceRequestBodySchema, telegramAuth: true },
   );
