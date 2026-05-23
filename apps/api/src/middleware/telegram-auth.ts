@@ -1,9 +1,9 @@
 import { createMiddleware } from "hono/factory";
-import { config } from "#root/config/index.ts";
-import { AppError } from "#root/errors/app-error.ts";
-import { ErrorCode } from "#root/errors/error-code.ts";
-import type { HonoEnv } from "#root/types.ts";
-import { validateInitData } from "#root/utils/validate-init-data.ts";
+import { config } from "#root/config/index.js";
+import { AppError } from "#root/errors/app-error.js";
+import { ErrorCode } from "#root/errors/error-code.js";
+import type { HonoEnv } from "#root/types.js";
+import { validateInitData } from "#root/utils/validate-init-data.js";
 
 export const telegramAuth = createMiddleware<
   HonoEnv,

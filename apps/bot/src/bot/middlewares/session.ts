@@ -1,6 +1,6 @@
 import type { Middleware, SessionOptions } from "grammy";
 import { session as createSession } from "grammy";
-import type { Context, SessionData } from "#root/bot/context.ts";
+import type { Context, SessionData } from "#root/bot/context.js";
 
 type Options = Pick<
   SessionOptions<SessionData, Context>,

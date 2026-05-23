@@ -1,12 +1,12 @@
 import { gunzipSync } from "node:zlib";
 import { Hono } from "hono";
-import { config } from "#root/config/index.ts";
-import { telegramAndroidDevice } from "#root/middleware/telegram-android-device.ts";
-import type { HonoEnv } from "#root/types.ts";
+import { config } from "#root/config/index.js";
+import { telegramAndroidDevice } from "#root/middleware/telegram-android-device.js";
+import type { HonoEnv } from "#root/types.js";
 import {
   callTelegramMethod,
   getTelegramFile,
-} from "#root/utils/telegram-api.ts";
+} from "#root/utils/telegram-api.js";
 
 type FormattedSticker = {
   id: string;

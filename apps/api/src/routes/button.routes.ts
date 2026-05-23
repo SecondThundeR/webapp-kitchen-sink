@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { telegramAuth } from "#root/middleware/telegram-auth.ts";
-import type { HonoEnv } from "#root/types.ts";
-import { callTelegramMethod } from "#root/utils/telegram-api.ts";
+import { telegramAuth } from "#root/middleware/telegram-auth.js";
+import type { HonoEnv } from "#root/types.js";
+import { callTelegramMethod } from "#root/utils/telegram-api.js";
 
 export const buttonRoutes = new Hono<HonoEnv>().post(
   "/savePreparedKeyboardButton",

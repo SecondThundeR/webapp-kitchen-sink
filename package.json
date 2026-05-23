@@ -7,9 +7,11 @@
     "pnpm": ">=11.2.2"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "turbo run dev",
     "start": "turbo run start",
     "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "lint:write": "turbo run lint:write",
     "format": "turbo run format",

@@ -1,7 +1,7 @@
 import { Composer, InlineKeyboard } from "grammy";
-import type { Context } from "#root/bot/context.ts";
-import { logHandle } from "#root/bot/helpers/logging.ts";
-import { config } from "#root/config.ts";
+import type { Context } from "#root/bot/context.js";
+import { logHandle } from "#root/bot/helpers/logging.js";
+import { config } from "#root/config.js";
 
 const webAppKeyboard = new InlineKeyboard().webApp(
   "Open web app",

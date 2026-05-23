@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import type { HonoEnv, TelegramDeviceInfo } from "#root/types.ts";
+import type { HonoEnv, TelegramDeviceInfo } from "#root/types.js";
 
 const TG_UA_REGEX =
   /Telegram-Android\/([\d.]+)\s+\(([^;]+);\s+Android\s+([^;]+);\s+SDK\s+(\d+);\s+([A-Z]+)\)/;

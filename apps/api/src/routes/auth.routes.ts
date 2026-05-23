@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { telegramAuth } from "#root/middleware/telegram-auth.ts";
-import type { HonoEnv } from "#root/types.ts";
+import { telegramAuth } from "#root/middleware/telegram-auth.js";
+import type { HonoEnv } from "#root/types.js";
 
 export const authRoutes = new Hono<HonoEnv>().post(
   "/init",

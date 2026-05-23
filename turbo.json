@@ -15,6 +15,15 @@
         "dist/**"
       ]
     },
+    "typecheck": {
+      "dependsOn": [
+        "^typecheck"
+      ],
+      "outputs": [
+        "dist-types/**",
+        "**/*.tsbuildinfo"
+      ]
+    },
     "dev": {
       "cache": false,
       "persistent": true

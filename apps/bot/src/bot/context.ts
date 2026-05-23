@@ -2,8 +2,8 @@ import type { AutoChatActionFlavor } from "@grammyjs/auto-chat-action";
 import type { HydrateFlavor } from "@grammyjs/hydrate";
 import type { ParseModeFlavor } from "@grammyjs/parse-mode";
 import type { Context as DefaultContext, SessionFlavor } from "grammy";
-import type { Config } from "#root/config.ts";
-import type { Logger } from "#root/logger.ts";
+import type { Config } from "#root/config.js";
+import type { Logger } from "#root/logger.js";
 
 // biome-ignore lint/complexity/noBannedTypes: Currently session data is empty
 export type SessionData = {};

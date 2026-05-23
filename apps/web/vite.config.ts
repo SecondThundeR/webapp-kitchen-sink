@@ -39,5 +39,13 @@ export default defineConfig(({ mode }) => {
       port: Number(env.PORT || "3001"),
       host: "0.0.0.0",
     },
+    build: {
+      rollupOptions: {
+        onLog(level, log, defaultHandler) {
+          if (log.code === "EVAL" && log.id?.includes("node_modules")) return;
+          defaultHandler(level, log);
+        },
+      },
+    },
   };
 });

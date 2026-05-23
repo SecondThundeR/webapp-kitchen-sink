@@ -1,11 +1,11 @@
 import process from "node:process";
 import type { RunnerHandle } from "@grammyjs/runner";
 import { run } from "@grammyjs/runner";
-import { createBot } from "#root/bot/index.ts";
-import type { PollingConfig, WebhookConfig } from "#root/config.ts";
-import { config } from "#root/config.ts";
-import { logger } from "#root/logger.ts";
-import { createServer, createServerManager } from "#root/server/index.ts";
+import { createBot } from "#root/bot/index.js";
+import type { PollingConfig, WebhookConfig } from "#root/config.js";
+import { config } from "#root/config.js";
+import { logger } from "#root/logger.js";
+import { createServer, createServerManager } from "#root/server/index.js";
 
 async function startPolling(config: PollingConfig) {
   const bot = createBot(config.botToken, {

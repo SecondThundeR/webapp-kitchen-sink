@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "tsBuildInfoFile": ".tsbuildinfo",
+    "incremental": true,
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["ESNext", "DOM"],
@@ -28,5 +29,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [{ "path": "../../packages/contracts" }]
 }

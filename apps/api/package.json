@@ -4,36 +4,38 @@
   "type": "module",
   "private": true,
   "imports": {
-    "#root/*": "./src/*"
+    "#root/*": "./src/*.ts"
   },
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=11.2.2"
   },
-  "types": "src/exports.ts",
+  "types": "./dist-types/exports.d.ts",
   "exports": {
     ".": {
-      "types": "./src/exports.ts",
+      "types": "./dist-types/exports.d.ts",
       "default": "./src/index.ts"
     }
   },
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch src/index.ts",
-    "start": "NODE_ENV=production tsx src/index.ts",
+    "dev": "NODE_ENV=development node --watch --enable-source-maps ./src/index.ts",
+    "build": "tsdown",
+    "start": "NODE_ENV=production node --enable-source-maps ./dist/index.mjs",
+    "typecheck": "tsc",
     "lint": "biome check",
     "lint:write": "biome check --write",
     "format": "biome format --write ."
   },
   "dependencies": {
-    "@hono/node-server": "2.0.3",
+    "@hono/node-server": "catalog:",
     "@hono/valibot-validator": "0.6.1",
     "@webapp-kitchen-sink/config": "workspace:*",
-    "hono": "4.12.22",
-    "valibot": "1.4.0"
+    "hono": "catalog:",
+    "valibot": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "25.9.1",
-    "tsx": "4.22.3"
+    "@types/node": "catalog:",
+    "tsdown": "^0.22.0"
   },
   "packageManager": "pnpm@11.2.2"
 }

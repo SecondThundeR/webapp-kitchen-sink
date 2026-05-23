@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import type { HonoEnv } from "#root/types.ts";
+import type { HonoEnv } from "#root/types.js";
 import { authRoutes } from "./auth.routes.ts";
 import { buttonRoutes } from "./button.routes.ts";
 import { emojisRoutes } from "./emojis.routes.ts";

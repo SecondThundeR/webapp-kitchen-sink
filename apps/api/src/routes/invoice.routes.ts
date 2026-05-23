@@ -1,14 +1,14 @@
 import { vValidator } from "@hono/valibot-validator";
 import { Hono } from "hono";
-import { config } from "#root/config/index.ts";
-import { telegramAuth } from "#root/middleware/telegram-auth.ts";
+import { config } from "#root/config/index.js";
+import { telegramAuth } from "#root/middleware/telegram-auth.js";
 import {
   regularInvoiceSchema,
   starsInvoiceSchema,
-} from "#root/schemas/invoice.schemas.ts";
-import type { HonoEnv } from "#root/types.ts";
-import { callTelegramMethod } from "#root/utils/telegram-api.ts";
-import { validationHook } from "#root/utils/validation-hook.ts";
+} from "#root/schemas/invoice.schemas.js";
+import type { HonoEnv } from "#root/types.js";
+import { callTelegramMethod } from "#root/utils/telegram-api.js";
+import { validationHook } from "#root/utils/validation-hook.js";
 
 export const invoiceRoutes = new Hono<HonoEnv>()
   .post(

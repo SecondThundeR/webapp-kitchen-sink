@@ -1,6 +1,6 @@
 # Telegram Mini Apps Kitchen Sink
 
-A monorepo featuring every possible use case of Telegram Mini App SDK, covering all available public API. This monorepo comes with **pnpm** as the package manager and runtime, **Hono** as the API framework, **Grammy** as the Telegram Bot framework, and **React + Vite** for the frontend. Currently designed for seamless deployment on Railway with end-to-end type safety between frontend and backend
+A monorepo featuring every possible use case of Telegram Mini App SDK, covering all available public API. This monorepo runs on **Node 22** with **pnpm** as the package manager, **Hono** as the API framework, **Grammy** as the Telegram Bot framework, and **React + Vite** for the frontend. Backend apps are bundled with **tsdown** for production. Currently designed for seamless deployment on Railway with end-to-end type safety between frontend and backend.
 
 [Demo](https://t.me/webappkitchensink_bot)
 
@@ -14,11 +14,13 @@ A monorepo featuring every possible use case of Telegram Mini App SDK, covering 
 webapp-kitchen-sink/
 ├── apps/
 │   ├── api/          # Hono backend server
-│   └── bot/          # Grammy Telegram bot
+│   ├── bot/          # Grammy Telegram bot
 │   └── web/          # React + Vite frontend
 ├── packages/
+│   ├── config/       # Shared env config (valibot)
 │   └── contracts/    # Shared type definitions
 ├── biome.json        # Linting & formatting config
+├── pnpm-workspace.yaml # Workspace packages and dependency catalog
 ├── package.json      # Root workspace configuration
 └── tsconfig.base.json
 ```
@@ -60,7 +62,10 @@ webapp-kitchen-sink/
 
 ### Prerequisites
 
-- [Node](https://nodejs.org) 22.22.3
+- [Node](https://nodejs.org) 22.22.3 (see `.nvmrc`)
+- [pnpm](https://pnpm.io) 11.2.2+
+
+Both are enforced via `engine-strict=true` in `.npmrc`. A `preinstall` hook also blocks `npm`/`yarn`.
 
 ### Setup
 
@@ -108,18 +113,19 @@ PORT=3001
 
 #### API Service
 
-| Setting       | Value                                         |
-| ------------- | --------------------------------------------- |
-| Build Command | `pnpm --filter @webapp-kitchen-sink/api build` |
-| Start Command | `./apps/api/dist/server`                      |
-| Watch Paths   | `apps/api/**`, `packages/contracts/**`        |
+| Setting       | Value                                              |
+| ------------- | -------------------------------------------------- |
+| Build Command | `pnpm --filter @webapp-kitchen-sink/api build`     |
+| Start Command | `pnpm --filter @webapp-kitchen-sink/api start`     |
+| Watch Paths   | `apps/api/**`, `packages/**`                       |
 
 #### Bot Service
 
-| Setting       | Value                                         |
-| ------------- | --------------------------------------------- |
-| Start Command | `pnpm --filter @webapp-kitchen-sink/bot start` |
-| Watch Paths   | `apps/bot/**`                                 |
+| Setting       | Value                                              |
+| ------------- | -------------------------------------------------- |
+| Build Command | `pnpm --filter @webapp-kitchen-sink/bot build`     |
+| Start Command | `pnpm --filter @webapp-kitchen-sink/bot start`     |
+| Watch Paths   | `apps/bot/**`, `packages/**`                       |
 
 #### Web Service
 
@@ -142,36 +148,47 @@ The API includes a health endpoint at `/health`. Configure Railway's health chec
 
 ### Root
 
-| Script              | Description                            |
-| ------------------- | -------------------------------------- |
-| `pnpm dev`           | Start all services in development mode |
-| `pnpm lint`          | Check for linting issues               |
-| `pnpm lint:write`    | Fix linting issues automatically       |
-| `pnpm format`        | Format all files                       |
-| `pnpm clean:modules` | Remove all `node_modules` and lockfile |
+| Script              | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `pnpm dev`          | Start all services in development mode            |
+| `pnpm build`        | Build all packages (bot + api bundles, web bundle) |
+| `pnpm typecheck`    | Run `tsc` across the workspace (project references) |
+| `pnpm lint`         | Check for linting issues                          |
+| `pnpm lint:write`   | Fix linting issues automatically                  |
+| `pnpm format`       | Format all files                                  |
+| `pnpm clean:modules`| Remove all `node_modules` and lockfile            |
 
 ### API (`apps/api`)
 
-| Script          | Description                              |
-| --------------- | ---------------------------------------- |
-| `pnpm dev`       | Start with hot reload                    |
-| `pnpm run build` | Compile to native binary (`dist/server`) |
+| Script         | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| `pnpm dev`     | Run via `node --watch` with native TS support          |
+| `pnpm build`   | Bundle to `dist/index.mjs` with tsdown                 |
+| `pnpm start`   | Run the production bundle                              |
+| `pnpm typecheck` | Type-check and emit `.d.ts` for downstream consumers |
 
 ### Bot (`apps/bot`)
 
-| Script      | Description              |
-| ----------- | ------------------------ |
-| `pnpm dev`   | Start with hot reload    |
-| `pnpm start` | Start without hot reload |
+| Script         | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| `pnpm dev`     | Run via `node --watch` with native TS support          |
+| `pnpm build`   | Bundle to `dist/main.mjs` with tsdown                  |
+| `pnpm start`   | Run the production bundle                              |
+| `pnpm typecheck` | Type-check the bot package                           |
 
 ### Web (`apps/web`)
 
-| Script          | Description                                                |
-| --------------- | ---------------------------------------------------------- |
-| `pnpm dev`       | Start Vite dev server                                      |
-| `pnpm run build` | Build for production                                       |
-| `pnpm analyze`   | Build for production with enabled rollup-pnpmdle-visualizer |
-| `pnpm preview`   | Preview production build locally                           |
+| Script         | Description                                                |
+| -------------- | ---------------------------------------------------------- |
+| `pnpm dev`     | Start Vite dev server                                      |
+| `pnpm build`   | Build for production                                       |
+| `pnpm analyze` | Build for production with rollup bundle visualizer         |
+| `pnpm preview` | Preview production build locally                           |
+| `pnpm typecheck` | Type-check the React app                                 |
+
+## Dependency Management
+
+Shared dependency versions live in `pnpm-workspace.yaml` under `catalog:`. Packages reference them with `"hono": "catalog:"` etc. To check for updates: `pnpm outdated -r`. To upgrade interactively: `pnpm update -r --latest -i`. Renovate is configured (`renovate.json`) to open weekly PRs.
 
 ## Credits
 

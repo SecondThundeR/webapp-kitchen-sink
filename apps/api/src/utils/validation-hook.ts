@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 import type * as v from "valibot";
-import { ErrorCode } from "#root/errors/error-code.ts";
+import { ErrorCode } from "#root/errors/error-code.js";
 
 export function validationHook(
   result: v.SafeParseResult<v.GenericSchema>,
