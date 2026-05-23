@@ -19,8 +19,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development node --env-file=.env --watch src/index.ts",
-    "start": "node src/index.ts",
-    "build": "tsc --noEmit",
+    "start": "NODE_ENV=production node src/index.ts",
     "lint": "biome check",
     "lint:write": "biome check --write",
     "format": "biome format --write ."
