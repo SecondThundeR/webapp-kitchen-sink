@@ -32,13 +32,6 @@ export default defineConfig(({ mode }) => {
       allowedHosts: isDevelopment ? true : undefined,
       port: Number(env.PORT || "3001"),
     },
-    preview: {
-      allowedHosts: env.RAILWAY_PUBLIC_DOMAIN
-        ? [env.RAILWAY_PUBLIC_DOMAIN]
-        : undefined,
-      port: Number(env.PORT || "3001"),
-      host: "0.0.0.0",
-    },
     build: {
       rollupOptions: {
         onLog(level, log, defaultHandler) {
