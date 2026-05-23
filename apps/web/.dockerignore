@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/dist-types
+**/.turbo
+.git
+.github
+.vscode
+.DS_Store
+*.log
