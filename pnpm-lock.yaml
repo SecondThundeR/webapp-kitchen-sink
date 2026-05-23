@@ -26,6 +26,9 @@ importers:
       '@hono/valibot-validator':
         specifier: 0.6.1
         version: 0.6.1(hono@4.12.22)(valibot@1.4.0(typescript@6.0.3))
+      '@webapp-kitchen-sink/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       hono:
         specifier: 4.12.22
         version: 4.12.22
@@ -60,6 +63,9 @@ importers:
       '@hono/node-server':
         specifier: 2.0.3
         version: 2.0.3(hono@4.12.22)
+      '@webapp-kitchen-sink/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       grammy:
         specifier: 1.43.0
         version: 1.43.0
@@ -206,6 +212,16 @@ importers:
       vite-plugin-svgr:
         specifier: 5.2.0
         version: 5.2.0(typescript@6.0.3)(vite@8.0.14(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.3))
+
+  packages/config:
+    dependencies:
+      valibot:
+        specifier: 1.4.0
+        version: 1.4.0(typescript@6.0.3)
+    devDependencies:
+      '@types/node':
+        specifier: 25.9.1
+        version: 25.9.1
 
   packages/contracts:
     devDependencies:

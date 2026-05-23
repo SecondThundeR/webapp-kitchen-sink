@@ -1,17 +1,6 @@
-import process from "node:process";
+import { loadConfigFromEnv } from "@webapp-kitchen-sink/config";
 import { API_CONSTANTS } from "grammy";
 import * as v from "valibot";
-
-type CamelCase<S extends string> =
-  S extends `${infer P1}_${infer P2}${infer P3}`
-    ? `${Lowercase<P1>}${Uppercase<P2>}${CamelCase<P3>}`
-    : Lowercase<S>;
-
-type KeysToCamelCase<T> = {
-  [K in keyof T as CamelCase<string & K>]: T[K] extends object
-    ? KeysToCamelCase<T[K]>
-    : T[K];
-};
 
 const baseConfigSchema = v.object({
   debug: v.optional(
@@ -83,54 +72,4 @@ export type Config = v.InferOutput<typeof configSchema>;
 export type PollingConfig = v.InferOutput<(typeof configSchema)["options"][0]>;
 export type WebhookConfig = v.InferOutput<(typeof configSchema)["options"][1]>;
 
-export function createConfig(input: v.InferInput<typeof configSchema>) {
-  return v.parse(configSchema, input);
-}
-
-export const config = createConfigFromEnvironment();
-
-function createConfigFromEnvironment() {
-  console.log("Loading config");
-
-  try {
-    process.loadEnvFile();
-  } catch {
-    console.warn("No .env file found");
-  }
-
-  try {
-    // @ts-expect-error create config from environment variables
-    return createConfig(convertKeysToCamelCase(process.env));
-  } catch (error) {
-    throw new Error("Invalid config", {
-      cause: error,
-    });
-  }
-}
-
-function toCamelCase(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/_([a-z])/g, (_match, p1) => p1.toUpperCase());
-}
-
-function convertKeysToCamelCase<T extends Record<string, unknown>>(
-  obj: T,
-): KeysToCamelCase<T> {
-  const result = {} as KeysToCamelCase<T>;
-
-  for (const key in obj) {
-    if (Object.hasOwn(obj, key)) {
-      const camelCaseKey = toCamelCase(key) as keyof KeysToCamelCase<T>;
-      const value = obj[key];
-
-      result[camelCaseKey] = (
-        typeof value === "object" && value !== null && !Array.isArray(value)
-          ? convertKeysToCamelCase(value as Record<string, unknown>)
-          : value
-      ) as KeysToCamelCase<T>[typeof camelCaseKey];
-    }
-  }
-
-  return result;
-}
+export const config = loadConfigFromEnv(configSchema);

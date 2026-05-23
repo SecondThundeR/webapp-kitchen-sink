@@ -27,6 +27,7 @@
   "dependencies": {
     "@hono/node-server": "2.0.3",
     "@hono/valibot-validator": "0.6.1",
+    "@webapp-kitchen-sink/config": "workspace:*",
     "hono": "4.12.22",
     "valibot": "1.4.0"
   },
