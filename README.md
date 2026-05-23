@@ -15,7 +15,9 @@ webapp-kitchen-sink/
 ├── apps/
 │   ├── api/          # Hono backend server
 │   ├── bot/          # Grammy Telegram bot
-│   └── web/          # React + Vite frontend
+│   └── web/          # React + Vite frontend (served by nginx in prod)
+│       ├── Dockerfile  # Multi-stage build → nginx:alpine
+│       └── nginx.conf  # Static serving on port 3001
 ├── packages/
 │   ├── config/       # Shared env config (valibot)
 │   └── contracts/    # Shared type definitions
@@ -56,7 +58,8 @@ webapp-kitchen-sink/
 | Variable       | Required | Description                                                                                                               |
 | -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_API_URL` | Yes      | API base URL. Use `${{api.RAILWAY_PRIVATE_DOMAIN}}` for private networking or `${{api.RAILWAY_PUBLIC_DOMAIN}}` for public |
-| `PORT`         | No       | Frontend port. Defaults to `3001`. Railway sets this automatically                                                        |
+
+> The web service is served by nginx and listens on **port 3001** (hardcoded in `apps/web/nginx.conf`). No `PORT` env is consumed at runtime.
 
 ## Local Development
 
@@ -113,27 +116,32 @@ PORT=3001
 
 #### API Service
 
-| Setting       | Value                                              |
-| ------------- | -------------------------------------------------- |
-| Build Command | `pnpm --filter @webapp-kitchen-sink/api build`     |
-| Start Command | `pnpm --filter @webapp-kitchen-sink/api start`     |
-| Watch Paths   | `apps/api/**`, `packages/**`                       |
+| Setting       | Value                                          |
+| ------------- | ---------------------------------------------- |
+| Build Command | `pnpm --filter @webapp-kitchen-sink/api build` |
+| Start Command | `pnpm --filter @webapp-kitchen-sink/api start` |
+| Watch Paths   | `apps/api/**`, `packages/**`                   |
 
 #### Bot Service
 
-| Setting       | Value                                              |
-| ------------- | -------------------------------------------------- |
-| Build Command | `pnpm --filter @webapp-kitchen-sink/bot build`     |
-| Start Command | `pnpm --filter @webapp-kitchen-sink/bot start`     |
-| Watch Paths   | `apps/bot/**`, `packages/**`                       |
+| Setting       | Value                                          |
+| ------------- | ---------------------------------------------- |
+| Build Command | `pnpm --filter @webapp-kitchen-sink/bot build` |
+| Start Command | `pnpm --filter @webapp-kitchen-sink/bot start` |
+| Watch Paths   | `apps/bot/**`, `packages/**`                   |
 
 #### Web Service
 
-| Setting       | Value                                                        |
-| ------------- | ------------------------------------------------------------ |
-| Build Command | `pnpm --filter @webapp-kitchen-sink/web build`                |
-| Start Command | `pnpm --filter @webapp-kitchen-sink/web preview` |
-| Watch Paths   | `apps/web/**`, `packages/contracts/**`                       |
+Built and served via Docker — multi-stage build produces an `nginx:alpine` image serving the Vite output on port 3001. Idle RAM is ~5–15 MB (no Node runtime).
+
+| Setting         | Value                                  |
+| --------------- | -------------------------------------- |
+| Builder         | Dockerfile                             |
+| Dockerfile Path | `apps/web/Dockerfile`                  |
+| Root Directory  | _empty_ (must be repo root)            |
+| Watch Paths     | `apps/web/**`, `packages/contracts/**` |
+
+> The build context must be the repo root because the Dockerfile installs from the workspace lockfile. Do not set Root Directory to `apps/web` — relative `COPY` paths would break.
 
 ### Health Checks
 
@@ -148,43 +156,43 @@ The API includes a health endpoint at `/health`. Configure Railway's health chec
 
 ### Root
 
-| Script              | Description                                       |
-| ------------------- | ------------------------------------------------- |
-| `pnpm dev`          | Start all services in development mode            |
-| `pnpm build`        | Build all packages (bot + api bundles, web bundle) |
-| `pnpm typecheck`    | Run `tsc` across the workspace (project references) |
-| `pnpm lint`         | Check for linting issues                          |
-| `pnpm lint:write`   | Fix linting issues automatically                  |
-| `pnpm format`       | Format all files                                  |
-| `pnpm clean:modules`| Remove all `node_modules` and lockfile            |
+| Script               | Description                                         |
+| -------------------- | --------------------------------------------------- |
+| `pnpm dev`           | Start all services in development mode              |
+| `pnpm build`         | Build all packages (bot + api bundles, web bundle)  |
+| `pnpm typecheck`     | Run `tsc` across the workspace (project references) |
+| `pnpm lint`          | Check for linting issues                            |
+| `pnpm lint:write`    | Fix linting issues automatically                    |
+| `pnpm format`        | Format all files                                    |
+| `pnpm clean:modules` | Remove all `node_modules` and lockfile              |
 
 ### API (`apps/api`)
 
-| Script         | Description                                            |
-| -------------- | ------------------------------------------------------ |
-| `pnpm dev`     | Run via `node --watch` with native TS support          |
-| `pnpm build`   | Bundle to `dist/index.mjs` with tsdown                 |
-| `pnpm start`   | Run the production bundle                              |
+| Script           | Description                                          |
+| ---------------- | ---------------------------------------------------- |
+| `pnpm dev`       | Run via `node --watch` with native TS support        |
+| `pnpm build`     | Bundle to `dist/index.mjs` with tsdown               |
+| `pnpm start`     | Run the production bundle                            |
 | `pnpm typecheck` | Type-check and emit `.d.ts` for downstream consumers |
 
 ### Bot (`apps/bot`)
 
-| Script         | Description                                            |
-| -------------- | ------------------------------------------------------ |
-| `pnpm dev`     | Run via `node --watch` with native TS support          |
-| `pnpm build`   | Bundle to `dist/main.mjs` with tsdown                  |
-| `pnpm start`   | Run the production bundle                              |
-| `pnpm typecheck` | Type-check the bot package                           |
+| Script           | Description                                   |
+| ---------------- | --------------------------------------------- |
+| `pnpm dev`       | Run via `node --watch` with native TS support |
+| `pnpm build`     | Bundle to `dist/main.mjs` with tsdown         |
+| `pnpm start`     | Run the production bundle                     |
+| `pnpm typecheck` | Type-check the bot package                    |
 
 ### Web (`apps/web`)
 
-| Script         | Description                                                |
-| -------------- | ---------------------------------------------------------- |
-| `pnpm dev`     | Start Vite dev server                                      |
-| `pnpm build`   | Build for production                                       |
-| `pnpm analyze` | Build for production with rollup bundle visualizer         |
-| `pnpm preview` | Preview production build locally                           |
-| `pnpm typecheck` | Type-check the React app                                 |
+| Script           | Description                                                        |
+| ---------------- | ------------------------------------------------------------------ |
+| `pnpm dev`       | Start Vite dev server                                              |
+| `pnpm build`     | Build for production (output → `dist/`, served by nginx in Docker) |
+| `pnpm analyze`   | Build for production with rollup bundle visualizer                 |
+| `pnpm preview`   | Preview production build locally (Vite — not used in deployment)   |
+| `pnpm typecheck` | Type-check the React app                                           |
 
 ## Dependency Management
 
