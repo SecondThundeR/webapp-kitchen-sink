@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
     },
     preview: {
       port: Number(env.PORT || "3001"),
+      host: "0.0.0.0",
     },
   };
 });
