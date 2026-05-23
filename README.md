@@ -1,6 +1,6 @@
 # Telegram Mini Apps Kitchen Sink
 
-A monorepo featuring every possible use case of Telegram Mini App SDK, covering all available public API. This monorepo comes with **Bun** as the package manager and runtime, **Elysia** as the API framework, **Grammy** as the Telegram Bot framework, and **React + Vite** for the frontend. Currently designed for seamless deployment on Railway with end-to-end type safety between frontend and backend
+A monorepo featuring every possible use case of Telegram Mini App SDK, covering all available public API. This monorepo comes with **pnpm** as the package manager and runtime, **Hono** as the API framework, **Grammy** as the Telegram Bot framework, and **React + Vite** for the frontend. Currently designed for seamless deployment on Railway with end-to-end type safety between frontend and backend
 
 [Demo](https://t.me/webappkitchensink_bot)
 
@@ -13,7 +13,7 @@ A monorepo featuring every possible use case of Telegram Mini App SDK, covering 
 ```
 webapp-kitchen-sink/
 ├── apps/
-│   ├── api/          # Elysia backend server
+│   ├── api/          # Hono backend server
 │   └── bot/          # Grammy Telegram bot
 │   └── web/          # React + Vite frontend
 ├── packages/
@@ -60,16 +60,16 @@ webapp-kitchen-sink/
 
 ### Prerequisites
 
-- [Bun](https://bun.sh) >= 1.3.14
+- [Node](https://nodejs.org) 22.22.3
 
 ### Setup
 
 ```bash
 # Install dependencies
-bun install
+pnpm install
 
 # Start all services in development mode
-bun dev
+pnpm dev
 ```
 
 ### Environment Files
@@ -110,7 +110,7 @@ PORT=3001
 
 | Setting       | Value                                         |
 | ------------- | --------------------------------------------- |
-| Build Command | `bun --filter @webapp-kitchen-sink/api build` |
+| Build Command | `pnpm --filter @webapp-kitchen-sink/api build` |
 | Start Command | `./apps/api/dist/server`                      |
 | Watch Paths   | `apps/api/**`, `packages/contracts/**`        |
 
@@ -118,15 +118,15 @@ PORT=3001
 
 | Setting       | Value                                         |
 | ------------- | --------------------------------------------- |
-| Start Command | `bun --filter @webapp-kitchen-sink/bot start` |
+| Start Command | `pnpm --filter @webapp-kitchen-sink/bot start` |
 | Watch Paths   | `apps/bot/**`                                 |
 
 #### Web Service
 
 | Setting       | Value                                                        |
 | ------------- | ------------------------------------------------------------ |
-| Build Command | `bun --filter @webapp-kitchen-sink/web build`                |
-| Start Command | `bunx --bun serve -s ./apps/web/dist -l tcp://0.0.0.0:$PORT` |
+| Build Command | `pnpm --filter @webapp-kitchen-sink/web build`                |
+| Start Command | `pnpm --filter @webapp-kitchen-sink/web preview` |
 | Watch Paths   | `apps/web/**`, `packages/contracts/**`                       |
 
 ### Health Checks
@@ -144,38 +144,37 @@ The API includes a health endpoint at `/health`. Configure Railway's health chec
 
 | Script              | Description                            |
 | ------------------- | -------------------------------------- |
-| `bun dev`           | Start all services in development mode |
-| `bun lint`          | Check for linting issues               |
-| `bun lint:write`    | Fix linting issues automatically       |
-| `bun format`        | Format all files                       |
-| `bun clean:modules` | Remove all `node_modules` and lockfile |
+| `pnpm dev`           | Start all services in development mode |
+| `pnpm lint`          | Check for linting issues               |
+| `pnpm lint:write`    | Fix linting issues automatically       |
+| `pnpm format`        | Format all files                       |
+| `pnpm clean:modules` | Remove all `node_modules` and lockfile |
 
 ### API (`apps/api`)
 
 | Script          | Description                              |
 | --------------- | ---------------------------------------- |
-| `bun dev`       | Start with hot reload                    |
-| `bun run build` | Compile to native binary (`dist/server`) |
+| `pnpm dev`       | Start with hot reload                    |
+| `pnpm run build` | Compile to native binary (`dist/server`) |
 
 ### Bot (`apps/bot`)
 
 | Script      | Description              |
 | ----------- | ------------------------ |
-| `bun dev`   | Start with hot reload    |
-| `bun start` | Start without hot reload |
+| `pnpm dev`   | Start with hot reload    |
+| `pnpm start` | Start without hot reload |
 
 ### Web (`apps/web`)
 
 | Script          | Description                                                |
 | --------------- | ---------------------------------------------------------- |
-| `bun dev`       | Start Vite dev server                                      |
-| `bun run build` | Build for production                                       |
-| `bun analyze`   | Build for production with enabled rollup-bundle-visualizer |
-| `bun preview`   | Preview production build locally                           |
+| `pnpm dev`       | Start Vite dev server                                      |
+| `pnpm run build` | Build for production                                       |
+| `pnpm analyze`   | Build for production with enabled rollup-pnpmdle-visualizer |
+| `pnpm preview`   | Preview production build locally                           |
 
 ## Credits
 
-- [railway-bun-monorepo-elysia-starter](https://github.com/Salam81/railway-bun-monorepo-elysia-starter)
 - [telegram-bot-template](https://github.com/bot-base/telegram-bot-template)
 
 ## License
