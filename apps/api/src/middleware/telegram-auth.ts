@@ -1,5 +1,5 @@
 import { createMiddleware } from "hono/factory";
-import { env } from "#root/config/env.ts";
+import { config } from "#root/config/index.ts";
 import { AppError } from "#root/errors/app-error.ts";
 import { ErrorCode } from "#root/errors/error-code.ts";
 import type { HonoEnv } from "#root/types.ts";
@@ -25,7 +25,7 @@ export const telegramAuth = createMiddleware<
     );
   }
 
-  const result = validateInitData(body.initData, env.BOT_TOKEN);
+  const result = validateInitData(body.initData, config.botToken);
   if (!result.valid) {
     throw new AppError(
       ErrorCode.INIT_DATA_ERROR,

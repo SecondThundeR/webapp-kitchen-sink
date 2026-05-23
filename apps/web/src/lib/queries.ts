@@ -1,9 +1,7 @@
 import type { InferRequestType } from "hono/client";
 import { api } from "./api";
 
-type InitSessionData = InferRequestType<
-  typeof api.api.auth.init.$post
->["json"];
+type InitSessionData = InferRequestType<typeof api.api.auth.init.$post>["json"];
 
 export async function initSession(body: InitSessionData) {
   const res = await api.api.auth.init.$post({ json: body });

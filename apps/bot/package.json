@@ -12,7 +12,7 @@
     "pnpm": ">=11.2.2"
   },
   "scripts": {
-    "dev": "NODE_ENV=development node --env-file=.env --watch ./src/main.ts",
+    "dev": "NODE_ENV=development node --watch ./src/main.ts",
     "start": "NODE_ENV=production node ./src/main.ts",
     "lint": "biome check",
     "lint:write": "biome check --write",

@@ -1,6 +1,6 @@
 import { vValidator } from "@hono/valibot-validator";
 import { Hono } from "hono";
-import { env } from "#root/config/env.ts";
+import { config } from "#root/config/index.ts";
 import { telegramAuth } from "#root/middleware/telegram-auth.ts";
 import {
   regularInvoiceSchema,
@@ -25,7 +25,7 @@ export const invoiceRoutes = new Hono<HonoEnv>()
       const url = await callTelegramMethod<string>("createInvoiceLink", {
         ...requestBody,
         payload: `regular-order-${Date.now()}`,
-        provider_token: env.PAYMENT_PROVIDER_TOKEN,
+        provider_token: config.paymentProviderToken,
       });
 
       return c.json({ url });

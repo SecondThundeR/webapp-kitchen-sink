@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { env } from "./config/env.ts";
+import { config } from "./config/index.ts";
 import { AppError } from "./errors/app-error.ts";
 import { ErrorCode } from "./errors/error-code.ts";
 import { healthRoutes, routes } from "./routes/index.ts";
@@ -10,7 +10,7 @@ import type { HonoEnv } from "./types.ts";
 const app = new Hono<HonoEnv>()
   .use(
     cors({
-      origin: [env.FRONTEND_URL],
+      origin: [config.frontendUrl],
       allowHeaders: [
         "Content-Type",
         "Authorization",
@@ -49,7 +49,7 @@ app.onError((err, c) => {
 });
 
 serve(
-  { fetch: app.fetch, port: env.PORT, hostname: "0.0.0.0" },
+  { fetch: app.fetch, port: config.port, hostname: "0.0.0.0" },
   ({ address, port }) => {
     console.log(`@webapp-kitchen-sink/api is running at ${address}:${port}`);
   },

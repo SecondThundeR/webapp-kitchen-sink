@@ -28,8 +28,12 @@ export function validateInitData(initData: string, botToken: string) {
     params.sort();
     const dataCheckString = params.join("\n");
 
-    const secretKey = createHmac("sha256", "WebAppData").update(botToken).digest();
-    const calculatedHash = createHmac("sha256", secretKey).update(dataCheckString).digest("hex");
+    const secretKey = createHmac("sha256", "WebAppData")
+      .update(botToken)
+      .digest();
+    const calculatedHash = createHmac("sha256", secretKey)
+      .update(dataCheckString)
+      .digest("hex");
 
     if (calculatedHash !== hash) {
       return { valid: false, error: "Invalid hash" };

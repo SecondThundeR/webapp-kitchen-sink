@@ -1,4 +1,4 @@
-import { env } from "#root/config/env.ts";
+import { config } from "#root/config/index.ts";
 import { AppError } from "#root/errors/app-error.ts";
 import { ErrorCode } from "#root/errors/error-code.ts";
 
@@ -26,7 +26,7 @@ export async function callTelegramMethod<TResult>(
   body: Record<string, unknown>,
 ) {
   const response = await fetch(
-    `https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`,
+    `https://api.telegram.org/bot${config.botToken}/${method}`,
     {
       method: "POST",
       headers: {
@@ -59,7 +59,7 @@ export async function callTelegramMethod<TResult>(
 
 export async function getTelegramFile(fileId: string) {
   const response = await fetch(
-    `https://api.telegram.org/bot${env.BOT_TOKEN}/getFile?file_id=${fileId}`,
+    `https://api.telegram.org/bot${config.botToken}/getFile?file_id=${fileId}`,
   );
 
   const data = (await response.json()) as TelegramResponse<{

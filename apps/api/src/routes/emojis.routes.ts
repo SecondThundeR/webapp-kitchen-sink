@@ -1,9 +1,12 @@
 import { gunzipSync } from "node:zlib";
 import { Hono } from "hono";
-import { env } from "#root/config/env.ts";
+import { config } from "#root/config/index.ts";
 import { telegramAndroidDevice } from "#root/middleware/telegram-android-device.ts";
 import type { HonoEnv } from "#root/types.ts";
-import { callTelegramMethod, getTelegramFile } from "#root/utils/telegram-api.ts";
+import {
+  callTelegramMethod,
+  getTelegramFile,
+} from "#root/utils/telegram-api.ts";
 
 type FormattedSticker = {
   id: string;
@@ -28,9 +31,7 @@ export const emojisRoutes = new Hono<HonoEnv>()
   .use(telegramAndroidDevice)
   .get("/getTestEmojiSet", async (c) => {
     const device = c.get("telegramAndroidDevice");
-    const emojiPack = ["LOW", "AVERAGE"].includes(
-      device.performanceClass ?? "",
-    )
+    const emojiPack = ["LOW", "AVERAGE"].includes(device.performanceClass ?? "")
       ? NON_LOTTIE_EMOJI_PACK
       : LOTTIE_EMOJI_PACK;
 
@@ -84,11 +85,14 @@ export const emojisRoutes = new Hono<HonoEnv>()
     }
 
     try {
-      const tgUrl = `https://api.telegram.org/file/bot${env.BOT_TOKEN}/${path}`;
+      const tgUrl = `https://api.telegram.org/file/bot${config.botToken}/${path}`;
       const response = await fetch(tgUrl);
 
       if (!response.ok) {
-        return c.json({ error: "Failed to fetch from Telegram" }, response.status as 400);
+        return c.json(
+          { error: "Failed to fetch from Telegram" },
+          response.status as 400,
+        );
       }
 
       if (path.endsWith(".tgs")) {
