@@ -32,5 +32,8 @@ export default defineConfig(({ mode }) => {
       allowedHosts: isDevelopment ? true : undefined,
       port: Number(env.PORT || "3001"),
     },
+    preview: {
+      port: Number(env.PORT || "3001"),
+    },
   };
 });

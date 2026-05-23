@@ -7,7 +7,7 @@
     "#root/*": "./src/*"
   },
   "engines": {
-    "node": ">=26.1.0",
+    "node": ">=22.0.0",
     "pnpm": ">=11.2.2"
   },
   "types": "src/exports.ts",
@@ -18,8 +18,8 @@
     }
   },
   "scripts": {
-    "dev": "NODE_ENV=development node --watch src/index.ts",
-    "start": "NODE_ENV=production node src/index.ts",
+    "dev": "NODE_ENV=development tsx watch src/index.ts",
+    "start": "NODE_ENV=production tsx src/index.ts",
     "lint": "biome check",
     "lint:write": "biome check --write",
     "format": "biome format --write ."
@@ -31,6 +31,8 @@
     "valibot": "1.4.0"
   },
   "devDependencies": {
-    "@types/node": "25.9.1"
-  }
+    "@types/node": "25.9.1",
+    "tsx": "4.22.3"
+  },
+  "packageManager": "pnpm@11.2.2"
 }
