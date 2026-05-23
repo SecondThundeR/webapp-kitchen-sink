@@ -90,37 +90,12 @@ export function createConfig(input: v.InferInput<typeof configSchema>) {
 export const config = createConfigFromEnvironment();
 
 function createConfigFromEnvironment() {
-  function toCamelCase(str: string): string {
-    return str
-      .toLowerCase()
-      .replace(/_([a-z])/g, (_match, p1) => p1.toUpperCase());
-  }
-
-  function convertKeysToCamelCase<T extends Record<string, unknown>>(
-    obj: T,
-  ): KeysToCamelCase<T> {
-    const result = {} as KeysToCamelCase<T>;
-
-    for (const key in obj) {
-      if (Object.hasOwn(obj, key)) {
-        const camelCaseKey = toCamelCase(key) as keyof KeysToCamelCase<T>;
-        const value = obj[key];
-
-        result[camelCaseKey] = (
-          typeof value === "object" && value !== null && !Array.isArray(value)
-            ? convertKeysToCamelCase(value as Record<string, unknown>)
-            : value
-        ) as KeysToCamelCase<T>[typeof camelCaseKey];
-      }
-    }
-
-    return result;
-  }
+  console.log("Loading config");
 
   try {
     process.loadEnvFile();
   } catch {
-    // No .env file found
+    console.warn("No .env file found");
   }
 
   try {
@@ -131,4 +106,31 @@ function createConfigFromEnvironment() {
       cause: error,
     });
   }
+}
+
+function toCamelCase(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/_([a-z])/g, (_match, p1) => p1.toUpperCase());
+}
+
+function convertKeysToCamelCase<T extends Record<string, unknown>>(
+  obj: T,
+): KeysToCamelCase<T> {
+  const result = {} as KeysToCamelCase<T>;
+
+  for (const key in obj) {
+    if (Object.hasOwn(obj, key)) {
+      const camelCaseKey = toCamelCase(key) as keyof KeysToCamelCase<T>;
+      const value = obj[key];
+
+      result[camelCaseKey] = (
+        typeof value === "object" && value !== null && !Array.isArray(value)
+          ? convertKeysToCamelCase(value as Record<string, unknown>)
+          : value
+      ) as KeysToCamelCase<T>[typeof camelCaseKey];
+    }
+  }
+
+  return result;
 }
