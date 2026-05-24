@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "NODE_ENV=development node --watch --enable-source-maps ./src/index.ts",
     "build": "tsdown",
-    "start": "NODE_ENV=production node --enable-source-maps ./dist/index.mjs",
+    "start": "NODE_ENV=production node --enable-source-maps --max-old-space-size=512 ./dist/index.mjs",
     "typecheck": "tsc",
     "lint": "biome check",
     "lint:write": "biome check --write",

@@ -2,15 +2,10 @@ import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/main.ts"],
-  format: "esm",
   target: "node22",
-  platform: "node",
-  outDir: "dist",
-  clean: true,
   sourcemap: true,
-  shims: false,
+  minify: true,
   dts: false,
-  unbundle: false,
   deps: {
     alwaysBundle: [/^@webapp-kitchen-sink\//],
   },

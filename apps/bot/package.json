@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "NODE_ENV=development node --watch --enable-source-maps ./src/main.ts",
     "build": "tsdown",
-    "start": "NODE_ENV=production node --enable-source-maps ./dist/main.mjs",
+    "start": "NODE_ENV=production node --enable-source-maps --max-old-space-size=512 ./dist/main.mjs",
     "typecheck": "tsc",
     "lint": "biome check",
     "lint:write": "biome check --write",
