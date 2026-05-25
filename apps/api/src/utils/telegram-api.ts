@@ -21,6 +21,10 @@ function isTelegramFailure<TResult>(
   return data.ok === false;
 }
 
+function toHttpStatus(code: number): number {
+  return code >= 400 && code < 600 ? code : 502;
+}
+
 export async function callTelegramMethod<TResult>(
   method: string,
   body: Record<string, unknown>,
@@ -37,20 +41,27 @@ export async function callTelegramMethod<TResult>(
   );
 
   if (!response.ok) {
+    console.error(
+      `Telegram ${method} HTTP ${response.status}:`,
+      await response.text().catch(() => "<no body>"),
+    );
     throw new AppError(
       ErrorCode.UNKNOWN_ERROR,
-      await response.text(),
-      response.status,
+      "Upstream request failed",
+      toHttpStatus(response.status),
     );
   }
 
   const data = (await response.json()) as TelegramResponse<TResult>;
 
   if (isTelegramFailure(data)) {
+    console.error(
+      `Telegram ${method} error ${data.error_code}: ${data.description}`,
+    );
     throw new AppError(
-      ErrorCode.VALIDATION_ERROR,
-      data.description,
-      data.error_code,
+      ErrorCode.UNKNOWN_ERROR,
+      "Telegram API error",
+      toHttpStatus(data.error_code),
     );
   }
 

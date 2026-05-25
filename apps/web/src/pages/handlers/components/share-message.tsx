@@ -14,10 +14,7 @@ import { WebApp } from "@/lib/web-app";
 
 export const ShareMessage = () => {
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: () =>
-      savePreparedInlineMessage({
-        initData: WebApp.initData,
-      }),
+    mutationFn: savePreparedInlineMessage,
   });
 
   const onExecute = async () => {

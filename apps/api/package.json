@@ -31,6 +31,7 @@
     "@hono/valibot-validator": "0.6.1",
     "@webapp-kitchen-sink/config": "workspace:*",
     "hono": "catalog:",
+    "hono-rate-limiter": "0.5.3",
     "valibot": "catalog:"
   },
   "devDependencies": {

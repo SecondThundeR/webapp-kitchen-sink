@@ -1,10 +1,8 @@
 import type { InferRequestType } from "hono/client";
 import { api } from "./api";
 
-type InitSessionData = InferRequestType<typeof api.api.auth.init.$post>["json"];
-
-export async function initSession(body: InitSessionData) {
-  const res = await api.api.auth.init.$post({ json: body });
+export async function initSession() {
+  const res = await api.api.auth.init.$post();
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -41,16 +39,8 @@ export async function createStarsInvoiceLink(body: CreateStarsInvoiceLinkData) {
   return res.json();
 }
 
-type SavePreparedInlineMessageData = InferRequestType<
-  typeof api.api.message.savePreparedInlineMessage.$post
->["json"];
-
-export async function savePreparedInlineMessage(
-  body: SavePreparedInlineMessageData,
-) {
-  const res = await api.api.message.savePreparedInlineMessage.$post({
-    json: body,
-  });
+export async function savePreparedInlineMessage() {
+  const res = await api.api.message.savePreparedInlineMessage.$post();
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -69,16 +59,8 @@ export async function getTestEmojiSet() {
   return res.json();
 }
 
-type SavePreparedKeyboardButtonData = InferRequestType<
-  typeof api.api.button.savePreparedKeyboardButton.$post
->["json"];
-
-export async function savePreparedKeyboardButton(
-  body: SavePreparedKeyboardButtonData,
-) {
-  const res = await api.api.button.savePreparedKeyboardButton.$post({
-    json: body,
-  });
+export async function savePreparedKeyboardButton() {
+  const res = await api.api.button.savePreparedKeyboardButton.$post();
 
   if (!res.ok) {
     return Promise.reject(await res.json());

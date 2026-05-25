@@ -74,7 +74,6 @@ export const useInvoice = () => {
           ...price,
           amount: price.amount * 100,
         })),
-        initData: WebApp.initData,
       });
       url = result.url;
     } else {
@@ -84,7 +83,6 @@ export const useInvoice = () => {
         subscription_period: is_subscription_enabled
           ? SUBSCRIPTION_30_DAYS_IN_SECONDS
           : undefined,
-        initData: WebApp.initData,
       });
       url = result.url;
     }

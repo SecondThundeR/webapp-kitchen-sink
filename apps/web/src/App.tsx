@@ -19,7 +19,7 @@ import { initSession } from "./lib/queries";
 function App() {
   const { isPending, error: validationError } = useQuery({
     queryKey: ["init"],
-    queryFn: () => initSession({ initData: WebApp.initData }),
+    queryFn: initSession,
     enabled: !!WebApp.initData,
     staleTime: Infinity,
     refetchOnMount: false,

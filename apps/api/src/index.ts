@@ -1,11 +1,26 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { rateLimiter } from "hono-rate-limiter";
 import { config } from "./config/index.ts";
 import { AppError } from "./errors/app-error.ts";
 import { ErrorCode } from "./errors/error-code.ts";
 import { healthRoutes, routes } from "./routes/index.ts";
 import type { HonoEnv } from "./types.ts";
+
+const clientKey = (c: {
+  req: { header: (name: string) => string | undefined };
+}) =>
+  c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
+  c.req.header("x-real-ip") ??
+  "unknown";
+
+const globalLimiter = rateLimiter<HonoEnv>({
+  windowMs: 60_000,
+  limit: 120,
+  standardHeaders: "draft-7",
+  keyGenerator: clientKey,
+});
 
 const app = new Hono<HonoEnv>()
   .use(
@@ -21,6 +36,7 @@ const app = new Hono<HonoEnv>()
       credentials: true,
     }),
   )
+  .use(globalLimiter)
   .route("/", healthRoutes)
   .route("/api", routes);
 

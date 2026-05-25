@@ -5,19 +5,25 @@ import { ErrorCode } from "#root/errors/error-code.js";
 import type { HonoEnv } from "#root/types.js";
 import { validateInitData } from "#root/utils/validate-init-data.js";
 
-export const telegramAuth = createMiddleware<
-  HonoEnv,
-  string,
-  { in: { json: { initData: string } } }
->(async (c, next) => {
-  let body: { initData?: string } = {};
-  try {
-    body = await c.req.json<{ initData?: string }>();
-  } catch {
-    // non-JSON or empty body — will fail the initData check below
+export const telegramAuth = createMiddleware<HonoEnv>(async (c, next) => {
+  let initData: string | undefined;
+
+  const authHeader = c.req.header("Authorization");
+  if (authHeader) {
+    const match = authHeader.match(/^tma\s+(.+)$/i);
+    if (match) initData = match[1];
   }
 
-  if (!body.initData) {
+  if (!initData && c.req.method !== "GET" && c.req.method !== "HEAD") {
+    try {
+      const body = await c.req.json<{ initData?: string }>();
+      initData = body.initData;
+    } catch {
+      // non-JSON or empty body will fail the initData check below
+    }
+  }
+
+  if (!initData) {
     throw new AppError(
       ErrorCode.MISSING_INIT_DATA_ERROR,
       "Missing initData",
@@ -25,7 +31,7 @@ export const telegramAuth = createMiddleware<
     );
   }
 
-  const result = validateInitData(body.initData, config.botToken);
+  const result = validateInitData(initData, config.botToken);
   if (!result.valid) {
     throw new AppError(
       ErrorCode.INIT_DATA_ERROR,

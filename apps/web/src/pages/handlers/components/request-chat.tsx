@@ -14,10 +14,7 @@ import { WebApp } from "@/lib/web-app";
 
 export const RequestChat = () => {
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: () =>
-      savePreparedKeyboardButton({
-        initData: WebApp.initData,
-      }),
+    mutationFn: savePreparedKeyboardButton,
   });
 
   const onExecute = async () => {

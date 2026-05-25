@@ -1,12 +1,18 @@
-import { gunzipSync } from "node:zlib";
+import { promisify } from "node:util";
+import { gunzip } from "node:zlib";
 import { Hono } from "hono";
 import { config } from "#root/config/index.js";
+import { AppError } from "#root/errors/app-error.js";
+import { ErrorCode } from "#root/errors/error-code.js";
 import { telegramAndroidDevice } from "#root/middleware/telegram-android-device.js";
+import { telegramAuth } from "#root/middleware/telegram-auth.js";
 import type { HonoEnv } from "#root/types.js";
 import {
   callTelegramMethod,
   getTelegramFile,
 } from "#root/utils/telegram-api.js";
+
+const gunzipAsync = promisify(gunzip);
 
 type FormattedSticker = {
   id: string;
@@ -71,55 +77,65 @@ export const emojisRoutes = new Hono<HonoEnv>()
 
     return c.json({ emojis: formattedEmojis });
   })
-  .get("/file", async (c) => {
+  .get("/file", telegramAuth, async (c) => {
     const path = c.req.query("path");
     if (!path) {
-      return c.json({ error: "Missing file path" }, 400);
+      throw new AppError(ErrorCode.VALIDATION_ERROR, "Missing file path", 400);
     }
 
     if (
       !TELEGRAM_FILE_PATH_PATTERN.test(path) ||
       !ALLOWED_FILE_EXTENSIONS.some((ext) => path.endsWith(ext))
     ) {
-      return c.json({ error: "Invalid file path" }, 400);
+      throw new AppError(ErrorCode.VALIDATION_ERROR, "Invalid file path", 400);
     }
 
-    try {
-      const tgUrl = `https://api.telegram.org/file/bot${config.botToken}/${path}`;
-      const response = await fetch(tgUrl);
+    const tgUrl = `https://api.telegram.org/file/bot${config.botToken}/${path}`;
+    const response = await fetch(tgUrl);
 
-      if (!response.ok) {
-        return c.json(
-          { error: "Failed to fetch from Telegram" },
-          response.status as 400,
-        );
-      }
-
-      if (path.endsWith(".tgs")) {
-        const arrayBuffer = await response.arrayBuffer();
-        const decompressed = gunzipSync(Buffer.from(arrayBuffer));
-        return new Response(decompressed.toString("utf-8"), {
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-
-      if (path.endsWith(".webp")) {
-        return new Response(response.body, {
-          status: response.status,
-          headers: { "Content-Type": "image/webp" },
-        });
-      }
-
-      if (path.endsWith(".webm")) {
-        return new Response(response.body, {
-          status: response.status,
-          headers: { "Content-Type": "video/webm" },
-        });
-      }
-
-      return response;
-    } catch (error) {
-      console.error("Proxy Error:", error);
-      return c.json({ error: "Failed to process file" }, 500);
+    if (!response.ok) {
+      console.error(
+        `Telegram file fetch HTTP ${response.status} for path=${path}`,
+      );
+      throw new AppError(
+        ErrorCode.UNKNOWN_ERROR,
+        "Failed to fetch from Telegram",
+        response.status >= 400 && response.status < 600 ? response.status : 502,
+      );
     }
+
+    const cacheControl = "public, max-age=86400, immutable";
+
+    if (path.endsWith(".tgs")) {
+      const arrayBuffer = await response.arrayBuffer();
+      const decompressed = await gunzipAsync(Buffer.from(arrayBuffer));
+      return new Response(decompressed.toString("utf-8"), {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": cacheControl,
+        },
+      });
+    }
+
+    if (path.endsWith(".webp")) {
+      return new Response(response.body, {
+        status: response.status,
+        headers: {
+          "Content-Type": "image/webp",
+          "Cache-Control": cacheControl,
+        },
+      });
+    }
+
+    if (path.endsWith(".webm")) {
+      return new Response(response.body, {
+        status: response.status,
+        headers: {
+          "Content-Type": "video/webm",
+          "Cache-Control": cacheControl,
+        },
+      });
+    }
+
+    return response;
   });
