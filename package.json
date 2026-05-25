@@ -4,7 +4,7 @@
   "private": true,
   "engines": {
     "node": ">=22.0.0",
-    "pnpm": ">=11.2.2"
+    "pnpm": ">=11.3.0"
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -22,5 +22,5 @@
     "turbo": "2.9.14",
     "typescript": "6.0.3"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.3.0"
 }

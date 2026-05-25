@@ -9,12 +9,12 @@
   },
   "engines": {
     "node": ">=22.0.0",
-    "pnpm": ">=11.2.2"
+    "pnpm": ">=11.3.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=development node --watch --enable-source-maps ./src/main.ts",
+    "dev": "NODE_ENV=development node --watch ./src/main.ts",
     "build": "tsdown",
-    "start": "NODE_ENV=production node --enable-source-maps --max-old-space-size=512 ./dist/main.mjs",
+    "start": "NODE_ENV=production node ./dist/main.mjs",
     "typecheck": "tsc",
     "lint": "biome check",
     "lint:write": "biome check --write",
@@ -38,5 +38,5 @@
     "@types/node": "catalog:",
     "tsdown": "^0.22.0"
   },
-  "packageManager": "pnpm@11.2.2"
+  "packageManager": "pnpm@11.3.0"
 }
