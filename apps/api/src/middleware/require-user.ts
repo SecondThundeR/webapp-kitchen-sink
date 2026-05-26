@@ -5,11 +5,7 @@ import type { AuthedEnv } from "#root/types.js";
 
 export const requireUser = createMiddleware<AuthedEnv>(async (c, next) => {
   if (!c.var.user) {
-    throw new AppError(
-      ErrorCode.INIT_DATA_ERROR,
-      "User payload missing",
-      401,
-    );
+    throw new AppError(ErrorCode.INIT_DATA_ERROR, "User payload missing", 401);
   }
   await next();
 });

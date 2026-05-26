@@ -104,9 +104,7 @@ export const emojisRoutes = new Hono<HonoEnv>()
           response.body as unknown as NodeReadableStream<Uint8Array>,
         ).pipe(gunzipStream);
         return new Response(
-          Readable.toWeb(
-            gunzipStream,
-          ) as unknown as ReadableStream<Uint8Array>,
+          Readable.toWeb(gunzipStream) as unknown as ReadableStream<Uint8Array>,
           {
             headers: {
               "Content-Type": "application/json",

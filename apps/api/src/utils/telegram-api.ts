@@ -117,15 +117,12 @@ export async function getTelegramFile(fileId: string) {
     return null;
   }
 
-  const data = (await response.json().catch(() => null)) as
-    | TelegramResponse<{ file_path: string }>
-    | null;
+  const data = (await response.json().catch(() => null)) as TelegramResponse<{
+    file_path: string;
+  }> | null;
 
   if (!response.ok || !data || isTelegramFailure(data)) {
-    logger.warn(
-      { fileId, status: response.status },
-      "Telegram getFile non-ok",
-    );
+    logger.warn({ fileId, status: response.status }, "Telegram getFile non-ok");
     return null;
   }
 

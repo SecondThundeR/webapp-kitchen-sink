@@ -5,7 +5,9 @@ import type { HonoEnv, TelegramDeviceInfo } from "#root/types.js";
 const TG_UA_REGEX =
   /Telegram-Android\/([\d.]+)\s+\(([^;]+);\s+Android\s+([^;]+);\s+SDK\s+(\d+);\s+([A-Z]+)\)/;
 
-function toPerformanceClass(raw: string | undefined): PerformanceClass | undefined {
+function toPerformanceClass(
+  raw: string | undefined,
+): PerformanceClass | undefined {
   return raw === "LOW" || raw === "AVERAGE" || raw === "HIGH" ? raw : undefined;
 }
 
