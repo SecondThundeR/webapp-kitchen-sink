@@ -33,6 +33,8 @@
     "@webapp-kitchen-sink/config": "workspace:*",
     "hono": "catalog:",
     "hono-rate-limiter": "0.5.3",
+    "pino": "catalog:",
+    "pino-pretty": "catalog:",
     "valibot": "catalog:"
   },
   "devDependencies": {

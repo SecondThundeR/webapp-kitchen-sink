@@ -14,12 +14,12 @@ import {
 import { Spinner } from "./components/ui/spinner";
 import { router } from "./constants/router";
 import { useThemeSync } from "./hooks/use-theme-sync";
-import { initSession } from "./lib/queries";
+import { validateSession } from "./lib/queries";
 
 function App() {
   const { isPending, error: validationError } = useQuery({
-    queryKey: ["init"],
-    queryFn: initSession,
+    queryKey: ["validate"],
+    queryFn: validateSession,
     enabled: !!WebApp.initData,
     staleTime: Infinity,
     refetchOnMount: false,

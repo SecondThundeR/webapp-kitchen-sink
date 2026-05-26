@@ -1,8 +1,8 @@
 import type { InferRequestType } from "hono/client";
 import { api } from "./api";
 
-export async function initSession() {
-  const res = await api.api.auth.init.$post();
+export async function validateSession() {
+  const res = await api.api.v1.auth.validate.$get();
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -12,11 +12,11 @@ export async function initSession() {
 }
 
 export type CreateInvoiceLinkData = InferRequestType<
-  typeof api.api.invoice.create.$post
+  typeof api.api.v1.invoices.regular.$post
 >["json"];
 
 export async function createInvoiceLink(body: CreateInvoiceLinkData) {
-  const res = await api.api.invoice.create.$post({ json: body });
+  const res = await api.api.v1.invoices.regular.$post({ json: body });
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -26,11 +26,11 @@ export async function createInvoiceLink(body: CreateInvoiceLinkData) {
 }
 
 export type CreateStarsInvoiceLinkData = InferRequestType<
-  typeof api.api.invoice.createWithStars.$post
+  typeof api.api.v1.invoices.stars.$post
 >["json"];
 
 export async function createStarsInvoiceLink(body: CreateStarsInvoiceLinkData) {
-  const res = await api.api.invoice.createWithStars.$post({ json: body });
+  const res = await api.api.v1.invoices.stars.$post({ json: body });
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -40,7 +40,7 @@ export async function createStarsInvoiceLink(body: CreateStarsInvoiceLinkData) {
 }
 
 export async function savePreparedInlineMessage() {
-  const res = await api.api.message.savePreparedInlineMessage.$post();
+  const res = await api.api.v1.messages.prepared.$post();
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -50,7 +50,7 @@ export async function savePreparedInlineMessage() {
 }
 
 export async function getTestEmojiSet() {
-  const res = await api.api.emojis.getTestEmojiSet.$get();
+  const res = await api.api.v1.emojis.$get();
 
   if (!res.ok) {
     return Promise.reject(await res.json());
@@ -60,7 +60,7 @@ export async function getTestEmojiSet() {
 }
 
 export async function savePreparedKeyboardButton() {
-  const res = await api.api.button.savePreparedKeyboardButton.$post();
+  const res = await api.api.v1.buttons.prepared.$post();
 
   if (!res.ok) {
     return Promise.reject(await res.json());

@@ -1,21 +1,18 @@
-import type { User } from "./utils/validate-init-data.ts";
+import type { RequestIdVariables } from "hono/request-id";
+import type { TelegramDeviceInfo } from "./schemas/device.schemas.ts";
+import type { User } from "./schemas/user.schemas.ts";
 
-export type { User };
+export type { TelegramDeviceInfo, User };
 
-export interface TelegramDeviceInfo {
-  isTelegram: boolean;
-  appVersion?: string;
-  deviceModel?: string;
-  androidVersion?: string;
-  sdkVersion?: number;
-  performanceClass?: "LOW" | "AVERAGE" | "HIGH";
-}
-
-export type Variables = {
+export type Variables = RequestIdVariables & {
   user: User | undefined;
   telegramAndroidDevice: TelegramDeviceInfo;
 };
 
 export type HonoEnv = {
   Variables: Variables;
+};
+
+export type AuthedEnv = {
+  Variables: Omit<Variables, "user"> & { user: User };
 };

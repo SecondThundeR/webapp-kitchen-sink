@@ -29,7 +29,7 @@ function useEmojiObjectUrl(filePath: string) {
     let createdUrl: string | undefined;
 
     authedFetch(
-      `${API_BASE_URL}/api/emojis/file?path=${encodeURIComponent(filePath)}`,
+      `${API_BASE_URL}/api/v1/emojis/file?path=${encodeURIComponent(filePath)}`,
     )
       .then((res) => (res.ok ? res.blob() : null))
       .then((blob) => {

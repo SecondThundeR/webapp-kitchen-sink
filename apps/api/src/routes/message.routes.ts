@@ -1,36 +1,15 @@
 import { Hono } from "hono";
+import { requireUser } from "#root/middleware/require-user.js";
 import { telegramAuth } from "#root/middleware/telegram-auth.js";
+import { savePreparedInlineMessage } from "#root/services/message.service.js";
 import type { HonoEnv } from "#root/types.js";
-import { callTelegramMethod } from "#root/utils/telegram-api.js";
 
 export const messageRoutes = new Hono<HonoEnv>().post(
-  "/savePreparedInlineMessage",
+  "/prepared",
   telegramAuth,
+  requireUser,
   async (c) => {
-    const user = c.get("user");
-    if (!user?.id) {
-      return c.json({ id: null });
-    }
-
-    const result = await callTelegramMethod<{
-      id: string;
-      expiration_date: number;
-    }>("savePreparedInlineMessage", {
-      user_id: user.id,
-      result: {
-        type: "article",
-        id: "test_123",
-        title: "Check out my Web App!",
-        input_message_content: {
-          message_text: "This is a shared message from my Mini App!",
-        },
-      },
-      allow_user_chats: true,
-      allow_bot_chats: true,
-      allow_group_chats: true,
-      allow_channel_chats: true,
-    });
-
+    const result = await savePreparedInlineMessage(c.var.user.id);
     return c.json({ id: result.id });
   },
 );

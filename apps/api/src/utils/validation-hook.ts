@@ -1,12 +1,22 @@
 import type { Context } from "hono";
-import type * as v from "valibot";
+import type { GenericSchema, SafeParseResult } from "valibot";
 import { ErrorCode } from "#root/errors/error-code.js";
+import { logger } from "./log.ts";
 
 export function validationHook(
-  result: v.SafeParseResult<v.GenericSchema>,
+  result: SafeParseResult<GenericSchema>,
   c: Context,
 ) {
   if (!result.success) {
+    logger.warn(
+      {
+        requestId: c.get("requestId"),
+        path: c.req.path,
+        method: c.req.method,
+        issues: result.issues,
+      },
+      "Validation failed",
+    );
     return c.json(
       {
         success: false,

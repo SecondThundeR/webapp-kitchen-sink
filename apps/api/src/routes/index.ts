@@ -9,9 +9,9 @@ import { messageRoutes } from "./message.routes.ts";
 
 export const routes = new Hono<HonoEnv>()
   .route("/auth", authRoutes)
-  .route("/invoice", invoiceRoutes)
-  .route("/message", messageRoutes)
+  .route("/invoices", invoiceRoutes)
+  .route("/messages", messageRoutes)
   .route("/emojis", emojisRoutes)
-  .route("/button", buttonRoutes);
+  .route("/buttons", buttonRoutes);
 
 export { healthRoutes };

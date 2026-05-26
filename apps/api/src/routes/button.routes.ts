@@ -1,34 +1,15 @@
 import { Hono } from "hono";
+import { requireUser } from "#root/middleware/require-user.js";
 import { telegramAuth } from "#root/middleware/telegram-auth.js";
+import { savePreparedKeyboardButton } from "#root/services/button.service.js";
 import type { HonoEnv } from "#root/types.js";
-import { callTelegramMethod } from "#root/utils/telegram-api.js";
 
 export const buttonRoutes = new Hono<HonoEnv>().post(
-  "/savePreparedKeyboardButton",
+  "/prepared",
   telegramAuth,
+  requireUser,
   async (c) => {
-    const user = c.get("user");
-    if (!user?.id) {
-      return c.json({ id: null });
-    }
-
-    const result = await callTelegramMethod<{ id: string }>(
-      "savePreparedKeyboardButton",
-      {
-        user_id: user.id,
-        button: {
-          text: "Button",
-          request_chat: {
-            request_id: Math.floor(Date.now() / 1000),
-            chat_is_channel: false,
-            request_title: true,
-            request_username: true,
-            request_photo: true,
-          },
-        },
-      },
-    );
-
+    const result = await savePreparedKeyboardButton(c.var.user.id);
     return c.json({ id: result.id });
   },
 );

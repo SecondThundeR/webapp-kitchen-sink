@@ -1,73 +1,41 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { bodyLimit } from "hono/body-limit";
 import { cors } from "hono/cors";
-import { rateLimiter } from "hono-rate-limiter";
+import { csrf } from "hono/csrf";
+import { requestId } from "hono/request-id";
 import { config } from "./config/index.ts";
-import { AppError } from "./errors/app-error.ts";
-import { ErrorCode } from "./errors/error-code.ts";
+import { MAX_BODY_BYTES } from "./constants.ts";
+import { errorHandler, notFoundHandler } from "./errors/handlers.ts";
+import { globalRateLimit } from "./middleware/rate-limit.ts";
+import { structuredLogger } from "./middleware/structured-logger.ts";
 import { healthRoutes, routes } from "./routes/index.ts";
 import type { HonoEnv } from "./types.ts";
-
-const clientKey = (c: {
-  req: { header: (name: string) => string | undefined };
-}) =>
-  c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
-  c.req.header("x-real-ip") ??
-  "unknown";
-
-const globalLimiter = rateLimiter<HonoEnv>({
-  windowMs: 60_000,
-  limit: 120,
-  standardHeaders: "draft-7",
-  keyGenerator: clientKey,
-});
+import { logger } from "./utils/log.ts";
 
 const app = new Hono<HonoEnv>()
+  .use(requestId())
+  .use(structuredLogger)
   .use(
     cors({
       origin: [config.frontendUrl],
-      allowHeaders: [
-        "Content-Type",
-        "Authorization",
-        "Referrer-Policy",
-        "user-agent",
-      ],
+      allowHeaders: ["Content-Type", "Authorization"],
       allowMethods: ["GET", "POST", "DELETE", "PUT"],
-      credentials: true,
     }),
   )
-  .use(globalLimiter)
+  .use(csrf({ origin: [config.frontendUrl] }))
   .route("/", healthRoutes)
-  .route("/api", routes);
+  .use("/api/v1/*", bodyLimit({ maxSize: MAX_BODY_BYTES }))
+  .use("/api/v1/*", globalRateLimit)
+  .route("/api/v1", routes);
 
-app.onError((err, c) => {
-  if (err instanceof AppError) {
-    return c.json(
-      {
-        success: false,
-        code: err.code,
-        message: err.message,
-        details: err.details ?? null,
-      },
-      err.status as 400,
-    );
-  }
-
-  console.error(err);
-  return c.json(
-    {
-      success: false,
-      code: ErrorCode.UNKNOWN_ERROR,
-      message: "Internal Server Error",
-    },
-    500,
-  );
-});
+app.notFound(notFoundHandler);
+app.onError(errorHandler);
 
 serve(
   { fetch: app.fetch, port: config.port, hostname: "0.0.0.0" },
   ({ address, port }) => {
-    console.log(`@webapp-kitchen-sink/api is running at ${address}:${port}`);
+    logger.info({ address, port }, "API listening");
   },
 );
 

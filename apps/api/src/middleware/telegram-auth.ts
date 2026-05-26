@@ -5,23 +5,12 @@ import { ErrorCode } from "#root/errors/error-code.js";
 import type { HonoEnv } from "#root/types.js";
 import { validateInitData } from "#root/utils/validate-init-data.js";
 
+const AUTH_SCHEME = /^tma\s+(.+)$/i;
+
 export const telegramAuth = createMiddleware<HonoEnv>(async (c, next) => {
-  let initData: string | undefined;
-
   const authHeader = c.req.header("Authorization");
-  if (authHeader) {
-    const match = authHeader.match(/^tma\s+(.+)$/i);
-    if (match) initData = match[1];
-  }
-
-  if (!initData && c.req.method !== "GET" && c.req.method !== "HEAD") {
-    try {
-      const body = await c.req.json<{ initData?: string }>();
-      initData = body.initData;
-    } catch {
-      // non-JSON or empty body will fail the initData check below
-    }
-  }
+  const match = authHeader?.match(AUTH_SCHEME);
+  const initData = match?.[1];
 
   if (!initData) {
     throw new AppError(

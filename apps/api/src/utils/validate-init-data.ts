@@ -1,17 +1,19 @@
-import { createHmac } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
+import * as v from "valibot";
+import { INIT_DATA_MAX_AGE_SECONDS } from "#root/constants.js";
+import type { User } from "#root/schemas/user.schemas.js";
+import { userSchema } from "#root/schemas/user.schemas.js";
+import { logger } from "./log.ts";
 
-export interface User {
-  id: number;
-  first_name: string;
-  last_name?: string;
-  username?: string;
-  language_code?: string;
-  is_premium?: boolean;
-  allows_write_to_pm?: boolean;
-}
+export type ValidateInitDataResult =
+  | { valid: true; data: Record<string, string>; user?: User }
+  | { valid: false; error: string };
 
 // https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app
-export function validateInitData(initData: string, botToken: string) {
+export function validateInitData(
+  initData: string,
+  botToken: string,
+): ValidateInitDataResult {
   try {
     const urlParams = new URLSearchParams(initData);
     const hash = urlParams.get("hash");
@@ -35,7 +37,9 @@ export function validateInitData(initData: string, botToken: string) {
       .update(dataCheckString)
       .digest("hex");
 
-    if (calculatedHash !== hash) {
+    const a = Buffer.from(calculatedHash, "hex");
+    const b = Buffer.from(hash, "hex");
+    if (a.length === 0 || a.length !== b.length || !timingSafeEqual(a, b)) {
       return { valid: false, error: "Invalid hash" };
     }
 
@@ -43,9 +47,8 @@ export function validateInitData(initData: string, botToken: string) {
     if (authDate) {
       const authTimestamp = parseInt(authDate, 10);
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const maxAge = 24 * 60 * 60;
 
-      if (currentTimestamp - authTimestamp > maxAge) {
+      if (currentTimestamp - authTimestamp > INIT_DATA_MAX_AGE_SECONDS) {
         return { valid: false, error: "Data is too old" };
       }
     }
@@ -58,15 +61,21 @@ export function validateInitData(initData: string, botToken: string) {
     let user: User | undefined;
     if (data.user) {
       try {
-        user = JSON.parse(data.user);
+        const parsed = v.safeParse(userSchema, JSON.parse(data.user));
+        if (parsed.success) {
+          user = parsed.output;
+        }
       } catch {
-        // User data parsing failed, but validation still passed
+        // Malformed user JSON: hash already verified, so we proceed without it.
       }
     }
 
     return { valid: true, data, user };
   } catch (error) {
-    console.error("Validation error:", error);
+    logger.error(
+      { reason: error instanceof Error ? error.message : String(error) },
+      "Validation error",
+    );
     return { valid: false, error: "Validation failed" };
   }
 }

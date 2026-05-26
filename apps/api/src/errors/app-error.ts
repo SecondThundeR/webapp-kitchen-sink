@@ -1,5 +1,10 @@
 import type { ErrorCode } from "./error-code.ts";
 
+export interface AppErrorOptions {
+  details?: unknown;
+  cause?: unknown;
+}
+
 export class AppError extends Error {
   public code: ErrorCode;
   public status: number;
@@ -9,11 +14,11 @@ export class AppError extends Error {
     code: ErrorCode,
     message: string,
     status = 400,
-    details?: unknown,
+    options: AppErrorOptions = {},
   ) {
-    super(message);
+    super(message, { cause: options.cause });
     this.code = code;
     this.status = status;
-    this.details = details;
+    this.details = options.details;
   }
 }
