@@ -20,3 +20,4 @@ FROM nginx:1.29-alpine-slim AS runner
 COPY --from=builder /repo/apps/web/dist /usr/share/nginx/html
 COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 3001
+CMD ["nginx", "-g", "daemon off;"]
