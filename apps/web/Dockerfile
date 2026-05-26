@@ -14,10 +14,20 @@ COPY packages/contracts/package.json ./packages/contracts/
 RUN pnpm install --frozen-lockfile --filter=@webapp-kitchen-sink/web...
 
 COPY . .
+
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
+
+ARG PORT
+ENV PORT=$PORT
+
 RUN pnpm --filter=@webapp-kitchen-sink/web build
 
 FROM nginx:1.29-alpine-slim AS runner
+RUN apk add --no-cache gettext
+
 COPY --from=builder /repo/apps/web/dist /usr/share/nginx/html
-COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 3001
-CMD ["nginx", "-g", "daemon off;"]
+
+CMD ["/bin/sh", "-c", "envsubst '$PORT' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
