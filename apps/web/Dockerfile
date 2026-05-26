@@ -27,7 +27,7 @@ FROM nginx:1.29-alpine-slim AS runner
 RUN apk add --no-cache gettext
 
 COPY --from=builder /repo/apps/web/dist /usr/share/nginx/html
-COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY apps/web/nginx.conf.template /etc/nginx/templates/default.conf.template
 
 EXPOSE 3001
 
