@@ -14,7 +14,6 @@ const authedFetch: typeof fetch = (input, init) => {
 };
 
 export const api = hc<App>(API_BASE_URL, {
-  init: { credentials: "include" },
   fetch: authedFetch,
 });
 
