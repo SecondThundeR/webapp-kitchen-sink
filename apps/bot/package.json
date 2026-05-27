@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "tsdown": "^0.22.0"
+    "tsdown": "catalog:"
   },
   "packageManager": "pnpm@11.3.0"
 }
