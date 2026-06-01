@@ -5,7 +5,7 @@
   "private": true,
   "engines": {
     "node": ">=22.0.0",
-    "pnpm": ">=11.3.0"
+    "pnpm": ">=11.5.0"
   },
   "scripts": {
     "dev": "vite",
@@ -31,14 +31,14 @@
     "eruda": "3.4.3",
     "hono": "catalog:",
     "leaflet": "1.9.4",
-    "lucide-react": "1.16.0",
+    "lucide-react": "1.17.0",
     "next-themes": "0.4.6",
     "radix-ui": "1.4.3",
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "react-hook-form": "7.76.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-hook-form": "7.77.0",
     "react-leaflet": "5.0.0",
-    "react-router": "7.15.1",
+    "react-router": "7.16.0",
     "sonner": "2.0.7",
     "tailwind-merge": "3.6.0",
     "tailwindcss": "4.3.0",
@@ -50,7 +50,7 @@
     "@types/babel__core": "7.20.5",
     "@types/leaflet": "1.9.21",
     "@types/node": "catalog:",
-    "@types/react": "19.2.15",
+    "@types/react": "19.2.16",
     "@types/react-dom": "19.2.3",
     "@types/telegram-web-app": "9.6.0",
     "@vitejs/plugin-react": "6.0.2",
@@ -58,8 +58,8 @@
     "globals": "17.6.0",
     "rollup-plugin-visualizer": "7.0.1",
     "tw-animate-css": "1.4.0",
-    "vite": "8.0.14",
+    "vite": "8.0.16",
     "vite-plugin-svgr": "5.2.0"
   },
-  "packageManager": "pnpm@11.3.0"
+  "packageManager": "pnpm@11.5.0"
 }
