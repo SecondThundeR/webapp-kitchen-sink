@@ -4,7 +4,7 @@ packages:
 catalog:
   "@hono/node-server": 2.0.4
   "@types/node": 25.9.1
-  hono: 4.12.23
+  hono: 4.12.25
   valibot: 1.4.1
   pino: 10.3.1
   pino-pretty: 13.1.3

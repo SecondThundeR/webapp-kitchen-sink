@@ -13,8 +13,8 @@ catalogs:
       specifier: 25.9.1
       version: 25.9.1
     hono:
-      specifier: 4.12.23
-      version: 4.12.23
+      specifier: 4.12.25
+      version: 4.12.25
     pino:
       specifier: 10.3.1
       version: 10.3.1
@@ -46,19 +46,19 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: 'catalog:'
-        version: 2.0.4(hono@4.12.23)
+        version: 2.0.4(hono@4.12.25)
       '@hono/valibot-validator':
         specifier: 0.6.1
-        version: 0.6.1(hono@4.12.23)(valibot@1.4.1(typescript@6.0.3))
+        version: 0.6.1(hono@4.12.25)(valibot@1.4.1(typescript@6.0.3))
       '@webapp-kitchen-sink/config':
         specifier: workspace:*
         version: link:../../packages/config
       hono:
         specifier: 'catalog:'
-        version: 4.12.23
+        version: 4.12.25
       hono-rate-limiter:
         specifier: 0.5.3
-        version: 0.5.3(hono@4.12.23)
+        version: 0.5.3(hono@4.12.25)
       pino:
         specifier: 'catalog:'
         version: 10.3.1
@@ -95,7 +95,7 @@ importers:
         version: 2.0.3(grammy@1.43.0)
       '@hono/node-server':
         specifier: 'catalog:'
-        version: 2.0.4(hono@4.12.23)
+        version: 2.0.4(hono@4.12.25)
       '@webapp-kitchen-sink/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -104,7 +104,7 @@ importers:
         version: 1.43.0
       hono:
         specifier: 'catalog:'
-        version: 4.12.23
+        version: 4.12.25
       pino:
         specifier: 'catalog:'
         version: 10.3.1
@@ -159,7 +159,7 @@ importers:
         version: 3.4.3
       hono:
         specifier: 'catalog:'
-        version: 4.12.23
+        version: 4.12.25
       leaflet:
         specifier: 1.9.4
         version: 1.9.4
@@ -2059,8 +2059,8 @@ packages:
       unstorage:
         optional: true
 
-  hono@4.12.23:
-    resolution: {integrity: sha512-eIaZ9qDgu7XV0pxOCrg7/WhnQ6Ivm22UcxhXx/A3dcbqbbYgBEkc6e/J/s7j2tS96zoB0S9VBdLwQNCWwUo4LA==}
+  hono@4.12.25:
+    resolution: {integrity: sha512-2NFaIyNVgJmBs/ecmtGzlmluTFs5cHEWGTdu0t1HBwYzoGXOL5nUQBRMXsXWla5i4KkG//QMzVP88m1+I3fdAQ==}
     engines: {node: '>=16.9.0'}
 
   hookable@6.1.1:
@@ -3044,13 +3044,13 @@ snapshots:
 
   '@grammyjs/types@3.27.3': {}
 
-  '@hono/node-server@2.0.4(hono@4.12.23)':
+  '@hono/node-server@2.0.4(hono@4.12.25)':
     dependencies:
-      hono: 4.12.23
+      hono: 4.12.25
 
-  '@hono/valibot-validator@0.6.1(hono@4.12.23)(valibot@1.4.1(typescript@6.0.3))':
+  '@hono/valibot-validator@0.6.1(hono@4.12.25)(valibot@1.4.1(typescript@6.0.3))':
     dependencies:
-      hono: 4.12.23
+      hono: 4.12.25
       valibot: 1.4.1(typescript@6.0.3)
 
   '@hookform/resolvers@5.4.0(react-hook-form@7.77.0(react@19.2.7))':
@@ -4404,11 +4404,11 @@ snapshots:
 
   help-me@5.0.0: {}
 
-  hono-rate-limiter@0.5.3(hono@4.12.23):
+  hono-rate-limiter@0.5.3(hono@4.12.25):
     dependencies:
-      hono: 4.12.23
+      hono: 4.12.25
 
-  hono@4.12.23: {}
+  hono@4.12.25: {}
 
   hookable@6.1.1: {}
 
