@@ -2,42 +2,12 @@ packages:
   - "apps/*"
   - "packages/*"
 catalog:
-  "@hono/node-server": 2.0.4
-  "@types/node": 25.9.1
-  hono: 4.12.23
+  "@hono/node-server": 2.0.5
+  "@types/node": 26.0.0
+  hono: 4.12.26
   valibot: 1.4.1
   pino: 10.3.1
   pino-pretty: 13.1.3
-  tsdown: 0.22.1
+  tsdown: 0.22.3
 allowBuilds:
   esbuild: true
-minimumReleaseAgeExclude:
-  - '@babel/code-frame@7.29.7'
-  - '@babel/compat-data@7.29.7'
-  - '@babel/core@7.29.7'
-  - '@babel/generator@7.29.7'
-  - '@babel/helper-compilation-targets@7.29.7'
-  - '@babel/helper-globals@7.29.7'
-  - '@babel/helper-module-imports@7.29.7'
-  - '@babel/helper-module-transforms@7.29.7'
-  - '@babel/helper-string-parser@7.29.7'
-  - '@babel/helper-validator-identifier@7.29.7'
-  - '@babel/helper-validator-option@7.29.7'
-  - '@babel/helpers@7.29.7'
-  - '@babel/parser@7.29.7'
-  - '@babel/template@7.29.7'
-  - '@babel/traverse@7.29.7'
-  - '@babel/types@7.29.7'
-  - hono@4.12.23
-  - valibot@1.4.1
-  - '@turbo/darwin-64@2.9.15'
-  - '@turbo/darwin-arm64@2.9.15'
-  - '@turbo/linux-64@2.9.15'
-  - '@turbo/linux-arm64@2.9.15'
-  - '@turbo/windows-64@2.9.15'
-  - '@turbo/windows-arm64@2.9.15'
-  - turbo@2.9.15
-  - '@types/react@19.2.16'
-  - react-dom@19.2.7
-  - react@19.2.7
-  - vite@8.0.16
