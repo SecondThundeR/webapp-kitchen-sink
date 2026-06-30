@@ -2,12 +2,22 @@ packages:
   - "apps/*"
   - "packages/*"
 catalog:
-  "@hono/node-server": 2.0.5
-  "@types/node": 26.0.0
-  hono: 4.12.26
-  valibot: 1.4.1
+  "@hono/node-server": 2.0.6
+  "@types/node": 26.0.1
+  hono: 4.12.27
+  valibot: 1.4.2
   pino: 10.3.1
   pino-pretty: 13.1.3
   tsdown: 0.22.3
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - '@turbo/darwin-64@2.10.1'
+  - '@turbo/darwin-arm64@2.10.1'
+  - '@turbo/linux-64@2.10.1'
+  - '@turbo/linux-arm64@2.10.1'
+  - '@turbo/windows-64@2.10.1'
+  - '@turbo/windows-arm64@2.10.1'
+  - react-router@8.1.0
+  - turbo@2.10.1
+  - vite@8.1.1
