@@ -20,7 +20,6 @@ const SettingsButtonComponent = () => {
             name="settings-is-visible"
             checked={isVisible}
             onCheckedChange={(checked) => {
-              if (checked === "indeterminate") return;
               handleIsVisible(checked);
             }}
           />

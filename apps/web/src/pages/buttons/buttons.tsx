@@ -22,12 +22,12 @@ export const Buttons = () => {
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </WebAppVersionGuard>
           </TabsList>
-          <TabsContent value="main" forceMount hidden={activeTab !== "main"}>
+          <TabsContent value="main" keepMounted hidden={activeTab !== "main"}>
             <MainButton />
           </TabsContent>
           <TabsContent
             value="secondary"
-            forceMount
+            keepMounted
             hidden={activeTab !== "secondary"}
           >
             <SecondaryButton />
@@ -35,7 +35,7 @@ export const Buttons = () => {
           <WebAppVersionGuard version="7.0">
             <TabsContent
               value="settings"
-              forceMount
+              keepMounted
               hidden={activeTab !== "settings"}
             >
               <SettingsButton />

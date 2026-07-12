@@ -68,7 +68,6 @@ export const SecondaryButton = () => {
               name="secondary-is-visible"
               checked={isVisible}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 if (checked) {
                   handleShow();
                   return;
@@ -94,7 +93,6 @@ export const SecondaryButton = () => {
               name="secondary-is-active"
               checked={isActive}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 if (checked) {
                   handleEnable();
                   return;
@@ -121,7 +119,6 @@ export const SecondaryButton = () => {
                 name="secondary-has-shine-effect"
                 checked={hasShineEffect}
                 onCheckedChange={(checked) => {
-                  if (checked === "indeterminate") return;
                   handleHasShineEffect(checked);
                 }}
               />
@@ -159,7 +156,6 @@ export const SecondaryButton = () => {
               name="secondary-is-progress-visible"
               checked={isProgressVisible}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 handleIsProgressVisible(checked);
               }}
             />

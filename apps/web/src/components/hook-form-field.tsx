@@ -151,10 +151,11 @@ export const HookFormField = <T extends FieldValues>(
             )}
 
             {fieldType === "select" && (
-              <Select
+              <Select<string>
                 name={field.name}
                 value={field.value}
                 onValueChange={(val) => {
+                  if (val === null) return;
                   field.onChange(val);
                   (rest as SelectProps).onValueChange?.(val);
                 }}
@@ -168,7 +169,7 @@ export const HookFormField = <T extends FieldValues>(
                     placeholder={(rest as SelectProps).placeholder || "Select"}
                   />
                 </SelectTrigger>
-                <SelectContent position="item-aligned">
+                <SelectContent>
                   {(rest as SelectProps).options.map((opt) => (
                     <SelectItem key={opt.value} value={opt.value}>
                       {opt.label}

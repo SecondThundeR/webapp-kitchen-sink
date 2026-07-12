@@ -63,7 +63,6 @@ export const MainButton = () => {
               name="main-is-visible"
               checked={isVisible}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 if (checked) {
                   handleShow();
                   return;
@@ -89,7 +88,6 @@ export const MainButton = () => {
               name="main-is-active"
               checked={isActive}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 if (checked) {
                   handleEnable();
                   return;
@@ -116,7 +114,6 @@ export const MainButton = () => {
                 name="main-has-shine-effect"
                 checked={hasShineEffect}
                 onCheckedChange={(checked) => {
-                  if (checked === "indeterminate") return;
                   handleHasShineEffect(checked);
                 }}
               />
@@ -138,7 +135,6 @@ export const MainButton = () => {
               name="main-is-progress-visible"
               checked={isProgressVisible}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 handleIsProgressVisible(checked);
               }}
             />

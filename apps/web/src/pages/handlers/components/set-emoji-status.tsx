@@ -47,7 +47,6 @@ export const SetEmojiStatus = () => {
                   name="is-temporary-status"
                   checked={isTemp}
                   onCheckedChange={(checked) => {
-                    if (checked === "indeterminate") return;
                     setIsTemp(checked);
                   }}
                 />

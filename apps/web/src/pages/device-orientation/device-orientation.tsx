@@ -74,7 +74,6 @@ const DeviceOrientationComponent = () => {
             checked={needAbsolute}
             disabled={isStarted}
             onCheckedChange={(checked) => {
-              if (checked === "indeterminate") return;
               setNeedAbsolute(checked);
             }}
           />

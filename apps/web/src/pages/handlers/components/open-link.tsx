@@ -41,7 +41,6 @@ export const OpenLink = () => {
               name="try-instant-view"
               checked={tryInstantView}
               onCheckedChange={(checked) => {
-                if (checked === "indeterminate") return;
                 setTryInstantView(checked);
               }}
             />
