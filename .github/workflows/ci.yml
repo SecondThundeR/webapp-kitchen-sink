@@ -10,10 +10,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         node-version: [22, 24, 26]
     steps:
@@ -25,11 +29,24 @@ jobs:
           standalone: true
           version: 11.12.0
 
+      - name: Verify pnpm
+        run: pnpm --version
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
+
+      - name: Resolve pnpm store
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
+
+      - name: Cache pnpm store
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-${{ runner.os }}-${{ matrix.node-version }}-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -37,10 +54,10 @@ jobs:
       - name: Cache turbo build
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25
         with:
-          path: .turbo
-          key: turbo-${{ github.sha }}
+          path: node_modules/.cache/turbo
+          key: turbo-${{ runner.os }}-${{ matrix.node-version }}-${{ github.sha }}
           restore-keys: |
-            turbo-
+            turbo-${{ runner.os }}-${{ matrix.node-version }}-
 
       - run: pnpm lint
       - run: pnpm typecheck
