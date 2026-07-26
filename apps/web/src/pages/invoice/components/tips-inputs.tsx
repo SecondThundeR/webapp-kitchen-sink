@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import {
   type ArrayPath,
   type Control,
-  type FieldArray,
   type FieldPath,
   type FieldValues,
   useFieldArray,
@@ -78,7 +77,7 @@ export const TipsInputs = <T extends FieldValues & InvoiceSchema>({
       <Button
         type="button"
         variant="secondary"
-        onClick={() => append({ tip: 0 } as FieldArray<T, ArrayPath<T>>)}
+        onClick={() => append({ tip: 0 } as Parameters<typeof append>[0])}
         disabled={maxTipAmount === undefined || fields.length === 4}
       >
         Add tip option

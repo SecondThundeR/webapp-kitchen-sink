@@ -1,7 +1,6 @@
 import {
   type ArrayPath,
   type Control,
-  type FieldArray,
   type FieldPath,
   type FieldValues,
   useFieldArray,
@@ -77,7 +76,7 @@ export const PricesInputs = <T extends FieldValues & BaseInvoiceSchema>({
           type="button"
           variant="secondary"
           onClick={() =>
-            append({ amount: 1, label: "" } as FieldArray<T, ArrayPath<T>>)
+            append({ amount: 1, label: "" } as Parameters<typeof append>[0])
           }
         >
           Add price
