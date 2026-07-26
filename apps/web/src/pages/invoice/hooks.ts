@@ -47,12 +47,9 @@ const SUBSCRIPTION_30_DAYS_IN_SECONDS = 2592000;
 
 export const useInvoice = () => {
   const [isInvoicePending, setIsInvoicePending] = useState(false);
-  const { mutateAsync: mutateInvoiceAsync, isPending: isPendingInvoice } =
-    useCreateInvoiceLinkMutation();
-  const {
-    mutateAsync: mutateStarsInvoiceAsync,
-    isPending: isPendingStarsInvoice,
-  } = useCreateStarsInvoiceLinkMutation();
+  const { mutateAsync: mutateInvoiceAsync } = useCreateInvoiceLinkMutation();
+  const { mutateAsync: mutateStarsInvoiceAsync } =
+    useCreateStarsInvoiceLinkMutation();
 
   const handlePayment = async (data: HandlePaymentData) => {
     let url: string;
@@ -110,9 +107,10 @@ export const useInvoice = () => {
     }
   };
 
+  // The mutations' own pending state is not exposed: the forms await this
+  // handler inside onSubmit, so TanStack Form's isSubmitting already covers it
   return {
     handlePayment: handlePayment,
     isInvoicePending,
-    isInvoiceCreating: isPendingInvoice || isPendingStarsInvoice,
   };
 };

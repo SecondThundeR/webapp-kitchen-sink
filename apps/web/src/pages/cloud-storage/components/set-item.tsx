@@ -1,12 +1,13 @@
-import { StorageMethodWithKeyValueExecuteCard } from "@/components/storage-method-with-key-value-execute-card.tsx";
+import { StorageMethodCard } from "@/components/storage-method-card";
 import { useCloudStorage } from "../hooks";
 
 export const SetItem = () => {
   const { handleSetItem } = useCloudStorage();
 
   return (
-    <StorageMethodWithKeyValueExecuteCard
+    <StorageMethodCard
       methodName="setItem"
+      variant="key-value"
       methodHandler={handleSetItem}
     />
   );

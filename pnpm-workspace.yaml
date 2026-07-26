@@ -13,7 +13,6 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - '@hono/node-server@2.0.12'
-  - '@hookform/resolvers@5.5.7'
   - '@turbo/darwin-64@2.10.7'
   - '@turbo/darwin-arm64@2.10.7'
   - '@turbo/linux-64@2.10.7'

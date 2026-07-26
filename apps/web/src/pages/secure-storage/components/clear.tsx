@@ -1,10 +1,8 @@
-import { StorageMethodExecuteCard } from "@/components/storage-method-execute-card.tsx";
+import { StorageMethodCard } from "@/components/storage-method-card";
 import { useSecureStorage } from "../hooks";
 
 export const Clear = () => {
   const { handleClear } = useSecureStorage();
 
-  return (
-    <StorageMethodExecuteCard methodName="clear" methodHandler={handleClear} />
-  );
+  return <StorageMethodCard methodName="clear" methodHandler={handleClear} />;
 };

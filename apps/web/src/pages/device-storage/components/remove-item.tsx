@@ -1,12 +1,13 @@
-import { StorageMethodWithKeyExecuteCard } from "@/components/storage-method-with-key-execute-card.tsx";
+import { StorageMethodCard } from "@/components/storage-method-card";
 import { useDeviceStorage } from "../hooks";
 
 export const RemoveItem = () => {
   const { handleRemoveItem } = useDeviceStorage();
 
   return (
-    <StorageMethodWithKeyExecuteCard
+    <StorageMethodCard
       methodName="removeItem"
+      variant="key"
       methodHandler={handleRemoveItem}
     />
   );

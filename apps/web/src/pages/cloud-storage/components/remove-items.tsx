@@ -1,72 +1,48 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ExecuteMethodCard } from "@/components/execute-method-card";
+import { Field, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { useExecuteMethod } from "@/hooks/use-execute-method";
 import { useCloudStorage } from "../hooks";
+import { keysSchema } from "../schemas";
 
 export const RemoveItems = () => {
-  const [rawKeys, setRawKeys] = useState("");
-  const [lastInvokeAt, setLastInvokeAt] = useState<Date | null>(null);
   const { handleRemoveItems } = useCloudStorage();
-  const [isPending, setIsPending] = useState(false);
 
-  const onRemoveItems = async () => {
-    setIsPending(true);
-
-    const keys = rawKeys.split(",");
-    if (keys.length === 0) {
-      setIsPending(false);
-      return;
-    }
-
-    try {
-      await handleRemoveItems(keys);
-      setLastInvokeAt(new Date());
-      setRawKeys("");
-    } catch (e) {
-      toast.error(`[removeItems]: ${e}`);
-    }
-
-    setIsPending(false);
-  };
+  const { form, lastInvokedAt } = useExecuteMethod({
+    methodName: "removeItems",
+    schema: keysSchema,
+    defaultValues: { keys: "" },
+    onExecute: ({ keys }) => handleRemoveItems(keys),
+    resetOnSuccess: true,
+  });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>removeItems</CardTitle>
-        {lastInvokeAt && (
-          <CardDescription>
-            Last invoked at: {lastInvokeAt.toLocaleString()}
-          </CardDescription>
-        )}
-      </CardHeader>
-      <CardContent>
-        <Input
-          id="keys"
-          value={rawKeys}
-          onChange={(e) => setRawKeys(e.currentTarget.value)}
-          placeholder="Enter keys separated by comma"
-        />
-      </CardContent>
-      <CardFooter>
-        <Button
-          className="w-full"
-          onClick={onRemoveItems}
-          disabled={!rawKeys || isPending}
-        >
-          {isPending && <Spinner data-icon="inline-start" />}
-          {isPending ? "Executing" : "Execute"}
-        </Button>
-      </CardFooter>
-    </Card>
+    <ExecuteMethodCard
+      methodName="removeItems"
+      form={form}
+      lastInvokedAt={lastInvokedAt}
+    >
+      <form.Field name="keys">
+        {(field) => {
+          const isInvalid =
+            field.state.meta.isTouched && !field.state.meta.isValid;
+
+          return (
+            <Field data-invalid={isInvalid}>
+              <Input
+                id={field.name}
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                aria-invalid={isInvalid}
+                placeholder="Enter keys separated by comma"
+              />
+              {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            </Field>
+          );
+        }}
+      </form.Field>
+    </ExecuteMethodCard>
   );
 };

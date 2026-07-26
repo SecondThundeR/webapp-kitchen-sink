@@ -1,11 +1,8 @@
-import { StorageMethodExecuteCard } from "@/components/storage-method-execute-card.tsx";
-
+import { StorageMethodCard } from "@/components/storage-method-card";
 import { useDeviceStorage } from "../hooks";
 
 export const Clear = () => {
   const { handleClear } = useDeviceStorage();
 
-  return (
-    <StorageMethodExecuteCard methodName="clear" methodHandler={handleClear} />
-  );
+  return <StorageMethodCard methodName="clear" methodHandler={handleClear} />;
 };
