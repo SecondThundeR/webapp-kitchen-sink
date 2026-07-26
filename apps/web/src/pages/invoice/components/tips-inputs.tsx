@@ -1,12 +1,5 @@
 import { useEffect } from "react";
-import {
-  type ArrayPath,
-  type Control,
-  type FieldPath,
-  type FieldValues,
-  useFieldArray,
-  useWatch,
-} from "react-hook-form";
+import { type Control, useFieldArray, useWatch } from "react-hook-form";
 import { HookFormField } from "@/components/hook-form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,21 +12,19 @@ import {
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import type { InvoiceSchema } from "../schemas";
 
-interface TipsInputsProps<T extends FieldValues & InvoiceSchema> {
-  control: Control<T>;
+interface TipsInputsProps {
+  control: Control<InvoiceSchema>;
 }
 
-export const TipsInputs = <T extends FieldValues & InvoiceSchema>({
-  control,
-}: TipsInputsProps<T>) => {
+export const TipsInputs = ({ control }: TipsInputsProps) => {
   const { fields, append, remove } = useFieldArray({
-    control: control,
-    name: "suggested_tip_amounts" as ArrayPath<T>,
+    control,
+    name: "suggested_tip_amounts",
   });
 
   const maxTipAmount = useWatch({
-    control: control,
-    name: "max_tip_amount" as FieldPath<T>,
+    control,
+    name: "max_tip_amount",
   });
 
   useEffect(() => {
@@ -55,7 +46,7 @@ export const TipsInputs = <T extends FieldValues & InvoiceSchema>({
               <HookFormField
                 fieldType="number"
                 orientation="horizontal"
-                name={`suggested_tip_amounts.${index}.tip` as FieldPath<T>}
+                name={`suggested_tip_amounts.${index}.tip`}
                 control={control}
                 placeholder="Enter tip"
                 max={maxTipAmount}
@@ -77,7 +68,7 @@ export const TipsInputs = <T extends FieldValues & InvoiceSchema>({
       <Button
         type="button"
         variant="secondary"
-        onClick={() => append({ tip: 0 } as Parameters<typeof append>[0])}
+        onClick={() => append({ tip: 0 })}
         disabled={maxTipAmount === undefined || fields.length === 4}
       >
         Add tip option
