@@ -1,10 +1,4 @@
-import {
-  type ArrayPath,
-  type Control,
-  type FieldPath,
-  type FieldValues,
-  useFieldArray,
-} from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { HookFormField } from "@/components/hook-form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,18 +11,16 @@ import {
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import type { BaseInvoiceSchema } from "../schemas";
 
-interface PricesInputsProps<T extends FieldValues & BaseInvoiceSchema> {
-  control: Control<T>;
+interface PricesInputsProps {
   singleItem?: boolean;
 }
 
-export const PricesInputs = <T extends FieldValues & BaseInvoiceSchema>({
-  control,
-  singleItem = false,
-}: PricesInputsProps<T>) => {
+export const PricesInputs = ({ singleItem = false }: PricesInputsProps) => {
+  const { control } = useFormContext<BaseInvoiceSchema>();
+
   const { fields, append, remove } = useFieldArray({
-    control: control,
-    name: "prices" as ArrayPath<T>,
+    control,
+    name: "prices",
   });
 
   return (
@@ -45,13 +37,13 @@ export const PricesInputs = <T extends FieldValues & BaseInvoiceSchema>({
             <FieldGroup className="gap-4">
               <HookFormField
                 fieldType="input"
-                name={`prices.${index}.label` as FieldPath<T>}
+                name={`prices.${index}.label`}
                 control={control}
                 placeholder="Enter label"
               />
               <HookFormField
                 fieldType="number"
-                name={`prices.${index}.amount` as FieldPath<T>}
+                name={`prices.${index}.amount`}
                 control={control}
                 placeholder="Enter price"
               />
@@ -75,9 +67,7 @@ export const PricesInputs = <T extends FieldValues & BaseInvoiceSchema>({
         <Button
           type="button"
           variant="secondary"
-          onClick={() =>
-            append({ amount: 1, label: "" } as Parameters<typeof append>[0])
-          }
+          onClick={() => append({ amount: 1, label: "" })}
         >
           Add price
         </Button>
