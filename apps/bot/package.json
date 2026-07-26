@@ -9,8 +9,8 @@
     "#root/*": "./src/*.ts"
   },
   "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=11.12.0"
+    "node": ">=22.23.1",
+    "pnpm": ">=11.17.0"
   },
   "scripts": {
     "dev": "NODE_ENV=development node --watch ./src/main.ts",
@@ -29,7 +29,7 @@
     "@grammyjs/runner": "2.0.3",
     "@hono/node-server": "catalog:",
     "@webapp-kitchen-sink/config": "workspace:*",
-    "grammy": "1.44.0",
+    "grammy": "1.45.1",
     "hono": "catalog:",
     "pino": "catalog:",
     "pino-pretty": "catalog:",
@@ -39,5 +39,5 @@
     "@types/node": "catalog:",
     "tsdown": "catalog:"
   },
-  "packageManager": "pnpm@11.12.0"
+  "packageManager": "pnpm@11.17.0"
 }
