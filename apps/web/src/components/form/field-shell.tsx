@@ -12,7 +12,7 @@ export type FieldOrientation = ComponentProps<typeof Field>["orientation"];
 export const useIsFieldInvalid = () => {
   const field = useFieldContext<unknown>();
 
-  return field.state.meta.isTouched && !field.state.meta.isValid;
+  return !field.state.meta.isValid;
 };
 
 export interface FieldShellProps extends PropsWithChildren {

@@ -103,7 +103,7 @@ export const SetEmojiStatus = () => {
         name="duration"
         validators={{
           onChangeListenTo: ["is_temp"],
-          onChange: ({ value, fieldApi }) =>
+          onDynamic: ({ value, fieldApi }) =>
             fieldApi.form.getFieldValue("is_temp") && value <= 0
               ? { message: "Duration is required for a temporary status" }
               : undefined,

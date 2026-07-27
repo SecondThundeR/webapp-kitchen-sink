@@ -57,7 +57,7 @@ export const PricesInputs = withFieldGroup({
                       <group.AppField
                         name={`prices[${index}].amount`}
                         validators={{
-                          onChange: ({ value, fieldApi }) => {
+                          onDynamic: ({ value, fieldApi }) => {
                             if (!amountLimit) return undefined;
 
                             // The embedding form can be anything, so its values

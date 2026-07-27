@@ -107,7 +107,7 @@ export const CurrencyInvoice = () => {
             }}
             validators={{
               onChangeListenTo: ["suggested_tip_amounts"],
-              onChange: ({ value, fieldApi }) =>
+              onDynamic: ({ value, fieldApi }) =>
                 !value &&
                 fieldApi.form.getFieldValue("suggested_tip_amounts")?.length
                   ? {

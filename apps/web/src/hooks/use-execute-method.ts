@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { useAppForm } from "@/lib/form";
+import { submitValidationLogic, useAppForm } from "@/lib/form";
 
 interface UseExecuteMethodOptions<TSchema extends z.ZodType> {
   // Name of the Telegram Web App method, used to label errors
@@ -27,11 +27,11 @@ export const useExecuteMethod = <TSchema extends z.ZodType>({
 
   const form = useAppForm({
     defaultValues,
+    validationLogic: submitValidationLogic,
     validators: {
       // TanStack cannot tell an unresolved generic apart from an async
       // validator, which it rejects at the type level
-      onBlur: schema as z.ZodType<unknown, z.input<TSchema>>,
-      onSubmit: schema as z.ZodType<unknown, z.input<TSchema>>,
+      onDynamic: schema as z.ZodType<unknown, z.input<TSchema>>,
     },
     onSubmit: async ({ value, formApi }) => {
       try {

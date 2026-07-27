@@ -44,7 +44,7 @@ export const TipsInputs = withForm({
                             // Re-runs whenever the cap itself is edited, so the
                             // error lands on the tip without touching it again
                             onChangeListenTo: ["max_tip_amount"],
-                            onChange: ({ value, fieldApi }) => {
+                            onDynamic: ({ value, fieldApi }) => {
                               const max =
                                 fieldApi.form.getFieldValue("max_tip_amount");
 

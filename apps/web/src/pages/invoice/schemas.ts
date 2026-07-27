@@ -38,8 +38,8 @@ const currencySchema = z.enum(CURRENCY_CODES as string[], {
 });
 
 // Rules that span two fields (max tip amount vs. suggested tips) live on the
-// fields themselves as linked validators, so they re-run as soon as either side
-// changes instead of only on submit
+// fields themselves as linked validators, so that once the form has been
+// submitted, editing either side re-checks the other
 export const invoiceSchema = z.object({
   ...baseInvoiceSchema.shape,
   currency: currencySchema,

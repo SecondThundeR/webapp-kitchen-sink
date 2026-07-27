@@ -63,9 +63,9 @@ export const ButtonItem = withForm({
                 name={`buttons[${index}].text`}
                 validators={{
                   // Re-runs when the type changes, so switching to a type that
-                  // needs a label flags the empty field right away
+                  // needs a label flags the empty field without a second submit
                   onChangeListenTo: [`buttons[${index}].type`],
-                  onChange: ({ value, fieldApi }) => {
+                  onDynamic: ({ value, fieldApi }) => {
                     const type = fieldApi.form.getFieldValue(
                       `buttons[${index}].type`,
                     );

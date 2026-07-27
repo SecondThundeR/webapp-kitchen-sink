@@ -1,4 +1,5 @@
 import { formOptions } from "@tanstack/react-form";
+import { submitValidationLogic } from "@/lib/form";
 import {
   type InvoiceSchemaInput,
   invoiceSchema,
@@ -20,9 +21,9 @@ export const invoiceFormOptions = formOptions({
     currency: "",
     prices: [defaultPrice],
   } as InvoiceSchemaInput,
+  validationLogic: submitValidationLogic,
   validators: {
-    onBlur: invoiceSchema,
-    onSubmit: invoiceSchema,
+    onDynamic: invoiceSchema,
   },
 });
 
@@ -32,8 +33,8 @@ export const starsInvoiceFormOptions = formOptions({
     description: "",
     prices: [defaultPrice],
   } as StarsInvoiceSchemaInput,
+  validationLogic: submitValidationLogic,
   validators: {
-    onBlur: starsInvoiceSchema,
-    onSubmit: starsInvoiceSchema,
+    onDynamic: starsInvoiceSchema,
   },
 });
