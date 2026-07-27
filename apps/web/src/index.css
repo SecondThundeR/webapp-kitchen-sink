@@ -42,6 +42,8 @@ body {
 }
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant data-horizontal (&[data-orientation="horizontal"]);
+@custom-variant data-vertical (&[data-orientation="vertical"]);
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
