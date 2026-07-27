@@ -4,15 +4,6 @@ import { CustomEmojiPicker } from "@/components/custom-emoji-picker/custom-emoji
 import { ExecuteMethodCard } from "@/components/execute-method-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { useExecuteMethod } from "@/hooks/use-execute-method";
 import { WebApp } from "@/lib/web-app";
 
@@ -81,24 +72,18 @@ export const SetEmojiStatus = () => {
         </Button>
       }
     >
-      <form.Field name="emoji_id">
-        {(field) => {
-          const isInvalid =
-            field.state.meta.isTouched && !field.state.meta.isValid;
-
-          return (
-            <Field data-invalid={isInvalid}>
-              <CustomEmojiPicker
-                value={field.state.value}
-                onChange={field.handleChange}
-                paginationConfig={{ itemsPerPage: 30 }}
-              />
-              {isInvalid && <FieldError errors={field.state.meta.errors} />}
-            </Field>
-          );
-        }}
-      </form.Field>
-      <form.Field
+      <form.AppField name="emoji_id">
+        {(field) => (
+          <field.FieldShell>
+            <CustomEmojiPicker
+              value={field.state.value}
+              onChange={field.handleChange}
+              paginationConfig={{ itemsPerPage: 30 }}
+            />
+          </field.FieldShell>
+        )}
+      </form.AppField>
+      <form.AppField
         name="is_temp"
         listeners={{
           // A permanent status has no duration to speak of
@@ -108,26 +93,13 @@ export const SetEmojiStatus = () => {
         }}
       >
         {(field) => (
-          <Field orientation="horizontal">
-            <Checkbox
-              id={field.name}
-              name={field.name}
-              checked={field.state.value}
-              onCheckedChange={(checked) => field.handleChange(checked)}
-            />
-            <FieldContent>
-              <FieldLabel htmlFor={field.name}>
-                Set temporary emoji status
-              </FieldLabel>
-              <FieldDescription>
-                By clicking this checkbox, emoji status will expire after
-                specified amount of seconds
-              </FieldDescription>
-            </FieldContent>
-          </Field>
+          <field.CheckboxField
+            label="Set temporary emoji status"
+            description="By clicking this checkbox, emoji status will expire after specified amount of seconds"
+          />
         )}
-      </form.Field>
-      <form.Field
+      </form.AppField>
+      <form.AppField
         name="duration"
         validators={{
           onChangeListenTo: ["is_temp"],
@@ -137,42 +109,20 @@ export const SetEmojiStatus = () => {
               : undefined,
         }}
       >
-        {(field) => {
-          const isInvalid =
-            field.state.meta.isTouched && !field.state.meta.isValid;
-
-          return (
-            <form.Subscribe selector={(state) => state.values.is_temp}>
-              {(isTemp) => (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>
-                    Emoji status duration
-                  </FieldLabel>
-                  <FieldDescription>
-                    Provide number of seconds after which new emoji status will
-                    expire
-                  </FieldDescription>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    type="number"
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
-                      field.handleChange(Number.isNaN(value) ? 0 : value);
-                    }}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter duration"
-                    disabled={!isTemp}
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              )}
-            </form.Subscribe>
-          );
-        }}
-      </form.Field>
+        {(field) => (
+          <form.Subscribe selector={(state) => state.values.is_temp}>
+            {(isTemp) => (
+              <field.NumberField
+                label="Emoji status duration"
+                description="Provide number of seconds after which new emoji status will expire"
+                placeholder="Enter duration"
+                emptyValue={0}
+                disabled={!isTemp}
+              />
+            )}
+          </form.Subscribe>
+        )}
+      </form.AppField>
     </ExecuteMethodCard>
   );
 };

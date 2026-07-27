@@ -1,32 +1,14 @@
 import { InfoIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Field,
-  FieldContent,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from "@/components/ui/input-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { FieldGroup, FieldSeparator } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
 import { useAppForm } from "@/lib/form";
-import { CURRENCIES } from "../constants";
+import {
+  CURRENCIES,
+  MAX_DESCRIPTION_LENGTH,
+  PHOTO_NUMBER_FIELDS,
+} from "../constants";
 import { invoiceFormOptions } from "../form-options";
 import { useInvoice } from "../hooks";
 import { invoiceSchema } from "../schemas";
@@ -37,24 +19,6 @@ const CURRENCY_OPTIONS = CURRENCIES.map((currency) => ({
   value: currency.code,
   label: `${currency.flag} ${currency.name}`,
 }));
-
-const PHOTO_FIELDS = [
-  {
-    name: "photo_size",
-    label: "Photo size",
-    placeholder: "Enter photo size in bytes",
-  },
-  {
-    name: "photo_width",
-    label: "Photo width",
-    placeholder: "Enter photo width",
-  },
-  {
-    name: "photo_height",
-    label: "Photo height",
-    placeholder: "Enter photo height",
-  },
-] as const;
 
 const REQUIREMENT_FIELDS = [
   {
@@ -102,100 +66,28 @@ export const CurrencyInvoice = () => {
       <div className="p-1 flex flex-col gap-4">
         <h2 className="text-xl">Required parameters</h2>
         <FieldGroup className="gap-3">
-          <form.Field name="title">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Title</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter product title"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
-          <form.Field name="description">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Description</FieldLabel>
-                  <InputGroup>
-                    <InputGroupTextarea
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="Enter product description"
-                      rows={6}
-                      className="min-h-24 resize-none"
-                      maxLength={255}
-                    />
-                    <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums">
-                        {field.state.value.length}/255 characters
-                      </InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
-          <form.Field name="currency">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field orientation="responsive" data-invalid={isInvalid}>
-                  <FieldContent>
-                    <FieldLabel htmlFor={field.name}>Currency</FieldLabel>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </FieldContent>
-                  <Select<string>
-                    name={field.name}
-                    value={field.state.value}
-                    onValueChange={(value) => {
-                      if (value === null) return;
-                      field.handleChange(value);
-                    }}
-                  >
-                    <SelectTrigger
-                      id={field.name}
-                      aria-invalid={isInvalid}
-                      className="min-w-30"
-                    >
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CURRENCY_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </Field>
-              );
-            }}
-          </form.Field>
+          <form.AppField name="title">
+            {(field) => (
+              <field.TextField
+                label="Title"
+                placeholder="Enter product title"
+              />
+            )}
+          </form.AppField>
+          <form.AppField name="description">
+            {(field) => (
+              <field.TextareaField
+                label="Description"
+                placeholder="Enter product description"
+                maxLength={MAX_DESCRIPTION_LENGTH}
+              />
+            )}
+          </form.AppField>
+          <form.AppField name="currency">
+            {(field) => (
+              <field.SelectField label="Currency" options={CURRENCY_OPTIONS} />
+            )}
+          </form.AppField>
           <PricesInputs
             form={form}
             fields={{ prices: "prices" }}
@@ -204,7 +96,7 @@ export const CurrencyInvoice = () => {
           />
           <FieldSeparator />
           <h2 className="text-xl">Optional parameters</h2>
-          <form.Field
+          <form.AppField
             name="max_tip_amount"
             listeners={{
               // Suggested tips are meaningless without a cap, so clearing the
@@ -225,115 +117,33 @@ export const CurrencyInvoice = () => {
                   : undefined,
             }}
           >
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Max tip amount</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    type="number"
-                    value={field.state.value ?? ""}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
-                      // Converts NaN to undefined cleanly
-                      field.handleChange(
-                        Number.isNaN(value) ? undefined : value,
-                      );
-                    }}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter max tip amount"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
+            {(field) => (
+              <field.NumberField
+                label="Max tip amount"
+                placeholder="Enter max tip amount"
+              />
+            )}
+          </form.AppField>
           <TipsInputs form={form} />
-          <form.Field name="photo_url">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Photo URL</FieldLabel>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value ?? ""}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter photo URL"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
-          {PHOTO_FIELDS.map(({ name, label, placeholder }) => (
-            <form.Field key={name} name={name}>
-              {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      type="number"
-                      value={field.state.value ?? ""}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
-                        // Converts NaN to undefined cleanly
-                        field.handleChange(
-                          Number.isNaN(value) ? undefined : value,
-                        );
-                      }}
-                      aria-invalid={isInvalid}
-                      placeholder={placeholder}
-                    />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            </form.Field>
+          <form.AppField name="photo_url">
+            {(field) => (
+              <field.TextField
+                label="Photo URL"
+                placeholder="Enter photo URL"
+              />
+            )}
+          </form.AppField>
+          {PHOTO_NUMBER_FIELDS.map(({ name, label, placeholder }) => (
+            <form.AppField key={name} name={name}>
+              {(field) => (
+                <field.NumberField label={label} placeholder={placeholder} />
+              )}
+            </form.AppField>
           ))}
           {REQUIREMENT_FIELDS.map(({ name, label }) => (
-            <form.Field key={name} name={name}>
-              {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
-                return (
-                  <Field orientation="horizontal" data-invalid={isInvalid}>
-                    <Checkbox
-                      id={field.name}
-                      name={field.name}
-                      checked={field.state.value ?? false}
-                      onCheckedChange={(checked) => field.handleChange(checked)}
-                      aria-invalid={isInvalid}
-                    />
-                    <FieldLabel htmlFor={field.name} className="font-normal">
-                      {label}
-                    </FieldLabel>
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            </form.Field>
+            <form.AppField key={name} name={name}>
+              {(field) => <field.CheckboxField label={label} />}
+            </form.AppField>
           ))}
         </FieldGroup>
         <Alert>

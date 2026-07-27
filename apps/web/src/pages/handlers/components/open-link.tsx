@@ -1,8 +1,5 @@
 import { z } from "zod";
 import { ExecuteMethodCard } from "@/components/execute-method-card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { useExecuteMethod } from "@/hooks/use-execute-method";
 import { WebApp } from "@/lib/web-app";
 
@@ -32,44 +29,18 @@ export const OpenLink = () => {
 
   return (
     <ExecuteMethodCard methodName="openLink" form={form}>
-      <form.Field name="link">
-        {(field) => {
-          const isInvalid =
-            field.state.meta.isTouched && !field.state.meta.isValid;
-
-          return (
-            <Field data-invalid={isInvalid}>
-              <Input
-                id={field.name}
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                aria-invalid={isInvalid}
-                placeholder="Enter link"
-                maxLength={MAX_LINK_LENGTH}
-              />
-              {isInvalid && <FieldError errors={field.state.meta.errors} />}
-            </Field>
-          );
-        }}
-      </form.Field>
+      <form.AppField name="link">
+        {(field) => (
+          <field.TextField
+            placeholder="Enter link"
+            maxLength={MAX_LINK_LENGTH}
+          />
+        )}
+      </form.AppField>
       {canSupportTryInstantView && (
-        <form.Field name="try_instant_view">
-          {(field) => (
-            <Field orientation="horizontal">
-              <Checkbox
-                id={field.name}
-                name={field.name}
-                checked={field.state.value}
-                onCheckedChange={(checked) => field.handleChange(checked)}
-              />
-              <FieldLabel htmlFor={field.name} className="font-normal">
-                Try instant view
-              </FieldLabel>
-            </Field>
-          )}
-        </form.Field>
+        <form.AppField name="try_instant_view">
+          {(field) => <field.CheckboxField label="Try instant view" />}
+        </form.AppField>
       )}
     </ExecuteMethodCard>
   );

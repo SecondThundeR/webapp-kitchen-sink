@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { WebApp } from "@/lib/web-app";
 import {
   HAPTIC_FEEDBACK_IMPACT_OCCURED_VALUES,
@@ -40,7 +43,8 @@ const HapticFeedbackPageComponent = () => (
   </div>
 );
 
-export const HapticFeedbackPage = withWebAppVersion(
-  HapticFeedbackPageComponent,
-  { version: "6.1", enablePlaceholder: true },
+export const HapticFeedbackPage = () => (
+  <WebAppVersion version="6.1" fallback={<UnsupportedVersion version="6.1" />}>
+    <HapticFeedbackPageComponent />
+  </WebAppVersion>
 );

@@ -1,5 +1,6 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { DynamicColorCard } from "@/components/dynamic-color-card";
+import { LoadingScreen } from "@/components/loading-screen";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -168,12 +169,14 @@ export const MainButton = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <LazyCustomEmojiPicker
-              value={iconCustomEmojiId}
-              onChange={handleIconCustomEmojiId}
-              bypassPremiumCheck
-              paginationConfig={{ itemsPerPage: 20 }}
-            />
+            <Suspense fallback={<LoadingScreen label="Loading picker" />}>
+              <LazyCustomEmojiPicker
+                value={iconCustomEmojiId}
+                onChange={handleIconCustomEmojiId}
+                bypassPremiumCheck
+                paginationConfig={{ itemsPerPage: 20 }}
+              />
+            </Suspense>
           </CardContent>
           <CardFooter>
             <Button

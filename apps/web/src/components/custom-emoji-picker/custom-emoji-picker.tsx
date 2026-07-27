@@ -4,6 +4,7 @@ import { useState } from "react";
 import { getTestEmojiSet } from "@/lib/queries";
 import { WebApp } from "@/lib/web-app";
 import { CustomEmojiGrid } from "../custom-emoji-grid";
+import { LoadingScreen } from "../loading-screen";
 import {
   Empty,
   EmptyDescription,
@@ -17,7 +18,6 @@ import {
   PaginationItem,
   PaginationLink,
 } from "../ui/pagination";
-import { Spinner } from "../ui/spinner";
 import { getPaginatedItems } from "./helpers";
 
 const isUserPremium = WebApp.initDataUnsafe.user?.is_premium ?? false;
@@ -47,13 +47,7 @@ export const CustomEmojiPicker = ({
     enabled: bypassPremiumCheck || isUserPremium,
   });
 
-  if (isPending)
-    return (
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <Spinner className="size-8" />
-        <p className="leading-7 mt-3">Loading custom emojis</p>
-      </div>
-    );
+  if (isPending) return <LoadingScreen label="Loading custom emojis" />;
 
   if (error) {
     return (

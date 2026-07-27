@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { API_BASE_URL, authedFetch } from "@/lib/api";
 import { Button } from "./ui/button";
@@ -21,31 +22,37 @@ const Player = lazy(() =>
   })),
 );
 
+const fetchEmojiBlob = async (filePath: string) => {
+  const res = await authedFetch(
+    `${API_BASE_URL}/api/v1/emojis/file?path=${encodeURIComponent(filePath)}`,
+  );
+
+  if (!res.ok) return null;
+
+  return res.blob();
+};
+
 function useEmojiObjectUrl(filePath: string) {
-  const [url, setUrl] = useState<string | undefined>();
+  const { data: blob } = useQuery({
+    queryKey: ["emojiFile", filePath],
+    queryFn: () => fetchEmojiBlob(filePath),
+    staleTime: Infinity,
+    gcTime: Infinity,
+  });
+
+  const [url, setUrl] = useState<string>();
 
   useEffect(() => {
-    let cancelled = false;
-    let createdUrl: string | undefined;
+    if (!blob) return;
 
-    authedFetch(
-      `${API_BASE_URL}/api/v1/emojis/file?path=${encodeURIComponent(filePath)}`,
-    )
-      .then((res) => (res.ok ? res.blob() : null))
-      .then((blob) => {
-        if (cancelled || !blob) return;
-        createdUrl = URL.createObjectURL(blob);
-        setUrl(createdUrl);
-      })
-      .catch(() => {
-        // swallow — caller renders a fallback when url is undefined
-      });
+    const objectUrl = URL.createObjectURL(blob);
+    setUrl(objectUrl);
 
     return () => {
-      cancelled = true;
-      if (createdUrl) URL.revokeObjectURL(createdUrl);
+      URL.revokeObjectURL(objectUrl);
+      setUrl(undefined);
     };
-  }, [filePath]);
+  }, [blob]);
 
   return url;
 }

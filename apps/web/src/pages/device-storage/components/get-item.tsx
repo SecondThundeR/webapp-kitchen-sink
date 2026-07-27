@@ -1,14 +1,12 @@
 import { StorageMethodCard } from "@/components/storage-method-card";
-import { useDeviceStorage } from "../hooks";
+import { deviceStorage } from "../storage";
 
 export const GetItem = () => {
-  const { handleGetItem } = useDeviceStorage();
-
   return (
     <StorageMethodCard
       methodName="getItem"
       variant="key"
-      methodHandler={handleGetItem}
+      methodHandler={deviceStorage.getItem}
       renderResult={(value) => value && <p>Value: {value}</p>}
     />
   );

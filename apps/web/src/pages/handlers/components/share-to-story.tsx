@@ -1,13 +1,6 @@
 import { z } from "zod";
 import { ExecuteMethodCard } from "@/components/execute-method-card";
-import { Field, FieldError, FieldSeparator } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from "@/components/ui/input-group";
+import { FieldSeparator } from "@/components/ui/field";
 import { useExecuteMethod } from "@/hooks/use-execute-method";
 import { WebApp } from "@/lib/web-app";
 
@@ -52,117 +45,40 @@ export const ShareToStory = () => {
 
   return (
     <ExecuteMethodCard methodName="shareToStory" form={form}>
-      <form.Field name="media_url">
-        {(field) => {
-          const isInvalid =
-            field.state.meta.isTouched && !field.state.meta.isValid;
-
-          return (
-            <Field data-invalid={isInvalid}>
-              <Input
-                id={field.name}
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                aria-invalid={isInvalid}
-                placeholder="Enter media URL"
-              />
-              {isInvalid && <FieldError errors={field.state.meta.errors} />}
-            </Field>
-          );
-        }}
-      </form.Field>
+      <form.AppField name="media_url">
+        {(field) => <field.TextField placeholder="Enter media URL" />}
+      </form.AppField>
       <FieldSeparator />
-      <form.Field name="text">
-        {(field) => {
-          const isInvalid =
-            field.state.meta.isTouched && !field.state.meta.isValid;
-
-          return (
-            <Field data-invalid={isInvalid}>
-              {isUserPremium ? (
-                <InputGroup>
-                  <InputGroupTextarea
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter story text"
-                    rows={6}
-                    maxLength={MAX_TEXT_LENGTH}
-                    className="min-h-24 resize-none"
-                  />
-                  <InputGroupAddon align="block-end">
-                    <InputGroupText className="tabular-nums">
-                      {field.state.value.length}/{MAX_TEXT_LENGTH} characters
-                    </InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              ) : (
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  placeholder="Enter story text"
-                  maxLength={MAX_TEXT_LENGTH}
-                />
-              )}
-              {isInvalid && <FieldError errors={field.state.meta.errors} />}
-            </Field>
-          );
-        }}
-      </form.Field>
+      <form.AppField name="text">
+        {(field) =>
+          // Only premium accounts get enough characters for the box to be worth
+          // a textarea
+          isUserPremium ? (
+            <field.TextareaField
+              placeholder="Enter story text"
+              maxLength={MAX_TEXT_LENGTH}
+            />
+          ) : (
+            <field.TextField
+              placeholder="Enter story text"
+              maxLength={MAX_TEXT_LENGTH}
+            />
+          )
+        }
+      </form.AppField>
       {isUserPremium && (
         <>
-          <form.Field name="widget_name">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter widget name"
-                    maxLength={MAX_WIDGET_NAME_LENGTH}
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
-          <form.Field name="widget_url">
-            {(field) => {
-              const isInvalid =
-                field.state.meta.isTouched && !field.state.meta.isValid;
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    aria-invalid={isInvalid}
-                    placeholder="Enter widget url"
-                  />
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              );
-            }}
-          </form.Field>
+          <form.AppField name="widget_name">
+            {(field) => (
+              <field.TextField
+                placeholder="Enter widget name"
+                maxLength={MAX_WIDGET_NAME_LENGTH}
+              />
+            )}
+          </form.AppField>
+          <form.AppField name="widget_url">
+            {(field) => <field.TextField placeholder="Enter widget url" />}
+          </form.AppField>
         </>
       )}
     </ExecuteMethodCard>

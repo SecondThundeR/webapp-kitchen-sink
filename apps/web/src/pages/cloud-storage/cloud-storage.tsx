@@ -1,4 +1,7 @@
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { GetItem } from "./components/get-item";
 import { GetItems } from "./components/get-items";
 import { GetKeys } from "./components/get-keys";
@@ -24,7 +27,8 @@ const CloudStorageComponent = () => {
   );
 };
 
-export const CloudStorage = withWebAppVersion(CloudStorageComponent, {
-  version: "6.9",
-  enablePlaceholder: true,
-});
+export const CloudStorage = () => (
+  <WebAppVersion version="6.9" fallback={<UnsupportedVersion version="6.9" />}>
+    <CloudStorageComponent />
+  </WebAppVersion>
+);

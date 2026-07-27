@@ -20,7 +20,10 @@ import {
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { useLogs } from "@/hooks/use-logs";
 import { booleanToYesNoString } from "@/utils/format";
 import { useBiometricManager } from "./hooks";
@@ -285,7 +288,8 @@ const BiometricManagerPageComponent = () => {
   );
 };
 
-export const BiometricManagerPage = withWebAppVersion(
-  BiometricManagerPageComponent,
-  { version: "7.2", enablePlaceholder: true },
+export const BiometricManagerPage = () => (
+  <WebAppVersion version="7.2" fallback={<UnsupportedVersion version="7.2" />}>
+    <BiometricManagerPageComponent />
+  </WebAppVersion>
 );

@@ -1,5 +1,5 @@
 import { FrownIcon, XIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import {
   Empty,
@@ -14,39 +14,57 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { WebApp } from "@/lib/web-app";
-import { isVersionAtLeastFilter } from "@/utils/array";
+import { isVersionAtLeastFilter } from "@/lib/web-app-version";
 import { HANDLERS_MAPPING } from "./constants";
+
+const SEARCH_DEBOUNCE_MS = 300;
+
+// A ?q= already in the URL wins; otherwise a deeplink such as
+// ?startapp=close arrives as start_param and seeds the box
+const getInitialQuery = (searchParams: URLSearchParams) => {
+  const fromUrl = searchParams.get("q");
+  if (fromUrl) return fromUrl;
+
+  const startParam = WebApp.initDataUnsafe.start_param;
+
+  return startParam ? startParam.replace(/_/g, " ") : "";
+};
 
 export const HandlersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const isStartParamProcessed = useRef(false);
+  const [query, setQuery] = useState(() => getInitialQuery(searchParams));
+  // Filtering re-renders every handler card, and each one is a whole form, so
+  // the list is allowed to lag a keystroke behind the input
+  const deferredQuery = useDeferredValue(query);
 
+  // The URL only has to end up matching, not track each keystroke. Comparing
+  // first is what stops this from re-running on the searchParams it just wrote
   useEffect(() => {
-    if (isStartParamProcessed.current) return;
+    if ((searchParams.get("q") ?? "") === query) return;
 
-    const startParam = WebApp.initDataUnsafe.start_param;
+    const timeout = setTimeout(() => {
+      setSearchParams(
+        (prev) => {
+          if (query) {
+            prev.set("q", query);
+          } else {
+            prev.delete("q");
+          }
+          return prev;
+        },
+        { replace: true },
+      );
+    }, SEARCH_DEBOUNCE_MS);
 
-    if (startParam) {
-      const query = startParam.replace(/_/g, " ");
+    return () => clearTimeout(timeout);
+  }, [query, searchParams, setSearchParams]);
 
-      setSearchParams((prev) => {
-        if (!prev.get("q")) {
-          prev.set("q", query);
-        }
-        return prev;
-      });
-    }
-
-    isStartParamProcessed.current = true;
-  }, [setSearchParams]);
-
-  const searchQueryData = searchParams.get("q");
   const filteredHandlersByVersion = HANDLERS_MAPPING.filter(
     isVersionAtLeastFilter,
   );
-  const filteredHandlersMapping = searchQueryData
+  const filteredHandlersMapping = deferredQuery
     ? filteredHandlersByVersion.filter(({ name }) =>
-        name.toLocaleLowerCase().includes(searchQueryData.toLocaleLowerCase()),
+        name.toLocaleLowerCase().includes(deferredQuery.toLocaleLowerCase()),
       )
     : filteredHandlersByVersion;
 
@@ -59,28 +77,16 @@ export const HandlersPage = () => {
         <InputGroupInput
           name="searchQuery"
           placeholder="Enter search query"
-          value={searchQueryData ?? ""}
-          onChange={(event) => {
-            const value = event.currentTarget.value;
-            if (!value) {
-              searchParams.delete("q");
-              setSearchParams(searchParams, { replace: true });
-            } else {
-              searchParams.set("q", value);
-              setSearchParams(searchParams, { replace: true });
-            }
-          }}
+          value={query}
+          onChange={(event) => setQuery(event.currentTarget.value)}
         />
-        {searchQueryData && (
+        {query && (
           <InputGroupAddon align="inline-end">
             <InputGroupButton
               aria-label="Clear"
               title="Clear"
               size="icon-xs"
-              onClick={() => {
-                searchParams.delete("q");
-                setSearchParams(searchParams, { replace: true });
-              }}
+              onClick={() => setQuery("")}
             >
               {<XIcon />}
             </InputGroupButton>

@@ -13,32 +13,14 @@ import type { InvoiceSchema, StarsInvoiceSchema } from "./schemas";
 const useCreateInvoiceLinkMutation = () =>
   useMutation({
     mutationFn: (body: CreateInvoiceLinkData) => createInvoiceLink(body),
-    onError: (error) => {
-      if (
-        error &&
-        typeof error === "object" &&
-        "message" in error &&
-        typeof error.message === "string"
-      ) {
-        toast.error(String(error.message));
-      }
-    },
+    onError: (error) => toast.error(error.message),
   });
 
 const useCreateStarsInvoiceLinkMutation = () =>
   useMutation({
     mutationFn: (body: CreateStarsInvoiceLinkData) =>
       createStarsInvoiceLink(body),
-    onError: (error) => {
-      if (
-        error &&
-        typeof error === "object" &&
-        "message" in error &&
-        typeof error.message === "string"
-      ) {
-        toast.error(String(error.message));
-      }
-    },
+    onError: (error) => toast.error(error.message),
   });
 
 type HandlePaymentData = InvoiceSchema | StarsInvoiceSchema;

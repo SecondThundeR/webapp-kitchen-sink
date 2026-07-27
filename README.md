@@ -17,8 +17,7 @@ webapp-kitchen-sink/
 │   ├── bot/          # Grammy Telegram bot
 │   └── web/          # React + Vite frontend (served by nginx in prod)
 │       ├── Dockerfile           # Multi-stage build → nginx:alpine
-│       ├── nginx.conf.template  # Deployed config, $PORT rendered by envsubst
-│       └── nginx.conf           # Local reference only, fixed port 3001
+│       └── nginx.conf.template  # Deployed config, $PORT rendered by envsubst
 ├── packages/
 │   ├── config/       # Shared env config (valibot)
 │   └── contracts/    # Shared type definitions
@@ -60,7 +59,7 @@ webapp-kitchen-sink/
 | -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_API_URL` | Yes      | API base URL. Use `${{api.RAILWAY_PRIVATE_DOMAIN}}` for private networking or `${{api.RAILWAY_PUBLIC_DOMAIN}}` for public |
 
-> The web service is served by nginx. `PORT` is consumed at **build and run time**: the Dockerfile renders `apps/web/nginx.conf.template` through `envsubst '$PORT'` on container start, so nginx listens on whatever `PORT` is set to (defaults to `3001` via `.env.example`). Railway sets this automatically.
+> The web service is served by nginx. `PORT` is consumed at **run time**: the Dockerfile renders `apps/web/nginx.conf.template` through `envsubst '$PORT'` on container start, so nginx listens on whatever `PORT` is set to (the image defaults it to `3001`). Railway sets this automatically. In local development `PORT` instead picks the Vite dev server port, via `apps/web/.env`.
 
 ## Local Development
 

@@ -7,23 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldContent,
-  FieldError,
-  FieldGroup,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { FieldGroup } from "@/components/ui/field";
 import { withForm } from "@/lib/form";
 import { BUTTON_TYPES, TEXT_REQUIRED_TYPES } from "../constants";
 import { showPopupFormOptions } from "../form-options";
+
+const BUTTON_TYPE_OPTIONS = BUTTON_TYPES.map((type) => ({
+  value: type,
+  label: type,
+}));
 
 export const ButtonItem = withForm({
   ...showPopupFormOptions,
@@ -45,30 +37,15 @@ export const ButtonItem = withForm({
         </CardHeader>
         <CardContent>
           <FieldGroup className="gap-4">
-            <form.Field name={`buttons[${index}].id`}>
-              {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
-                return (
-                  <Field orientation="horizontal" data-invalid={isInvalid}>
-                    <Input
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      aria-invalid={isInvalid}
-                      placeholder="Enter ID"
-                    />
-                    {isInvalid && (
-                      <FieldError errors={field.state.meta.errors} />
-                    )}
-                  </Field>
-                );
-              }}
-            </form.Field>
-            <form.Field
+            <form.AppField name={`buttons[${index}].id`}>
+              {(field) => (
+                <field.TextField
+                  orientation="horizontal"
+                  placeholder="Enter ID"
+                />
+              )}
+            </form.AppField>
+            <form.AppField
               name={`buttons[${index}].type`}
               listeners={{
                 // Types that cannot carry a label drop whatever was typed
@@ -79,48 +56,10 @@ export const ButtonItem = withForm({
                 },
               }}
             >
-              {(field) => {
-                const isInvalid =
-                  field.state.meta.isTouched && !field.state.meta.isValid;
-
-                return (
-                  <Field orientation="responsive" data-invalid={isInvalid}>
-                    <FieldContent>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </FieldContent>
-                    <Select<string>
-                      name={field.name}
-                      value={field.state.value}
-                      onValueChange={(value) => {
-                        if (value === null) return;
-                        field.handleChange(
-                          value as (typeof BUTTON_TYPES)[number],
-                        );
-                      }}
-                    >
-                      <SelectTrigger
-                        id={field.name}
-                        aria-invalid={isInvalid}
-                        className="min-w-30"
-                      >
-                        <SelectValue placeholder="Select" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {BUTTON_TYPES.map((type) => (
-                          <SelectItem key={type} value={type}>
-                            {type}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                );
-              }}
-            </form.Field>
+              {(field) => <field.SelectField options={BUTTON_TYPE_OPTIONS} />}
+            </form.AppField>
             {showTextField && (
-              <form.Field
+              <form.AppField
                 name={`buttons[${index}].text`}
                 validators={{
                   // Re-runs when the type changes, so switching to a type that
@@ -137,28 +76,13 @@ export const ButtonItem = withForm({
                   },
                 }}
               >
-                {(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
-
-                  return (
-                    <Field orientation="horizontal" data-invalid={isInvalid}>
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        aria-invalid={isInvalid}
-                        placeholder="Enter text"
-                      />
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
-                }}
-              </form.Field>
+                {(field) => (
+                  <field.TextField
+                    orientation="horizontal"
+                    placeholder="Enter text"
+                  />
+                )}
+              </form.AppField>
             )}
           </FieldGroup>
         </CardContent>

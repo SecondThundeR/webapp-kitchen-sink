@@ -1,8 +1,8 @@
 import { StorageMethodCard } from "@/components/storage-method-card";
-import { useSecureStorage } from "../hooks";
+import { secureStorage } from "../storage";
 
 export const Clear = () => {
-  const { handleClear } = useSecureStorage();
-
-  return <StorageMethodCard methodName="clear" methodHandler={handleClear} />;
+  return (
+    <StorageMethodCard methodName="clear" methodHandler={secureStorage.clear} />
+  );
 };

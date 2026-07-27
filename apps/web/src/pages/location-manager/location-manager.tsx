@@ -19,7 +19,10 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Spinner } from "@/components/ui/spinner";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { booleanToYesNoString } from "@/utils/format";
 import { useLocation } from "./hooks";
 
@@ -215,7 +218,8 @@ const LocationManagerComponent = () => {
   );
 };
 
-export const LocationManager = withWebAppVersion(LocationManagerComponent, {
-  version: "8.0",
-  enablePlaceholder: true,
-});
+export const LocationManager = () => (
+  <WebAppVersion version="8.0" fallback={<UnsupportedVersion version="8.0" />}>
+    <LocationManagerComponent />
+  </WebAppVersion>
+);

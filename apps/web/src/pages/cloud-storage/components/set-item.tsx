@@ -1,14 +1,12 @@
 import { StorageMethodCard } from "@/components/storage-method-card";
-import { useCloudStorage } from "../hooks";
+import { cloudStorage } from "../storage";
 
 export const SetItem = () => {
-  const { handleSetItem } = useCloudStorage();
-
   return (
     <StorageMethodCard
       methodName="setItem"
       variant="key-value"
-      methodHandler={handleSetItem}
+      methodHandler={cloudStorage.setItem}
     />
   );
 };

@@ -8,7 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { booleanToYesNoString } from "@/utils/format";
 import { useGyroscope } from "./hooks";
 
@@ -55,7 +58,8 @@ const GyroscopeComponent = () => {
   );
 };
 
-export const Gyroscope = withWebAppVersion(GyroscopeComponent, {
-  version: "8.0",
-  enablePlaceholder: true,
-});
+export const Gyroscope = () => (
+  <WebAppVersion version="8.0" fallback={<UnsupportedVersion version="8.0" />}>
+    <GyroscopeComponent />
+  </WebAppVersion>
+);

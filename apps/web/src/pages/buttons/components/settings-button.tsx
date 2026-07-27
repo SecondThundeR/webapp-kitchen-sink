@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import { WebAppVersion } from "@/components/web-app-version";
 import { useSettingsButton } from "../hooks";
 
 const SettingsButtonComponent = () => {
@@ -32,6 +32,8 @@ const SettingsButtonComponent = () => {
   );
 };
 
-export const SettingsButton = withWebAppVersion(SettingsButtonComponent, {
-  version: "7.0",
-});
+export const SettingsButton = () => (
+  <WebAppVersion version="7.0">
+    <SettingsButtonComponent />
+  </WebAppVersion>
+);

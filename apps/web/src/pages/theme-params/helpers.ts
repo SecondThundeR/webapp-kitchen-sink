@@ -1,7 +1,7 @@
 import type { ThemeParams } from "telegram-web-app";
 import { DARK_THEME_COLOR, LIGHT_THEME_COLOR } from "@/constants/colors";
 import { WebApp } from "@/lib/web-app";
-import { requiresVersion } from "@/utils/web-app";
+import { requiresVersion } from "@/lib/web-app-version";
 import { COLOR_TO_METHOD_MAPPING } from "./constants";
 
 type ColorsThemeKeys = Extract<

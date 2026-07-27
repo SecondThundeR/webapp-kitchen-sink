@@ -98,3 +98,24 @@ export const CURRENCIES = [
 ] as const;
 
 export const CURRENCY_CODES = CURRENCIES.map((c) => c.code);
+
+export const MAX_DESCRIPTION_LENGTH = 255;
+
+// Both invoice kinds take the same optional product photo
+export const PHOTO_NUMBER_FIELDS = [
+  {
+    name: "photo_size",
+    label: "Photo size",
+    placeholder: "Enter photo size in bytes",
+  },
+  {
+    name: "photo_width",
+    label: "Photo width",
+    placeholder: "Enter photo width",
+  },
+  {
+    name: "photo_height",
+    label: "Photo height",
+    placeholder: "Enter photo height",
+  },
+] as const;

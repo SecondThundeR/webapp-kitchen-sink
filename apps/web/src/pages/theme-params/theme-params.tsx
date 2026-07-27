@@ -1,5 +1,5 @@
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
-import { isVersionAtLeastFilter } from "@/utils/array";
+import { isVersionAtLeastFilter } from "@/lib/web-app-version";
 import { ColorCard } from "../../components/color-card";
 import { DynamicColorCard } from "../../components/dynamic-color-card";
 import {

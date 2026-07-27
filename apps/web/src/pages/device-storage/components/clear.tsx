@@ -1,8 +1,8 @@
 import { StorageMethodCard } from "@/components/storage-method-card";
-import { useDeviceStorage } from "../hooks";
+import { deviceStorage } from "../storage";
 
 export const Clear = () => {
-  const { handleClear } = useDeviceStorage();
-
-  return <StorageMethodCard methodName="clear" methodHandler={handleClear} />;
+  return (
+    <StorageMethodCard methodName="clear" methodHandler={deviceStorage.clear} />
+  );
 };

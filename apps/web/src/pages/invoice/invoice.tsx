@@ -1,5 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { useTransparentBodyBackground } from "@/hooks/use-transparent-body-background";
 import { WebApp } from "@/lib/web-app";
 import { CurrencyInvoice } from "./components/currency-invoice";
@@ -32,7 +35,8 @@ const InvoicePageComponent = () => {
   );
 };
 
-export const InvoicePage = withWebAppVersion(InvoicePageComponent, {
-  version: "6.1",
-  enablePlaceholder: true,
-});
+export const InvoicePage = () => (
+  <WebAppVersion version="6.1" fallback={<UnsupportedVersion version="6.1" />}>
+    <InvoicePageComponent />
+  </WebAppVersion>
+);

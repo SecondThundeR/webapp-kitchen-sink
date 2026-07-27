@@ -1,4 +1,7 @@
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { Clear } from "./components/clear";
 import { GetItem } from "./components/get-item";
 import { RemoveItem } from "./components/remove-item";
@@ -20,7 +23,8 @@ const DeviceStorageComponent = () => {
   );
 };
 
-export const DeviceStorage = withWebAppVersion(DeviceStorageComponent, {
-  version: "9.0",
-  enablePlaceholder: true,
-});
+export const DeviceStorage = () => (
+  <WebAppVersion version="9.0" fallback={<UnsupportedVersion version="9.0" />}>
+    <DeviceStorageComponent />
+  </WebAppVersion>
+);

@@ -1,14 +1,12 @@
 import { StorageMethodCard } from "@/components/storage-method-card";
-import { useSecureStorage } from "../hooks";
+import { secureStorage } from "../storage";
 
 export const SetItem = () => {
-  const { handleSetItem } = useSecureStorage();
-
   return (
     <StorageMethodCard
       methodName="setItem"
       variant="key-value"
-      methodHandler={handleSetItem}
+      methodHandler={secureStorage.setItem}
     />
   );
 };

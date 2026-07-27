@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { BanIcon, BugIcon, CircleAlertIcon } from "lucide-react";
+import { BanIcon, CircleAlertIcon } from "lucide-react";
+import { useEffect } from "react";
 import { RouterProvider } from "react-router";
+import { toast } from "sonner";
 import { launchMode } from "@/lib/launch-params";
 import { WebApp } from "@/lib/web-app";
 import { SendData } from "./components/send-data";
@@ -11,13 +13,12 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "./components/ui/empty";
-import { Spinner } from "./components/ui/spinner";
-import { router } from "./constants/router";
 import { useThemeSync } from "./hooks/use-theme-sync";
 import { validateSession } from "./lib/queries";
+import { router } from "./routes";
 
 function App() {
-  const { isPending, error: validationError } = useQuery({
+  const { error: validationError } = useQuery({
     queryKey: ["validate"],
     queryFn: validateSession,
     enabled: !!WebApp.initData,
@@ -28,6 +29,12 @@ function App() {
   });
 
   useThemeSync();
+
+  useEffect(() => {
+    if (validationError) {
+      toast.error(`Invalid session: ${validationError.message}`);
+    }
+  }, [validationError]);
 
   if (!WebApp.initData) {
     if (launchMode === "keyboard") {
@@ -69,29 +76,6 @@ function App() {
             This application can only be accessed through Telegram. Please open
             this app via Telegram bot
           </EmptyDescription>
-        </EmptyHeader>
-      </Empty>
-    );
-  }
-
-  if (isPending) {
-    return (
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <Spinner className="size-8" />
-        <p className="leading-7 mt-3">Loading...</p>
-      </div>
-    );
-  }
-
-  if (validationError) {
-    return (
-      <Empty className="flex-1">
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <BugIcon />
-          </EmptyMedia>
-          <EmptyTitle>Invalid session</EmptyTitle>
-          <EmptyDescription>{validationError.message}</EmptyDescription>
         </EmptyHeader>
       </Empty>
     );

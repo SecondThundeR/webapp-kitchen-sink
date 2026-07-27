@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { WebAppVersionGuard } from "@/guard/web-app-version";
+import { WebAppVersion } from "@/components/web-app-version";
 import { MainButton } from "./components/main-button";
 import { SecondaryButton } from "./components/secondary-button";
 import { SettingsButton } from "./components/settings-button";
@@ -18,9 +18,9 @@ export const Buttons = () => {
           <TabsList variant="line">
             <TabsTrigger value="main">Main</TabsTrigger>
             <TabsTrigger value="secondary">Secondary</TabsTrigger>
-            <WebAppVersionGuard version="7.0">
+            <WebAppVersion version="7.0">
               <TabsTrigger value="settings">Settings</TabsTrigger>
-            </WebAppVersionGuard>
+            </WebAppVersion>
           </TabsList>
           <TabsContent value="main" keepMounted hidden={activeTab !== "main"}>
             <MainButton />
@@ -32,7 +32,7 @@ export const Buttons = () => {
           >
             <SecondaryButton />
           </TabsContent>
-          <WebAppVersionGuard version="7.0">
+          <WebAppVersion version="7.0">
             <TabsContent
               value="settings"
               keepMounted
@@ -40,7 +40,7 @@ export const Buttons = () => {
             >
               <SettingsButton />
             </TabsContent>
-          </WebAppVersionGuard>
+          </WebAppVersion>
         </Tabs>
       </div>
     </div>

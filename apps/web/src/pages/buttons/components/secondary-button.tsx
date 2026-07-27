@@ -1,5 +1,6 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { DynamicColorCard } from "@/components/dynamic-color-card";
+import { LoadingScreen } from "@/components/loading-screen";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { WebAppVersionGuard } from "@/guard/web-app-version";
+import { WebAppVersion } from "@/components/web-app-version";
 import { WebApp } from "@/lib/web-app";
 import { useSecondaryButton } from "../hooks";
 
@@ -107,7 +108,7 @@ export const SecondaryButton = () => {
           </Field>
         </CardContent>
       </Card>
-      <WebAppVersionGuard version="7.10">
+      <WebAppVersion version="7.10">
         <Card>
           <CardHeader>
             <CardTitle>hasShineEffect</CardTitle>
@@ -144,7 +145,7 @@ export const SecondaryButton = () => {
             ))}
           </CardFooter>
         </Card>
-      </WebAppVersionGuard>
+      </WebAppVersion>
       <Card>
         <CardHeader>
           <CardTitle>isProgressVisible</CardTitle>
@@ -189,12 +190,14 @@ export const SecondaryButton = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <LazyCustomEmojiPicker
-              value={iconCustomEmojiId}
-              onChange={handleIconCustomEmojiId}
-              bypassPremiumCheck
-              paginationConfig={{ itemsPerPage: 20 }}
-            />
+            <Suspense fallback={<LoadingScreen label="Loading picker" />}>
+              <LazyCustomEmojiPicker
+                value={iconCustomEmojiId}
+                onChange={handleIconCustomEmojiId}
+                bypassPremiumCheck
+                paginationConfig={{ itemsPerPage: 20 }}
+              />
+            </Suspense>
           </CardContent>
           <CardFooter>
             <Button

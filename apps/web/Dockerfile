@@ -18,9 +18,6 @@ COPY . .
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
-ARG PORT
-ENV PORT=$PORT
-
 RUN pnpm --filter=@webapp-kitchen-sink/web build
 
 FROM nginx:1.29-alpine-slim AS runner
@@ -28,6 +25,8 @@ RUN apk add --no-cache gettext
 
 COPY --from=builder /repo/apps/web/dist /usr/share/nginx/html
 COPY apps/web/nginx.conf.template /etc/nginx/templates/default.conf.template
+
+ENV PORT=3001
 
 EXPOSE 3001
 

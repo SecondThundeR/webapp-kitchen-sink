@@ -1,13 +1,11 @@
 import { StorageMethodCard } from "@/components/storage-method-card";
-import { useCloudStorage } from "../hooks";
+import { cloudStorage } from "../storage";
 
 export const GetKeys = () => {
-  const { handleGetKeys } = useCloudStorage();
-
   return (
     <StorageMethodCard
       methodName="getKeys"
-      methodHandler={handleGetKeys}
+      methodHandler={cloudStorage.getKeys}
       renderResult={(keys) => (
         <p>Keys: {keys?.length ? keys.join(", ") : "No keys"}</p>
       )}

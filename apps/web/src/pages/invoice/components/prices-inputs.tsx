@@ -6,14 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { withFieldGroup } from "@/lib/form";
 import type { BaseInvoiceSchemaInput } from "../schemas";
 
@@ -56,33 +49,12 @@ export const PricesInputs = withFieldGroup({
                   )}
                   <CardContent>
                     <FieldGroup className="gap-4">
-                      <group.Field name={`prices[${index}].label`}>
-                        {(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                                aria-invalid={isInvalid}
-                                placeholder="Enter label"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
-                      </group.Field>
-                      <group.Field
+                      <group.AppField name={`prices[${index}].label`}>
+                        {(field) => (
+                          <field.TextField placeholder="Enter label" />
+                        )}
+                      </group.AppField>
+                      <group.AppField
                         name={`prices[${index}].amount`}
                         validators={{
                           onChange: ({ value, fieldApi }) => {
@@ -104,36 +76,10 @@ export const PricesInputs = withFieldGroup({
                           },
                         }}
                       >
-                        {(field) => {
-                          const isInvalid =
-                            field.state.meta.isTouched &&
-                            !field.state.meta.isValid;
-
-                          return (
-                            <Field data-invalid={isInvalid}>
-                              <Input
-                                id={field.name}
-                                name={field.name}
-                                type="number"
-                                value={field.state.value ?? ""}
-                                onBlur={field.handleBlur}
-                                onChange={(e) => {
-                                  const value = e.target.valueAsNumber;
-                                  // Converts NaN to undefined cleanly
-                                  field.handleChange(
-                                    Number.isNaN(value) ? undefined : value,
-                                  );
-                                }}
-                                aria-invalid={isInvalid}
-                                placeholder="Enter price"
-                              />
-                              {isInvalid && (
-                                <FieldError errors={field.state.meta.errors} />
-                              )}
-                            </Field>
-                          );
-                        }}
-                      </group.Field>
+                        {(field) => (
+                          <field.NumberField placeholder="Enter price" />
+                        )}
+                      </group.AppField>
                     </FieldGroup>
                   </CardContent>
                   {singleItem ? null : (

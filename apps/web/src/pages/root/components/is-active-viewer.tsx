@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import { WebAppVersion } from "@/components/web-app-version";
 import { useLogs } from "@/hooks/use-logs";
 import { WebApp } from "@/lib/web-app";
 import { booleanToYesNoString } from "@/utils/format";
@@ -48,6 +48,8 @@ const IsActiveViewerComponent = () => {
     </Card>
   );
 };
-export const IsActiveViewer = withWebAppVersion(IsActiveViewerComponent, {
-  version: "8.0",
-});
+export const IsActiveViewer = () => (
+  <WebAppVersion version="8.0">
+    <IsActiveViewerComponent />
+  </WebAppVersion>
+);

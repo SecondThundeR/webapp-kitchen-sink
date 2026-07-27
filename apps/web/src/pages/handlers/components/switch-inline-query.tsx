@@ -3,13 +3,11 @@ import { ExecuteMethodCard } from "@/components/execute-method-card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Field,
-  FieldError,
   FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { useExecuteMethod } from "@/hooks/use-execute-method";
 import { WebApp } from "@/lib/web-app";
 
@@ -33,28 +31,11 @@ export const SwitchInlineQuery = () => {
 
   return (
     <ExecuteMethodCard methodName="switchInlineQuery" form={form}>
-      <form.Field name="query">
-        {(field) => {
-          const isInvalid =
-            field.state.meta.isTouched && !field.state.meta.isValid;
-
-          return (
-            <Field data-invalid={isInvalid}>
-              <FieldLabel htmlFor={field.name}>Query</FieldLabel>
-              <Input
-                id={field.name}
-                name={field.name}
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                aria-invalid={isInvalid}
-                placeholder="Enter query text"
-              />
-              {isInvalid && <FieldError errors={field.state.meta.errors} />}
-            </Field>
-          );
-        }}
-      </form.Field>
+      <form.AppField name="query">
+        {(field) => (
+          <field.TextField label="Query" placeholder="Enter query text" />
+        )}
+      </form.AppField>
       <form.Field name="chat_types" mode="array">
         {(field) => (
           <FieldSet>

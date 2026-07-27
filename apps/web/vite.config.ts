@@ -7,7 +7,7 @@ import svgr from "vite-plugin-svgr";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
-  const isDevelopment = env.NODE_ENV === "development";
+  const isDevelopment = mode === "development";
 
   return {
     plugins: [

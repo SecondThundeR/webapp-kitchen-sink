@@ -6,7 +6,10 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { WebApp } from "@/lib/web-app";
 import { Clear } from "./components/clear";
 import { GetItem } from "./components/get-item";
@@ -50,7 +53,8 @@ const SecureStorageComponent = () => {
   );
 };
 
-export const SecureStorage = withWebAppVersion(SecureStorageComponent, {
-  version: "9.0",
-  enablePlaceholder: true,
-});
+export const SecureStorage = () => (
+  <WebAppVersion version="9.0" fallback={<UnsupportedVersion version="9.0" />}>
+    <SecureStorageComponent />
+  </WebAppVersion>
+);

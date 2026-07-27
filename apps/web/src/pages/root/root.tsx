@@ -3,11 +3,11 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { cn } from "@/lib/utils";
 import { WebApp } from "@/lib/web-app";
+import { PLAYGROUND_ROUTES } from "@/routes";
 import { InitDataViewer } from "./components/init-data-viewer";
 import { IsActiveViewer } from "./components/is-active-viewer";
 import { SafeAreaViewer } from "./components/safe-area-viewer";
 import { ViewportViewer } from "./components/viewport-viewer";
-import { ROUTES_MAPPING } from "./constants";
 
 export const RootPage = () => {
   const colorScheme = useColorScheme();
@@ -30,15 +30,15 @@ export const RootPage = () => {
       <IsActiveViewer />
       <h2 className="text-xl">Playgrounds</h2>
       <div className="grid grid-cols-2 gap-2">
-        {ROUTES_MAPPING.map(({ link, title }, index) => (
+        {PLAYGROUND_ROUTES.map(({ path, title }, index) => (
           <Link
-            key={link}
-            to={link}
+            key={path}
+            to={path}
             className={cn({
               "col-span-2":
                 // Is last element and amount of elements is not even
-                index === ROUTES_MAPPING.length - 1 &&
-                ROUTES_MAPPING.length % 2 !== 0,
+                index === PLAYGROUND_ROUTES.length - 1 &&
+                PLAYGROUND_ROUTES.length % 2 !== 0,
             })}
           >
             <Card className="h-full">

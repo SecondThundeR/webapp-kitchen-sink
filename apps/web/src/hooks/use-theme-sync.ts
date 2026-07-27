@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { DARK_THEME_COLOR, LIGHT_THEME_COLOR } from "@/constants/colors";
 import { WebApp } from "@/lib/web-app";
-import { requiresVersion } from "@/utils/web-app";
+import { requiresVersion } from "@/lib/web-app-version";
 
 const applyTheme = () => {
   const isDark = WebApp.colorScheme === "dark";

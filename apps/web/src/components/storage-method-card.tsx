@@ -1,8 +1,6 @@
 import { type ReactNode, useState } from "react";
 import { z } from "zod";
 import { ExecuteMethodCard } from "@/components/execute-method-card";
-import { Field, FieldError } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { useExecuteMethod } from "@/hooks/use-execute-method";
 
 type StorageMethodCardProps<TResult> = {
@@ -62,50 +60,14 @@ export const StorageMethodCard = <TResult,>(
       result={result !== null && renderResult?.(result)}
     >
       {variant !== "none" && (
-        <form.Field name="key">
-          {(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
-
-            return (
-              <Field data-invalid={isInvalid}>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  placeholder="Enter key"
-                />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            );
-          }}
-        </form.Field>
+        <form.AppField name="key">
+          {(field) => <field.TextField placeholder="Enter key" />}
+        </form.AppField>
       )}
       {variant === "key-value" && (
-        <form.Field name="value">
-          {(field) => {
-            const isInvalid =
-              field.state.meta.isTouched && !field.state.meta.isValid;
-
-            return (
-              <Field data-invalid={isInvalid}>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  placeholder="Enter value"
-                />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            );
-          }}
-        </form.Field>
+        <form.AppField name="value">
+          {(field) => <field.TextField placeholder="Enter value" />}
+        </form.AppField>
       )}
     </ExecuteMethodCard>
   );

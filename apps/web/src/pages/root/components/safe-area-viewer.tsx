@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import { WebAppVersion } from "@/components/web-app-version";
 import { useSafeAreaInset } from "../hooks";
 
 const SafeAreaViewerComponent = () => {
@@ -33,6 +33,8 @@ const SafeAreaViewerComponent = () => {
   );
 };
 
-export const SafeAreaViewer = withWebAppVersion(SafeAreaViewerComponent, {
-  version: "8.0",
-});
+export const SafeAreaViewer = () => (
+  <WebAppVersion version="8.0">
+    <SafeAreaViewerComponent />
+  </WebAppVersion>
+);

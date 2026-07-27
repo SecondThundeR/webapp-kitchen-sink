@@ -16,7 +16,10 @@ import {
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { withWebAppVersion } from "@/hocs/web-app-version";
+import {
+  UnsupportedVersion,
+  WebAppVersion,
+} from "@/components/web-app-version";
 import { booleanToYesNoString } from "@/utils/format";
 import { useDeviceOrientation } from "./hooks";
 
@@ -98,7 +101,8 @@ const DeviceOrientationComponent = () => {
   );
 };
 
-export const DeviceOrientation = withWebAppVersion(DeviceOrientationComponent, {
-  version: "8.0",
-  enablePlaceholder: true,
-});
+export const DeviceOrientation = () => (
+  <WebAppVersion version="8.0" fallback={<UnsupportedVersion version="8.0" />}>
+    <DeviceOrientationComponent />
+  </WebAppVersion>
+);

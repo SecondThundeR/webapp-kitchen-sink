@@ -1,5 +1,5 @@
 import { Outlet, ScrollRestoration, useNavigation } from "react-router";
-import { Spinner } from "@/components/ui/spinner";
+import { LoadingScreen } from "@/components/loading-screen";
 import { useTelegramBackButton } from "@/hooks/use-telegram-back-button";
 
 export const RootLayout = () => {
@@ -10,14 +10,7 @@ export const RootLayout = () => {
 
   return (
     <>
-      {isLoading ? (
-        <div className="flex-1 flex flex-col items-center justify-center">
-          <Spinner className="size-8" />
-          <p className="leading-7 mt-3">Loading...</p>
-        </div>
-      ) : (
-        <Outlet />
-      )}
+      {isLoading ? <LoadingScreen /> : <Outlet />}
       <ScrollRestoration />
     </>
   );

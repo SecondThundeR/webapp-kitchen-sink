@@ -7,14 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { withForm } from "@/lib/form";
 import { invoiceFormOptions } from "../form-options";
 
@@ -45,7 +38,7 @@ export const TipsInputs = withForm({
                     </CardHeader>
                     <CardContent>
                       <FieldGroup className="gap-4">
-                        <form.Field
+                        <form.AppField
                           name={`suggested_tip_amounts[${index}].tip`}
                           validators={{
                             // Re-runs whenever the cap itself is edited, so the
@@ -63,42 +56,14 @@ export const TipsInputs = withForm({
                             },
                           }}
                         >
-                          {(field) => {
-                            const isInvalid =
-                              field.state.meta.isTouched &&
-                              !field.state.meta.isValid;
-
-                            return (
-                              <Field
-                                orientation="horizontal"
-                                data-invalid={isInvalid}
-                              >
-                                <Input
-                                  id={field.name}
-                                  name={field.name}
-                                  type="number"
-                                  max={maxTipAmount}
-                                  value={field.state.value ?? ""}
-                                  onBlur={field.handleBlur}
-                                  onChange={(e) => {
-                                    const value = e.target.valueAsNumber;
-                                    // Converts NaN to undefined cleanly
-                                    field.handleChange(
-                                      Number.isNaN(value) ? undefined : value,
-                                    );
-                                  }}
-                                  aria-invalid={isInvalid}
-                                  placeholder="Enter tip"
-                                />
-                                {isInvalid && (
-                                  <FieldError
-                                    errors={field.state.meta.errors}
-                                  />
-                                )}
-                              </Field>
-                            );
-                          }}
-                        </form.Field>
+                          {(field) => (
+                            <field.NumberField
+                              orientation="horizontal"
+                              max={maxTipAmount}
+                              placeholder="Enter tip"
+                            />
+                          )}
+                        </form.AppField>
                       </FieldGroup>
                     </CardContent>
                     <CardFooter>
