@@ -30,7 +30,7 @@ export const focusFirstInvalidField = (
   for (const element of formElement.querySelectorAll<HTMLElement>(selector)) {
     element.focus({ preventScroll: true });
     if (document.activeElement === element) {
-      element.scrollIntoView({ behavior: "smooth", block: "center" });
+      element.scrollIntoView({ behavior: "instant", block: "center" });
       return;
     }
   }
