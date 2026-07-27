@@ -1,6 +1,6 @@
 # Telegram Mini Apps Kitchen Sink
 
-A monorepo featuring every possible use case of Telegram Mini App SDK, covering all available public API. This monorepo runs on **Node 22** with **pnpm** as the package manager, **Hono** as the API framework, **Grammy** as the Telegram Bot framework, and **React + Vite** for the frontend. Backend apps are bundled with **tsdown** for production. Currently designed for seamless deployment on Railway with end-to-end type safety between frontend and backend.
+A monorepo featuring every possible use case of Telegram Mini App SDK, covering all available public API. This monorepo runs on **Node 24** with **pnpm** as the package manager, **Hono** as the API framework, **Grammy** as the Telegram Bot framework, and **React + Vite** for the frontend. Backend apps are bundled with **tsdown** for production. Currently designed for seamless deployment on Railway with end-to-end type safety between frontend and backend.
 
 [Demo](https://t.me/webappkitchensink_bot)
 
@@ -16,8 +16,9 @@ webapp-kitchen-sink/
 │   ├── api/          # Hono backend server
 │   ├── bot/          # Grammy Telegram bot
 │   └── web/          # React + Vite frontend (served by nginx in prod)
-│       ├── Dockerfile  # Multi-stage build → nginx:alpine
-│       └── nginx.conf  # Static serving on port 3001
+│       ├── Dockerfile           # Multi-stage build → nginx:alpine
+│       ├── nginx.conf.template  # Deployed config, $PORT rendered by envsubst
+│       └── nginx.conf           # Local reference only, fixed port 3001
 ├── packages/
 │   ├── config/       # Shared env config (valibot)
 │   └── contracts/    # Shared type definitions
@@ -59,13 +60,13 @@ webapp-kitchen-sink/
 | -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_API_URL` | Yes      | API base URL. Use `${{api.RAILWAY_PRIVATE_DOMAIN}}` for private networking or `${{api.RAILWAY_PUBLIC_DOMAIN}}` for public |
 
-> The web service is served by nginx and listens on **port 3001** (hardcoded in `apps/web/nginx.conf`). No `PORT` env is consumed at runtime.
+> The web service is served by nginx. `PORT` is consumed at **build and run time**: the Dockerfile renders `apps/web/nginx.conf.template` through `envsubst '$PORT'` on container start, so nginx listens on whatever `PORT` is set to (defaults to `3001` via `.env.example`). Railway sets this automatically.
 
 ## Local Development
 
 ### Prerequisites
 
-- [Node](https://nodejs.org) 22.22.3 (see `.nvmrc`)
+- [Node](https://nodejs.org) 24.18.0 (see `.nvmrc`)
 - [pnpm](https://pnpm.io) 11.17.0+
 
 Both are enforced via `engine-strict=true` in `.npmrc`. A `preinstall` hook also blocks `npm`/`yarn`.
@@ -190,8 +191,7 @@ The API includes a health endpoint at `/health`. Configure Railway's health chec
 | ---------------- | ------------------------------------------------------------------ |
 | `pnpm dev`       | Start Vite dev server                                              |
 | `pnpm build`     | Build for production (output → `dist/`, served by nginx in Docker) |
-| `pnpm analyze`   | Build for production with rollup bundle visualizer                 |
-| `pnpm preview`   | Preview production build locally (Vite — not used in deployment)   |
+| `pnpm preview`   | Preview production build locally (Vite, not used in deployment)    |
 | `pnpm typecheck` | Type-check the React app                                           |
 
 ## Dependency Management

@@ -1,10 +1,12 @@
 import { createBrowserRouter } from "react-router";
 import { RootLayout } from "@/layouts/root";
+import { RouteError } from "@/layouts/route-error";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    ErrorBoundary: RouteError,
     children: [
       {
         index: true,
@@ -16,27 +18,24 @@ export const router = createBrowserRouter([
       {
         path: "/theme-params",
         async lazy() {
-          const { ThemeParamsPage } = await import(
-            "@/pages/theme-params/theme-params"
-          );
+          const { ThemeParamsPage } =
+            await import("@/pages/theme-params/theme-params");
           return { Component: ThemeParamsPage };
         },
       },
       {
         path: "/haptic-feedback",
         async lazy() {
-          const { HapticFeedbackPage } = await import(
-            "@/pages/haptic-feedback/haptic-feedback"
-          );
+          const { HapticFeedbackPage } =
+            await import("@/pages/haptic-feedback/haptic-feedback");
           return { Component: HapticFeedbackPage };
         },
       },
       {
         path: "/biometric-manager",
         async lazy() {
-          const { BiometricManagerPage } = await import(
-            "@/pages/biometric-manager/biometric-manager"
-          );
+          const { BiometricManagerPage } =
+            await import("@/pages/biometric-manager/biometric-manager");
           return { Component: BiometricManagerPage };
         },
       },
@@ -64,54 +63,48 @@ export const router = createBrowserRouter([
       {
         path: "/accelerometer",
         async lazy() {
-          const { Accelerometer } = await import(
-            "@/pages/accelerometer/accelerometer"
-          );
+          const { Accelerometer } =
+            await import("@/pages/accelerometer/accelerometer");
           return { Component: Accelerometer };
         },
       },
       {
         path: "/device-orientation",
         async lazy() {
-          const { DeviceOrientation } = await import(
-            "@/pages/device-orientation/device-orientation"
-          );
+          const { DeviceOrientation } =
+            await import("@/pages/device-orientation/device-orientation");
           return { Component: DeviceOrientation };
         },
       },
       {
         path: "/location-manager",
         async lazy() {
-          const { LocationManager } = await import(
-            "@/pages/location-manager/location-manager"
-          );
+          const { LocationManager } =
+            await import("@/pages/location-manager/location-manager");
           return { Component: LocationManager };
         },
       },
       {
         path: "/cloud-storage",
         async lazy() {
-          const { CloudStorage } = await import(
-            "@/pages/cloud-storage/cloud-storage"
-          );
+          const { CloudStorage } =
+            await import("@/pages/cloud-storage/cloud-storage");
           return { Component: CloudStorage };
         },
       },
       {
         path: "/device-storage",
         async lazy() {
-          const { DeviceStorage } = await import(
-            "@/pages/device-storage/device-storage"
-          );
+          const { DeviceStorage } =
+            await import("@/pages/device-storage/device-storage");
           return { Component: DeviceStorage };
         },
       },
       {
         path: "/secure-storage",
         async lazy() {
-          const { SecureStorage } = await import(
-            "@/pages/secure-storage/secure-storage"
-          );
+          const { SecureStorage } =
+            await import("@/pages/secure-storage/secure-storage");
           return { Component: SecureStorage };
         },
       },

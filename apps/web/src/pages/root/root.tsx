@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 import { cn } from "@/lib/utils";
 import { WebApp } from "@/lib/web-app";
 import { InitDataViewer } from "./components/init-data-viewer";
@@ -7,7 +8,6 @@ import { IsActiveViewer } from "./components/is-active-viewer";
 import { SafeAreaViewer } from "./components/safe-area-viewer";
 import { ViewportViewer } from "./components/viewport-viewer";
 import { ROUTES_MAPPING } from "./constants";
-import { useColorScheme } from "./hooks";
 
 export const RootPage = () => {
   const colorScheme = useColorScheme();

@@ -2,17 +2,11 @@ import { WebApp } from "@/lib/web-app";
 
 export const useDeviceStorage = () => {
   const handleSetItem = (key: string, value: string) => {
-    return new Promise<true | null>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       WebApp.DeviceStorage.setItem(key, value, (error, success) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (success) {
-          resolve(success);
-        }
-
-        resolve(null);
+        resolve(success ?? false);
       });
     });
   };
@@ -20,47 +14,29 @@ export const useDeviceStorage = () => {
   const handleGetItem = (key: string) => {
     return new Promise<string | null>((resolve, reject) => {
       WebApp.DeviceStorage.getItem(key, (error, value) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (value) {
-          resolve(value);
-        }
-
-        resolve(null);
+        resolve(value ?? null);
       });
     });
   };
 
   const handleRemoveItem = (key: string) => {
-    return new Promise<true | null>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       WebApp.DeviceStorage.removeItem(key, (error, success) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (success) {
-          resolve(success);
-        }
-
-        resolve(null);
+        resolve(success ?? false);
       });
     });
   };
 
   const handleClear = () => {
-    return new Promise<true | null>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       WebApp.DeviceStorage.clear((error, success) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (success) {
-          resolve(success);
-        }
-
-        resolve(null);
+        resolve(success ?? false);
       });
     });
   };

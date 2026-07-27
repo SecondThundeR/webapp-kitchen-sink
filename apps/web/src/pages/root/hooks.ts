@@ -2,26 +2,6 @@ import { useEffect, useEffectEvent, useState } from "react";
 import type { ViewportChangedCallback } from "telegram-web-app";
 import { WebApp } from "@/lib/web-app";
 
-export const useColorScheme = () => {
-  const [colorScheme, setColorScheme] = useState(() => WebApp.colorScheme);
-
-  const syncColorScheme = useEffectEvent(() => {
-    setColorScheme(WebApp.colorScheme);
-  });
-
-  useEffect(() => {
-    syncColorScheme();
-
-    WebApp.onEvent("themeChanged", syncColorScheme);
-
-    return () => {
-      WebApp.offEvent("themeChanged", syncColorScheme);
-    };
-  }, []);
-
-  return colorScheme;
-};
-
 export const useViewport = () => {
   const [isStateStable, setIsStateStable] = useState(true);
   const [viewportHeight, setViewportHeight] = useState(

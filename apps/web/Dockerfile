@@ -1,4 +1,4 @@
-FROM node:22.22.3-alpine AS builder
+FROM node:24.18.0-alpine AS builder
 WORKDIR /repo
 
 RUN corepack enable && corepack prepare pnpm@11.17.0 --activate

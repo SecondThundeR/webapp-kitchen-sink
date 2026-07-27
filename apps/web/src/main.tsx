@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { launchMode, shouldEnableEruda } from "@/lib/launch-params";
 import { WebApp } from "@/lib/web-app";
 
@@ -24,7 +25,9 @@ createRoot(document.getElementById("root") as HTMLDivElement).render(
   <StrictMode>
     <Providers>
       <div className="flex flex-col flex-1 p-4">
-        <App />
+        <ErrorBoundary>
+          <App />
+        </ErrorBoundary>
       </div>
     </Providers>
   </StrictMode>,

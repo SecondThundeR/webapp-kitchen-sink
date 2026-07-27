@@ -21,9 +21,9 @@ export const LogsViewer = ({ logs, compact = false }: LogsViewerProps) => {
           {"// Logs will appear here..."}
         </span>
       )}
-      {logs.map(({ timestamp, message }) => (
-        <div key={timestamp}>
-          [{new Date().toLocaleTimeString()}] {message}
+      {logs.map(({ id, timestamp, message }) => (
+        <div key={id}>
+          [{new Date(timestamp).toLocaleTimeString()}] {message}
         </div>
       ))}
     </div>

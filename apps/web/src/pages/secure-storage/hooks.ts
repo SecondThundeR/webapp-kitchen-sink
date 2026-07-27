@@ -2,17 +2,11 @@ import { WebApp } from "@/lib/web-app";
 
 export const useSecureStorage = () => {
   const handleSetItem = (key: string, value: string) => {
-    return new Promise<true | null>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       WebApp.SecureStorage.setItem(key, value, (error, success) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (success) {
-          resolve(success);
-        }
-
-        resolve(null);
+        resolve(success ?? false);
       });
     });
   };
@@ -20,15 +14,9 @@ export const useSecureStorage = () => {
   const handleGetItem = (key: string) => {
     return new Promise<string | null>((resolve, reject) => {
       WebApp.SecureStorage.getItem(key, (error, value) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (value) {
-          resolve(value);
-        }
-
-        resolve(null);
+        resolve(value ?? null);
       });
     });
   };
@@ -36,47 +24,29 @@ export const useSecureStorage = () => {
   const handleRestoreItem = (key: string) => {
     return new Promise<string | null>((resolve, reject) => {
       WebApp.SecureStorage.restoreItem(key, (error, item) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (item) {
-          resolve(item);
-        }
-
-        resolve(null);
+        resolve(item ?? null);
       });
     });
   };
 
   const handleRemoveItem = (key: string) => {
-    return new Promise<true | null>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       WebApp.SecureStorage.removeItem(key, (error, success) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (success) {
-          resolve(success);
-        }
-
-        resolve(null);
+        resolve(success ?? false);
       });
     });
   };
 
   const handleClear = () => {
-    return new Promise<true | null>((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       WebApp.SecureStorage.clear((error, success) => {
-        if (error) {
-          reject(error);
-        }
+        if (error) return reject(new Error(error));
 
-        if (success) {
-          resolve(success);
-        }
-
-        resolve(null);
+        resolve(success ?? false);
       });
     });
   };
