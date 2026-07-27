@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
+import { handleFormSubmit } from "@/lib/form";
 
 interface ExecuteMethodCardProps {
   methodName: string;
@@ -54,14 +55,7 @@ export const ExecuteMethodCard = ({
       </CardHeader>
       {/* display: contents keeps the card's own layout intact, and lets methods
           that take no arguments render no content section at all */}
-      <form
-        id={formId}
-        className="contents"
-        onSubmit={(e) => {
-          e.preventDefault();
-          form.handleSubmit();
-        }}
-      >
+      <form id={formId} className="contents" onSubmit={handleFormSubmit(form)}>
         {hasContent && (
           <CardContent>
             <FieldGroup className="gap-4">

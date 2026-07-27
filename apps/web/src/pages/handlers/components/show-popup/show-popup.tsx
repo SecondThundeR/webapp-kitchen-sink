@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
-import { useAppForm } from "@/lib/form";
+import { handleFormSubmit, useAppForm } from "@/lib/form";
 import { WebApp } from "@/lib/web-app";
 import { ButtonItem } from "./components/button-item";
 import { showPopupFormOptions } from "./form-options";
@@ -35,7 +35,6 @@ export const ShowPopup = () => {
         },
       );
     },
-    onSubmitInvalid: ({ formApi }) => console.error(formApi.state.errorMap),
   });
 
   return (
@@ -44,13 +43,7 @@ export const ShowPopup = () => {
         <CardTitle>showPopup</CardTitle>
       </CardHeader>
       <CardContent>
-        <form
-          id="show-popup-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}
-        >
+        <form id="show-popup-form" onSubmit={handleFormSubmit(form)}>
           <FieldGroup className="gap-3">
             <form.AppField name="title">
               {(field) => (

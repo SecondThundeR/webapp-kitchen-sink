@@ -9,7 +9,7 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Spinner } from "@/components/ui/spinner";
-import { useAppForm } from "@/lib/form";
+import { handleFormSubmit, useAppForm } from "@/lib/form";
 import { MAX_DESCRIPTION_LENGTH, PHOTO_NUMBER_FIELDS } from "../constants";
 import { starsInvoiceFormOptions } from "../form-options";
 import { useInvoice } from "../hooks";
@@ -32,17 +32,10 @@ export const StarsInvoice = () => {
     ...starsInvoiceFormOptions,
     onSubmit: ({ value }) =>
       handleStarsPayment(starsInvoiceSchema.parse(value)),
-    onSubmitInvalid: ({ formApi }) => console.error(formApi.state.errorMap),
   });
 
   return (
-    <form
-      id="stars-invoice-form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        form.handleSubmit();
-      }}
-    >
+    <form id="stars-invoice-form" onSubmit={handleFormSubmit(form)}>
       <div className="p-1 flex flex-col gap-4">
         <h2 className="text-xl">Required parameters</h2>
         <FieldGroup className="gap-3">
