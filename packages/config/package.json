@@ -1,29 +1,29 @@
 {
-    "name": "@webapp-kitchen-sink/config",
-    "private": true,
-    "version": "1.0.0",
-    "type": "module",
-    "sideEffects": false,
-    "exports": {
-        ".": {
-            "types": "./dist-types/index.d.ts",
-            "default": "./src/index.ts"
-        }
-    },
-    "engines": {
-        "node": ">=24.18.1",
-        "pnpm": ">=11.20.0"
-    },
-    "scripts": {
-        "typecheck": "tsc",
-        "lint": "biome check",
-        "lint:write": "biome check --write",
-        "format": "biome format --write ."
-    },
-    "dependencies": {
-        "valibot": "catalog:"
-    },
-    "devDependencies": {
-        "@types/node": "catalog:"
+  "name": "@webapp-kitchen-sink/config",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist-types/index.d.ts",
+      "default": "./src/index.ts"
     }
+  },
+  "engines": {
+    "node": ">=24.18.1",
+    "pnpm": ">=11.20.0"
+  },
+  "scripts": {
+    "typecheck": "tsc",
+    "lint": "biome check",
+    "lint:write": "biome check --write",
+    "format": "biome format --write ."
+  },
+  "dependencies": {
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  }
 }

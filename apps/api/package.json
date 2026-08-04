@@ -1,45 +1,45 @@
 {
-    "name": "@webapp-kitchen-sink/api",
-    "version": "1.0.0",
-    "type": "module",
-    "private": true,
-    "imports": {
-        "#root/*.js": "./src/*.ts",
-        "#root/*": "./src/*.ts"
-    },
-    "engines": {
-        "node": ">=24.18.1",
-        "pnpm": ">=11.20.0"
-    },
-    "types": "./dist-types/exports.d.ts",
-    "exports": {
-        ".": {
-            "types": "./dist-types/exports.d.ts",
-            "default": "./src/index.ts"
-        }
-    },
-    "scripts": {
-        "dev": "NODE_ENV=development node --watch ./src/index.ts",
-        "build": "tsdown",
-        "start": "NODE_ENV=production node ./dist/index.mjs",
-        "typecheck": "tsc",
-        "lint": "biome check",
-        "lint:write": "biome check --write",
-        "format": "biome format --write ."
-    },
-    "dependencies": {
-        "@hono/node-server": "catalog:",
-        "@hono/valibot-validator": "0.6.1",
-        "@webapp-kitchen-sink/config": "workspace:*",
-        "hono": "catalog:",
-        "hono-rate-limiter": "0.5.3",
-        "pino": "catalog:",
-        "pino-pretty": "catalog:",
-        "valibot": "catalog:"
-    },
-    "devDependencies": {
-        "@types/node": "catalog:",
-        "tsdown": "catalog:"
-    },
-    "packageManager": "pnpm@11.20.0"
+  "name": "@webapp-kitchen-sink/api",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "imports": {
+    "#root/*.js": "./src/*.ts",
+    "#root/*": "./src/*.ts"
+  },
+  "engines": {
+    "node": ">=24.18.1",
+    "pnpm": ">=11.20.0"
+  },
+  "types": "./dist-types/exports.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist-types/exports.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development node --watch ./src/index.ts",
+    "build": "tsdown",
+    "start": "NODE_ENV=production node ./dist/index.mjs",
+    "typecheck": "tsc",
+    "lint": "biome check",
+    "lint:write": "biome check --write",
+    "format": "biome format --write ."
+  },
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "@hono/valibot-validator": "0.6.1",
+    "@webapp-kitchen-sink/config": "workspace:*",
+    "hono": "catalog:",
+    "hono-rate-limiter": "0.5.3",
+    "pino": "catalog:",
+    "pino-pretty": "catalog:",
+    "valibot": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tsdown": "catalog:"
+  },
+  "packageManager": "pnpm@11.20.0"
 }
