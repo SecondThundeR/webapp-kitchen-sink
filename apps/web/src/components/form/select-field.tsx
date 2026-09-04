@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select";
 import { useFieldContext } from "@/lib/form-context";
 import { cn } from "@/lib/utils";
-import { useIsFieldInvalid } from "./field-shell";
 
 export interface SelectFieldOption {
   value: string;
@@ -35,7 +34,7 @@ export const SelectField = ({
   triggerClassName,
 }: SelectFieldProps) => {
   const field = useFieldContext<string>();
-  const isInvalid = useIsFieldInvalid();
+  const isInvalid = !field.state.meta.isValid;
 
   return (
     <Field orientation="responsive" data-invalid={isInvalid}>

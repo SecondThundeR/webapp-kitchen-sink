@@ -1,27 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import {
-  type CreateInvoiceLinkData,
-  type CreateStarsInvoiceLinkData,
-  createInvoiceLink,
-  createStarsInvoiceLink,
-} from "@/lib/queries";
+import { createInvoiceLink, createStarsInvoiceLink } from "@/lib/queries";
 import { WebApp } from "@/lib/web-app";
 import type { InvoiceSchema, StarsInvoiceSchema } from "./schemas";
-
-const useCreateInvoiceLinkMutation = () =>
-  useMutation({
-    mutationFn: (body: CreateInvoiceLinkData) => createInvoiceLink(body),
-    onError: (error) => toast.error(error.message),
-  });
-
-const useCreateStarsInvoiceLinkMutation = () =>
-  useMutation({
-    mutationFn: (body: CreateStarsInvoiceLinkData) =>
-      createStarsInvoiceLink(body),
-    onError: (error) => toast.error(error.message),
-  });
 
 type HandlePaymentData = InvoiceSchema | StarsInvoiceSchema;
 
@@ -29,9 +11,14 @@ const SUBSCRIPTION_30_DAYS_IN_SECONDS = 2592000;
 
 export const useInvoice = () => {
   const [isInvoicePending, setIsInvoicePending] = useState(false);
-  const { mutateAsync: mutateInvoiceAsync } = useCreateInvoiceLinkMutation();
-  const { mutateAsync: mutateStarsInvoiceAsync } =
-    useCreateStarsInvoiceLinkMutation();
+  const { mutateAsync: mutateInvoiceAsync } = useMutation({
+    mutationFn: createInvoiceLink,
+    onError: (error) => toast.error(error.message),
+  });
+  const { mutateAsync: mutateStarsInvoiceAsync } = useMutation({
+    mutationFn: createStarsInvoiceLink,
+    onError: (error) => toast.error(error.message),
+  });
 
   const handlePayment = async (data: HandlePaymentData) => {
     let url: string;
@@ -40,12 +27,8 @@ export const useInvoice = () => {
       const result = await mutateInvoiceAsync({
         ...data,
         suggested_tip_amounts: data.suggested_tip_amounts
-          ? [
-              ...data.suggested_tip_amounts
-                .map(({ tip }) => tip * 100)
-                .sort((a, b) => a - b),
-            ]
-          : undefined,
+          ?.map(({ tip }) => tip * 100)
+          .sort((a, b) => a - b),
         max_tip_amount: data.max_tip_amount
           ? data.max_tip_amount * 100
           : undefined,
@@ -92,7 +75,7 @@ export const useInvoice = () => {
   // The mutations' own pending state is not exposed: the forms await this
   // handler inside onSubmit, so TanStack Form's isSubmitting already covers it
   return {
-    handlePayment: handlePayment,
+    handlePayment,
     isInvoicePending,
   };
 };

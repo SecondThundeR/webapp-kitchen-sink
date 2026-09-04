@@ -8,7 +8,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { useFieldContext } from "@/lib/form-context";
-import { useIsFieldInvalid } from "./field-shell";
 
 export interface CheckboxFieldProps {
   label: ReactNode;
@@ -17,7 +16,7 @@ export interface CheckboxFieldProps {
 
 export const CheckboxField = ({ label, description }: CheckboxFieldProps) => {
   const field = useFieldContext<boolean | undefined>();
-  const isInvalid = useIsFieldInvalid();
+  const isInvalid = !field.state.meta.isValid;
 
   return (
     <Field orientation="horizontal" data-invalid={isInvalid}>

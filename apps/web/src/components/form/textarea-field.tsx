@@ -6,11 +6,7 @@ import {
   InputGroupTextarea,
 } from "@/components/ui/input-group";
 import { useFieldContext } from "@/lib/form-context";
-import {
-  FieldShell,
-  type FieldShellProps,
-  useIsFieldInvalid,
-} from "./field-shell";
+import { FieldShell, type FieldShellProps } from "./field-shell";
 
 type TextareaProps = Omit<
   ComponentProps<typeof InputGroupTextarea>,
@@ -29,7 +25,7 @@ export const TextareaField = ({
   ...textareaProps
 }: TextareaFieldProps) => {
   const field = useFieldContext<string | undefined>();
-  const isInvalid = useIsFieldInvalid();
+  const isInvalid = !field.state.meta.isValid;
   const value = field.state.value ?? "";
 
   return (

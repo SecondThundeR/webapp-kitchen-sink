@@ -1,11 +1,7 @@
 import type { ComponentProps } from "react";
 import { Input } from "@/components/ui/input";
 import { useFieldContext } from "@/lib/form-context";
-import {
-  FieldShell,
-  type FieldShellProps,
-  useIsFieldInvalid,
-} from "./field-shell";
+import { FieldShell, type FieldShellProps } from "./field-shell";
 
 type InputProps = Omit<
   ComponentProps<typeof Input>,
@@ -28,7 +24,7 @@ export const NumberField = ({
   ...inputProps
 }: NumberFieldProps) => {
   const field = useFieldContext<number | undefined>();
-  const isInvalid = useIsFieldInvalid();
+  const isInvalid = !field.state.meta.isValid;
 
   return (
     <FieldShell

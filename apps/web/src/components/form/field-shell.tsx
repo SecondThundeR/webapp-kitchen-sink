@@ -9,12 +9,6 @@ import { useFieldContext } from "@/lib/form-context";
 
 export type FieldOrientation = ComponentProps<typeof Field>["orientation"];
 
-export const useIsFieldInvalid = () => {
-  const field = useFieldContext<unknown>();
-
-  return !field.state.meta.isValid;
-};
-
 export interface FieldShellProps extends PropsWithChildren {
   label?: ReactNode;
   description?: ReactNode;
@@ -28,7 +22,7 @@ export const FieldShell = ({
   children,
 }: FieldShellProps) => {
   const field = useFieldContext<unknown>();
-  const isInvalid = useIsFieldInvalid();
+  const isInvalid = !field.state.meta.isValid;
 
   return (
     <Field data-invalid={isInvalid} orientation={orientation}>
