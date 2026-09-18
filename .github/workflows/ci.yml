@@ -25,7 +25,7 @@ jobs:
                   node-version: 24
 
             - name: Install pnpm
-              run: npm install -g pnpm@11.20.0
+              run: npm install -g pnpm@12.4.2
 
             - name: Resolve pnpm store
               run: echo "STORE_PATH=$(pnpm store path --silent)" >> "$GITHUB_ENV"
