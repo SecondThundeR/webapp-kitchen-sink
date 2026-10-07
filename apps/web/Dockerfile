@@ -1,7 +1,7 @@
 FROM node:24.21.0-alpine AS builder
 WORKDIR /repo
 
-RUN corepack enable && corepack prepare pnpm@12.6.0 --activate
+RUN corepack enable && corepack prepare pnpm@12.9.1 --activate
 
 # Copy workspace metadata first so dependency install caches across source changes
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .npmrc ./

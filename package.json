@@ -4,7 +4,7 @@
     "private": true,
     "engines": {
         "node": ">=24.21.0",
-        "pnpm": ">=12.6.0"
+        "pnpm": ">=12.9.1"
     },
     "scripts": {
         "preinstall": "npx only-allow pnpm",
@@ -18,9 +18,9 @@
         "clean:modules": "bash -lc 'find . -type d -name node_modules -prune -print -exec rm -rf {} \\; && rm -f pnpm-lock.yaml'"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.14",
-        "turbo": "2.11.5",
+        "@biomejs/biome": "2.5.15",
+        "turbo": "2.11.7",
         "typescript": "7.0.2"
     },
-    "packageManager": "pnpm@12.6.0"
+    "packageManager": "pnpm@12.9.1"
 }

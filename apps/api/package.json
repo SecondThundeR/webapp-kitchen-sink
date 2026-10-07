@@ -9,7 +9,7 @@
   },
   "engines": {
     "node": ">=24.21.0",
-    "pnpm": ">=12.6.0"
+    "pnpm": ">=12.9.1"
   },
   "types": "./dist-types/exports.d.ts",
   "exports": {
@@ -41,5 +41,5 @@
     "@types/node": "catalog:",
     "tsdown": "catalog:"
   },
-  "packageManager": "pnpm@12.6.0"
+  "packageManager": "pnpm@12.9.1"
 }
