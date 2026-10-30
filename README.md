@@ -65,8 +65,8 @@ webapp-kitchen-sink/
 
 ### Prerequisites
 
-- [Node](https://nodejs.org) 24.22.0 (see `.nvmrc`)
-- [pnpm](https://pnpm.io) 12.14.0 and higher
+- [Node](https://nodejs.org) 24.22.2 (see `.nvmrc`)
+- [pnpm](https://pnpm.io) 12.16.1 and higher
 
 Both are enforced via `engine-strict=true` in `.npmrc`. A `preinstall` hook also blocks `npm`/`yarn`.
 

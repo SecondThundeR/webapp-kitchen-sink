@@ -8,8 +8,8 @@
     "#root/*": "./src/*.ts"
   },
   "engines": {
-    "node": ">=24.22.0",
-    "pnpm": ">=12.14.0"
+    "node": ">=24.22.2",
+    "pnpm": ">=12.16.1"
   },
   "types": "./dist-types/exports.d.ts",
   "exports": {
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@hono/node-server": "catalog:",
-    "@hono/valibot-validator": "0.6.1",
+    "@hono/valibot-validator": "0.6.2",
     "@webapp-kitchen-sink/config": "workspace:*",
     "hono": "catalog:",
     "hono-rate-limiter": "0.5.4",
@@ -41,5 +41,5 @@
     "@types/node": "catalog:",
     "tsdown": "catalog:"
   },
-  "packageManager": "pnpm@12.14.0"
+  "packageManager": "pnpm@12.16.1"
 }
